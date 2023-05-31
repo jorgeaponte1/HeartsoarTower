@@ -81,7 +81,7 @@ class AlwaysCommands {
                         "    ████████▌ You can use the following commands: ██████████\n" +
                         "    ████████                                 ██████████████\n" +
                         "    ████████**Verbs**go, use, talk, dance,  ██████████████\n" +
-                        "    ████████▌  open, grab, listen,look, cry, ██████████████\n" +
+                        "    ████████▌  open, grab, listen, look, cry, ██████████████\n" +
                         "    ████████▌  get, drop, yell, comfort, hug, █████████████\n" +
                         "    ████████▌  hide, attack, music, move, feed, ███████████\n" +
                         "    ████████▌  turn, reject, accept, teach, show, ███████████\n" +
