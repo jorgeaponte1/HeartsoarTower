@@ -43,10 +43,7 @@
     "name" : "key",
 
     "successes" : [
-      [
-        "get",
-        "key"
-      ],
+      ["get", "key"],
       ["use", "goblin"]
     ],
 
