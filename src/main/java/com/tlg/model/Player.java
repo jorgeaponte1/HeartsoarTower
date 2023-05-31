@@ -86,6 +86,8 @@ public class Player {
     }
 
     public void useAmulet() {
-        location = prevLocation;
+        if (prevLocation != null) {
+            location = prevLocation;
+        }
     }
 }
