@@ -52,25 +52,25 @@ public class GuiBuild {
             });
 
 //            // Create button panel
-//            startButtonPanel = new JPanel();
-//            startButtonPanel.setBounds(300, 400, 200, 100);
-//            startButtonPanel.setBackground(Color.BLACK);
-//
-//            // Create the start button
-//            startButton = new JButton("New Game");
-//            startButton.setBackground(Color.YELLOW);
-//            startButton.setForeground(Color.RED);
-//            startButton.setFont(normalFont);
-//            startButton.addActionListener(new ActionListener() {
-//                public void actionPerformed(ActionEvent e) {
-//                    createGameScreen();
-//                }
-//            });
+            startButtonPanel = new JPanel();
+            startButtonPanel.setBounds(300, 400, 200, 100);
+            startButtonPanel.setBackground(Color.BLACK);
+
+            // Create the start button
+            startButton = new JButton("New Game");
+            startButton.setBackground(Color.YELLOW);
+            startButton.setForeground(Color.RED);
+            startButton.setFont(normalFont);
+            startButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    createGameScreen();
+                }
+            });
 
             titleNamePanel.add(titleNameLabel); // Add the label to the panel
             con.add(titleNamePanel); // Add the title name panel to the content pane
             con.add(startButtonPanel);
-            startButtonPanel.add(startButton);
+            //startButtonPanel.add(startButton);
 
             frame.setVisible(true);
         }
