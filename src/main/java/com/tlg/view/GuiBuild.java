@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class GuiBuild {
 
@@ -17,54 +18,62 @@ public class GuiBuild {
     private Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
     private JButton startButton, choice1, choice2, choice3, choice4;
 
+        private GuiBuild() {
+            // Create and set up the window.
+            frame = new JFrame("Heartsoar Tower");
+            frame.setSize(800, 900);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().setBackground(Color.BLACK);
+            frame.setLayout(null);
 
+            // Get the content pane of the frame
+            con = frame.getContentPane();
+            frame.setTitle("HEARTSOAR TOWER");
 
-    private GuiBuild() {
-        // Create and set up the window.
-        frame = new JFrame("Heartsoar Tower");
-        frame.setSize(800, 900);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setBackground(Color.BLACK);
-        frame.setLayout(null);
+            // Create a panel for the title name
+            titleNamePanel = new JPanel();
+            titleNamePanel.setBounds(100, 100, 600, 150);
+            titleNamePanel.setBackground(Color.BLACK);
 
-        // Get the content pane of the frame
-        con = frame.getContentPane();
-        frame.setTitle("HEARTSOAR TOWER");
+            // Set the layout manager of the titleNamePanel to center the components
+            titleNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
-        // Create a panel for the title name
-        titleNamePanel = new JPanel();
-        titleNamePanel.setBounds(100, 100, 600, 150);
-        titleNamePanel.setBackground(Color.BLACK);
+            // Create the title name label
+            titleNameLabel = new JLabel("HEARTSORE TOWER");
+            titleNameLabel.setForeground(Color.WHITE); // Text color
+            titleNameLabel.setFont(titleFont);
 
-        // Set the layout manager of the titleNamePanel to center the components
-        titleNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            titleNamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                    KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
+            titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
+                public void actionPerformed(ActionEvent e) {
+                    createGameScreen();
+                }
+            });
 
-        // Create the title name label
-        titleNameLabel = new JLabel("HEARTSORE TOWER");
-        titleNameLabel.setForeground(Color.WHITE); // Text color
-        titleNameLabel.setFont(titleFont);
+//            // Create button panel
+//            startButtonPanel = new JPanel();
+//            startButtonPanel.setBounds(300, 400, 200, 100);
+//            startButtonPanel.setBackground(Color.BLACK);
+//
+//            // Create the start button
+//            startButton = new JButton("New Game");
+//            startButton.setBackground(Color.YELLOW);
+//            startButton.setForeground(Color.RED);
+//            startButton.setFont(normalFont);
+//            startButton.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    createGameScreen();
+//                }
+//            });
 
+            titleNamePanel.add(titleNameLabel); // Add the label to the panel
+            con.add(titleNamePanel); // Add the title name panel to the content pane
+            con.add(startButtonPanel);
+            startButtonPanel.add(startButton);
 
-        //button panel
-        startButtonPanel = new JPanel();
-        startButtonPanel.setBounds(300,400,200,100);
-        startButtonPanel.setBackground(Color.BLACK);
-
-        //BUTTON
-        startButton = new JButton("New Game");
-        //startButton.setOpaque(true);
-        startButton.setBackground(Color.YELLOW);
-        startButton.setForeground(Color.RED);
-        startButton.setFont(normalFont);
-        startButton.addActionListener((e)-> createGameScreen());
-
-        titleNamePanel.add(titleNameLabel); // Add the label to the panel
-        con.add(titleNamePanel); // Add the title name panel to the content pane
-        con.add(startButtonPanel);
-        startButtonPanel.add(startButton);
-
-        frame.setVisible(true);
-    }
+            frame.setVisible(true);
+        }
 
     public void createGameScreen() {
 
