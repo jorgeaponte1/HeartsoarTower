@@ -56,6 +56,15 @@ class CombatEngine {
 //                Kill the monster by adding an extra white line 30 times until the monster has dissapeared:
 
             }
+            if (instruct[0].equalsIgnoreCase("get") && instruct[1].equalsIgnoreCase("key")) {
+                for (Item item : scene.getSceneItems()) {
+                    if (item.getName().equalsIgnoreCase(instruct[1])) {
+                        player.addItemToInventory(item);
+                        scene.removeItem(item);
+                        break;
+                    }
+                }
+            }
             text.setDisplay(monster.progressDescription());
         }
         else if(!instruct[0].equalsIgnoreCase("look")){

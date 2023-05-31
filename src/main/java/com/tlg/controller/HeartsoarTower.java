@@ -37,12 +37,12 @@ class HeartsoarTower {
     HeartsoarTower() throws IOException {
         this.player = new Player(rooms, items);
         this.isRunning = true;
-        this.musicPlayer = new MusicPlayer();
+        this.musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
         this.inputter = new DisplayInput(player);
     }
 
     void gameLoop() {
-        musicPlayer.play("Music/medievalrpg-music.wav");
+        musicPlayer.play();
         TitleScreen.displayTitleScreen();
         newGame();
         Scanner scanner = new Scanner(System.in);
@@ -69,8 +69,6 @@ class HeartsoarTower {
             }
         }
     }
-
-
 
     private void grabScene() {
         for (Scene scene : scenes) {

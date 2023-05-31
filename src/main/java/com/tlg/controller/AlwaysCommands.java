@@ -150,7 +150,7 @@ class AlwaysCommands {
 
         switch (choice) {
             case 1:
-                musicPlayer.play("src/main/resources/Music/medievalrpg-music.wav");
+                musicPlayer.play();
                 break;
             case 2:
                 musicPlayer.stop();

@@ -10,7 +10,8 @@
   "up": [
     "up",
     "north",
-    "climb"
+    "climb",
+    "ascend"
   ],
   "down": [
     "down",
@@ -70,7 +71,9 @@
     "hankies",
     "hankie",
     "hankys",
-    "hankerchief"
+    "hankerchief",
+    "tissue",
+    "tissues"
   ],
   "teddy" : [
     "teddy",
