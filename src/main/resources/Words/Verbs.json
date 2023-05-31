@@ -49,7 +49,10 @@
   "help": [
     "help"
   ],
-  "get" : ["get"],
+  "get" : [
+    "get",
+    "take"
+  ],
   "drop": ["drop"],
   "yell" : [
     "scream"
@@ -67,7 +70,6 @@
     "bite",
     "scratch"
   ],
-
   "music" : [
     "music",
     "audio",

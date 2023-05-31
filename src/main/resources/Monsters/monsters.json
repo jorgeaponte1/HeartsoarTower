@@ -43,10 +43,7 @@
     "name" : "key",
 
     "successes" : [
-      [
-        "get",
-        "key"
-      ],
+      ["get", "key"],
       ["use", "goblin"]
     ],
 
@@ -87,7 +84,8 @@
       "slap",
       "bite",
       "scratch",
-      "go"
+      "go",
+      "accept"
     ],
     "dialogue": [
       "The succubus emits a sultry sigh, her voice filled with seductive allure.",
@@ -164,7 +162,7 @@
       "The werewolf's voice resonates with a blend of human and beast, carrying a deep yearning for freedom and acceptance."
     ],
     "description": [
-      "You taught the werewolf that it's okay to be different.  It's ok to be growing up.  It just wishes someone would SHOW UNDERSTANDING",
+      "You taught the werewolf that it's okay to be different.  It's ok to be growing up.  It just wishes someone would [SHOW UNDERSTANDING]",
       "You showed the werewolf that you understand it.  You understand that it's okay to be different.  It's okay to be a werewolf.  It's okay to be yourself."
     ],
     "sceneFailed": "Driven by fear and aggression, the werewolf succumbs to his wild instincts. With a ferocious leap, he attacks you with untamed fury, bringing an end to your journey.",
@@ -196,7 +194,7 @@
       "You move the kitchen island blocking the door.  He's elated and promises to help you out if you let him come with you.  But right now the kitchen looks like its about to burn down.  Is that stove still on???",
       "You turn off the stove.  The goblin promises to help you in the future if you'll let him."
     ],
-    "sceneFailed": "The goblin jumps off the walls as the kitchen burns down around you.  Congrats... you ded.",
+    "sceneFailed": "The goblin jumps off the walls as the kitchen burns down around you.  Congrats... you dead.",
     "art" : "            ,      ,   \n           /(.-\"\"-.)\\\n        |\\ \\/      \\/ /|\n        | \\/ =.  .= \\/ |\n        \\( \\  o\\/o  / )/\n         \\_, '/  \\' ,_/\n          /   \\__/   \\\n          \\,___/\\___,/\n        ___\\ \\|uu|/ /___\n      /`    \\ .--. /    `\\\n jgs /       '----'       \\",
     "item" : "goblin"
   },
