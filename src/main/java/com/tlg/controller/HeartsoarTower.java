@@ -42,7 +42,7 @@ class HeartsoarTower {
     }
 
     void gameLoop() {
-        musicPlayer.play();
+//        musicPlayer.play();
         TitleScreen.displayTitleScreen();
         newGame();
         Scanner scanner = new Scanner(System.in);
