@@ -5,9 +5,7 @@ import com.tlg.model.Player;
 import com.tlg.model.Room;
 import com.tlg.model.Scene;
 import com.tlg.view.*;
-import org.w3c.dom.Text;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -78,28 +76,39 @@ class AlwaysCommands {
         System.out.println(
 
                 "    ██████████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▀▀█████████\n" +
-                        "    █████████`Welcome to Heartsoar Tower █░░▒▐████████\n" +
-                        "    █████████                           ▐░█░▒░████████\n" +
-                        "    ████████▌ You can use the following: ▒▌▒▒▒████████\n" +
-                        "    ████████▌                           █▒█▒▒▒████████\n" +
-                        "    █████████   go <direction>          █▒▀░▒▐████████\n" +
-                        "    █████████⌐    look <item>           ▐█████████████\n" +
-                        "    █████████▌      look around          █████████████\n" +
-                        "    ██████████       check inventory     ▐████████████\n" +
-                        "    ███████████       talk <npc>          ████████████\n" +
-                        "    ███████████µ        use <item>        ▐███████████\n" +
-                        "    ████████████         drop <item>       ███████████\n" +
-                        "    ████████████▌          music            ██████████\n" +
-                        "    █████████████            quit           ▐█████████\n" +
-                        "    █████████████▌                           █████████\n" +
+                        "    █████████ Welcome to Heartsoar Tower █████████████\n" +
+                        "    ████████                                 ████████████\n" +
+                        "    ████████▌ You can use the following commands: ██████████\n" +
+                        "    ████████                                 ██████████████\n" +
+                        "    ████████**Verbs**go, use, talk, dance,  ██████████████\n" +
+                        "    ████████▌  open, grab, listen, look, cry, ██████████████\n" +
+                        "    ████████▌  get, drop, yell, comfort, hug, █████████████\n" +
+                        "    ████████▌  hide, attack, music, move, feed, ███████████\n" +
+                        "    ████████▌  turn, reject, accept, teach, show, ███████████\n" +
+                        "    ████████▌  remove, affirm.                 ██████████████\n" +
+                        "    ████████                                  ██████████████\n" +
+                        "    ████████**Nouns**left, right, up, teddy, ████████████\n" +
+                        "    ████████  down, candle, fridge, stove, gun, ███████████\n" +
+                        "    ████████  sword, amulet, ghost, door, nazi, ████████████\n" +
+                        "    ████████  sandwich, goblin, island, casper, █████████████\n" +
+                        "    ████████  toaster, mixer, succubus, mix, ██████████████\n" +
+                        "    ████████  wereworf, direbear, bear, blanket, █████████████\n" +
+                        "    ████████  vampire, mirror, zombie, off, key, █████████████\n" +
+                        "    ████████  alien, window, prince, tim, understand,███████████\n" +
+                        "    ████████  around, handkerchief.             █████████████\n" +
+                        "    █████████                               └████████████\n" +
+                        "    █████████⌐   **A few others**          ▐█████████████\n" +
+                        "    █████████▌      look around            █████████████\n" +
+                        "    ██████████       music                 ▐████████████\n" +
+                        "    ███████████        quit                 ████████████\n" +
                         "    ██████████████                           └████████\n" +
                         "    ██████████▀▀▀▀▀MMMMMMMMMMMMMMMMMMMMMMM█ß▄ ████████\n" +
-                        "    ████████'                            ▐▌▒░▌▐███████\n" +
+                        "    ████████                              ▐▌▒░▌▐███████\n" +
                         "    ███████▌                             █▒▒▒█▐███████\n" +
-                        "    ███████▌  Press enter to continue    █▒▒▒█▐███████\n" +
-                        "    ████████                             ▐▄▄▄▀▐███████\n" +
-                        "    ████████▄                             █   ████████\n" +
-                        "    █████████▀∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞4▀4█████████\n");
+                        "    ███████▌    Press enter to continue    █▒▒▒█▐███████\n" +
+                        "    ████████                               ▐▄▄▄▀▐███████\n" +
+                        "    ████████▄                               █   ████████\n" +
+                        "    █████████▀∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞4▀4█████████\n");
 //        Press enter to continue
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
