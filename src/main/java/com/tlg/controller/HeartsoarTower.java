@@ -59,7 +59,7 @@ class HeartsoarTower {
             if (!actionTaken) actionTaken = alwaysAvailableCommands(instruct, player, scene, rooms, displayEngine, art, text, inputter, musicPlayer);
             if (!actionTaken) actionTaken = specificCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
             if (!actionTaken) {
-                actionTaken = moveCommands(instruct, player, scene, rooms);
+                actionTaken = moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
                 if (actionTaken) {
                     justEntered = true;
                 }
