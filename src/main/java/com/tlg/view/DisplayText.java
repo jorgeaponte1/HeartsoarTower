@@ -10,6 +10,7 @@ public class DisplayText extends Display{
     private final static int MAX_LINES = 4;
     private final int MAX_WIDTH = 250;
     private String display;
+    private String prevDisplay;
 
     public DisplayText() {
         super(MAX_LINES);
@@ -48,4 +49,18 @@ public class DisplayText extends Display{
         this.display = super.trimDisplay(display, MAX_LINES);
     }
 
+
+    public String getPrevDisplay() {
+        return prevDisplay;
+    }
+
+    public void setPrevDisplay(String prevDisplay) {
+        this.prevDisplay = prevDisplay;
+    }
+
+    public void swapToPrevDisplay() {
+        if (prevDisplay != null) {
+            display = prevDisplay;
+        }
+    }
 }
