@@ -4,6 +4,15 @@ import com.tlg.controller.AlwaysCommands;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static com.tlg.controller.AlwaysCommands.*;
+import static com.tlg.controller.NewGame.newGame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,8 +22,8 @@ import static com.tlg.controller.AlwaysCommands.musicSettings;
 public class GuiBuild {
 
     private JFrame frame;
-    private JPanel titleNamePanel, musicButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel, choiceTextPanel,
-    instructionPanel;
+    private JPanel titleNamePanel, musicButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel,
+    choiceTextPanel, helpPanel, instructionPanel;
     private JTextArea mainTextArea, choiceTextArea, instructionTextArea;
     private Container con;
     private JLabel titleNameLabel, playerLabel, artLabel;
@@ -80,20 +89,16 @@ public class GuiBuild {
 
     public void createGameScreen() {
 
-        //HIDE TITLE SCREEN
+        // HIDE TITLE SCREEN
         instructionPanel.setVisible(false);
-        //musicButtonPanel.setVisible(false);
+        // musicButtonPanel.setVisible(false);
 
-        //TEXT PANEL
+        // TEXT PANEL
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(100, 300, 600, 250);
         mainTextPanel.setBackground(Color.CYAN);
-        mainTextPanel.setLayout(new GridLayout(2, 1));
 
-
-        //TEXT AREA
+        // TEXT AREA
         mainTextArea = new JTextArea("This is the main game text area");
-        mainTextArea.setBounds(100, 200, 600, 250);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.WHITE);
         mainTextArea.setFont(normalFont);
@@ -102,70 +107,39 @@ public class GuiBuild {
         mainTextArea.setEditable(false);
         mainTextPanel.add(mainTextArea);
 
-        helpButton = new JButton("HELP");
-        helpButton.setForeground(Color.RED);
-        helpButton.setFont(normalFont);
-        helpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, AlwaysCommands.showHelp());
-        }
-    });
-
-        mainTextPanel.add(helpButton);
-        con.add(mainTextPanel);
-
-
-        //Choice TEXT PANEL
+        // CHOICE TEXT PANEL
         choiceTextPanel = new JPanel();
-        choiceTextPanel.setBounds(100, 550, 600, 250);
         choiceTextPanel.setBackground(Color.YELLOW);
-        con.add(choiceTextPanel);
 
-        //User input
+        // USER INPUT
         choiceTextArea = new JTextArea("This is the player input text area");
-        choiceTextArea.setBounds(100, 200, 600, 250);
         choiceTextArea.setBackground(Color.white);
         choiceTextArea.setForeground(Color.BLACK);
         choiceTextArea.setFont(normalFont);
         choiceTextArea.setLineWrap(true);
         choiceTextArea.setWrapStyleWord(true);
 
-        choiceTextPanel.add(choiceTextArea); //adding text area to text panel
+        choiceTextPanel.add(choiceTextArea);
 
-//        choiceButtonPanel = new JPanel();
-//        choiceButtonPanel.setBounds(250, 650, 300, 150);
-//        choiceButtonPanel.setBackground(Color.BLACK);
-//        choiceButtonPanel.setLayout(new GridLayout(4, 1));
-//        con.add(choiceButtonPanel);
-//
-//        choice1 = new JButton("Choice 1");
-//        choice1.setBackground(Color.BLACK);
-//        choice1.setForeground(Color.black);
-//        choice1.setFont(normalFont);
-//        choiceButtonPanel.add(choice1);
-//
-//        choice2 = new JButton("Choice 2");
-//        choice2.setBackground(Color.BLACK);
-//        choice2.setForeground(Color.black);
-//        choice2.setFont(normalFont);
-//        choiceButtonPanel.add(choice2);
-//
-//        choice3 = new JButton("Choice 3");
-//        choice3.setBackground(Color.BLACK);
-//        choice3.setForeground(Color.black);
-//        choice3.setFont(normalFont);
-//        choiceButtonPanel.add(choice3);
-//
-//        choice4 = new JButton("Choice 4");
-//        choice4.setBackground(Color.BLACK);
-//        choice4.setForeground(Color.black);
-//        choice4.setFont(normalFont);
-//        choiceButtonPanel.add(choice4);
+        // HELP PANEL
+        helpPanel = new JPanel();
+        helpPanel.setBackground(Color.GREEN);
 
+        // HELP BUTTON
+        helpButton = new JButton("HELP");
+        helpButton.setForeground(Color.RED);
+        helpButton.setFont(normalFont);
+
+        ImageIcon imageIcon = new ImageIcon("/Users/stanjess24/Documents/Practical-Applications/Capstone-T1-HeartsoarTower/src/main/resources/Images/Help.png");
+        helpButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, imageIcon)
+        );
+
+        helpPanel.add(helpButton);
+
+        // PLAYER PANEL
         playerPanel = new JPanel();
-        playerPanel.setBounds(100, 25, 600, 300);
         playerPanel.setBackground(Color.BLUE);
-        playerPanel.setLayout(new GridLayout(1, 4));
 
         playerLabel = new JLabel("Map");
         playerLabel.setForeground(Color.WHITE);
@@ -176,11 +150,20 @@ public class GuiBuild {
         artLabel.setForeground(Color.MAGENTA);
         artLabel.setFont(normalFont);
         playerPanel.add(artLabel);
-        con.add(playerPanel);
+
+        // Set up the layout using BorderLayout
+        con.setLayout(new BorderLayout());
+
+        // Add panels to the container using BorderLayout regions
+        con.add(mainTextPanel, BorderLayout.CENTER);
+        con.add(choiceTextPanel, BorderLayout.SOUTH);
+        con.add(helpPanel, BorderLayout.NORTH);
+        con.add(playerPanel, BorderLayout.WEST);
 
         playerSetup();
-
     }
+
+
 
     public void createInstructionScreen() {
         //HIDE TITLE SCREEN
@@ -227,6 +210,8 @@ public class GuiBuild {
 
     }
 
+
+
 //    public class HelpButtonHandler implements ActionListener {
 //
 //        @Override
@@ -249,7 +234,7 @@ public class GuiBuild {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
 //        javax.swing.SwingUtilities.invokeLater(new Runnable() {
