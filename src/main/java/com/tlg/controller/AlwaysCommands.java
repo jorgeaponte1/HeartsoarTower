@@ -13,7 +13,7 @@ import java.util.Scanner;
 /**
  * AlwaysCommands are commands that are available to the player regardless of the location
  */
-class AlwaysCommands {
+public class AlwaysCommands {
     protected static Boolean alwaysAvailableCommands(String[] instruct, Player player, Scene scene, List<Room> rooms, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, MusicPlayer musicPlayer) {
 //            Functions that we need REGARDLESS of what room we are in or our inventory state:
         if (instruct[0] == null && instruct[1] == null) {
@@ -148,7 +148,7 @@ class AlwaysCommands {
         System.out.println(roomDescription);
     }
 
-    private static void musicSettings(MusicPlayer musicPlayer) {
+    public static void musicSettings(MusicPlayer musicPlayer) {
         System.out.println("=== Music Settings ===");
         System.out.println("1. Play music");
         System.out.println("2. Stop music");
