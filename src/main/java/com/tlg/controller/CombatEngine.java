@@ -74,6 +74,7 @@ class CombatEngine {
             if (failures.contains(instruct[0]) || failures.contains(instruct[1])){
                 actionTaken = true;
                 text.setDisplay(monster.getSceneFailed());
+                // Game Over Screen and a prompt if they would like to use their amulet.
 //            TODO: RETURN TO SAVE POINT
                 System.out.println("Press enter to continue...");
                 Scanner scanner = new Scanner(System.in);
