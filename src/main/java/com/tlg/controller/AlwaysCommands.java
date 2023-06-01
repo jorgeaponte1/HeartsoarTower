@@ -21,13 +21,6 @@ class AlwaysCommands {
             displayEngine.printScreen(art, text, inputter, rooms);
             return true;
         }
-//        If the player wants to use the magical amulet to go to the previous room:
-        if (instruct[0].equalsIgnoreCase("use") && instruct[1].equalsIgnoreCase("amulet")){
-            art.swapToPrevArt();
-            player.useAmulet();
-            text.setDisplay("You use the amulet to return to the previous room. " + player.getLocation().getDesc()[0]);
-            displayEngine.printScreen(art, text, inputter, rooms);
-        }
         if (instruct[0] != null) {
             if (instruct[0].equalsIgnoreCase("quit")) {
                 quitGame();

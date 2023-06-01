@@ -67,6 +67,9 @@ class CombatEngine {
             }
             text.setDisplay(monster.progressDescription());
         }
+        else if (instruct[0].equalsIgnoreCase("use") && instruct[1].equalsIgnoreCase("amulet")) {
+            return false;
+        }
         else if(!instruct[0].equalsIgnoreCase("look")){
             if (failures.contains(instruct[0]) || failures.contains(instruct[1])){
                 actionTaken = true;
@@ -77,7 +80,7 @@ class CombatEngine {
                 scanner.nextLine();
                 player.useAmulet();
             }
-            }
+        }
 
 
         if (actionTaken) displayEngine.printScreen(art, text, inputter, rooms);
