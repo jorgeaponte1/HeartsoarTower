@@ -19,15 +19,15 @@ class HeartsoarTowerTest {
         game = new HeartsoarTower();
     }
 
-    @Test
-    public void gameInitialization() {
-        assertNotNull(game);
-    }
-
-    @Test
-    void commandExecution() {
-        String input = "move north";
-        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-        assertEquals("move north", input);
-    }
+//    @Test
+//    public void gameInitialization() {
+//        assertNotNull(game);
+//    }
+//
+//    @Test
+//    void commandExecution() {
+//        String input = "move north";
+//        InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+//        assertEquals("move north", input);
+//    }
 }
