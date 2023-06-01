@@ -74,15 +74,36 @@ class CombatEngine {
             if (failures.contains(instruct[0]) || failures.contains(instruct[1])){
                 actionTaken = true;
                 text.setDisplay(monster.getSceneFailed());
-                // Game Over Screen and a prompt if they would like to use their amulet.
+                displayEngine.printScreen(art, text, inputter, rooms);
 //            TODO: RETURN TO SAVE POINT
                 System.out.println("Press enter to continue...");
                 Scanner scanner = new Scanner(System.in);
                 scanner.nextLine();
-                player.useAmulet();
+                System.out.println("Would you like to use your amulet? Y/N");
+                String userInput = scanner.nextLine();
+                while (!"Y".equalsIgnoreCase(userInput) && !"Yes".equalsIgnoreCase(userInput) &&
+                        !"N".equalsIgnoreCase(userInput) && !"No".equalsIgnoreCase(userInput)) {
+                    System.out.println("Invalid input. Please enter Y/Yes to confirm use of amulet, or N/No to reject use and Game Over.");
+                    userInput = scanner.nextLine();
+                }
+                if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
+                    if (player.getPrevLocation() == null) {
+                        player.setPrevLocation(player.getLocation());
+                        player.setLocation(player.getLocation());
+                        text.setDisplay("You use the amulet to redo the current room. " + player.getLocation().getDesc()[0]);
+                    }
+                    for (Room room : rooms) {
+                        if (room.getName().equals(player.getPrevLocation().getName())) {
+                            player.setPrevLocation(player.getLocation());
+                            player.setLocation(room);
+                            text.setDisplay("You use the amulet to return to the previous room. " + player.getLocation().getDesc()[0]);
+                        }
+                    }
+                } else {
+                    AlwaysCommands.gameOver();
+                }
             }
         }
-
 
         if (actionTaken) displayEngine.printScreen(art, text, inputter, rooms);
         return actionTaken;
