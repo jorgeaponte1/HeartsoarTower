@@ -3,6 +3,10 @@ package com.tlg.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static com.tlg.controller.AlwaysCommands.*;
 import static com.tlg.controller.NewGame.newGame;
@@ -19,7 +23,7 @@ public class GuiBuild {
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
     private Font storyFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private JButton musicButton, choice1, choice2, choice3, choice4;
+    private JButton musicButton, helpButton;
     private MusicPlayer musicPlayer;
 
     private GuiBuild() {
@@ -89,7 +93,8 @@ public class GuiBuild {
         mainTextPanel = new JPanel();
         mainTextPanel.setBounds(100, 300, 600, 250);
         mainTextPanel.setBackground(Color.CYAN);
-        con.add(mainTextPanel);
+        mainTextPanel.setLayout(new GridLayout(2, 1));
+
 
         //TEXT AREA
         mainTextArea = new JTextArea("This is the main game text area");
@@ -100,7 +105,54 @@ public class GuiBuild {
         mainTextArea.setLineWrap(true);
         mainTextArea.setWrapStyleWord(true);
         mainTextArea.setEditable(false);
-        mainTextPanel.add(mainTextArea); //adding text area to text panel
+        mainTextPanel.add(mainTextArea);
+
+        helpButton = new JButton("HELP");
+        helpButton.setForeground(Color.RED);
+        helpButton.setFont(normalFont);
+        helpButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,
+                        "    ██████████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▀▀█████████\n" +
+                        "    █████████ Welcome to Heartsoar Tower █████████████\n" +
+                        "    ████████                                 ████████████\n" +
+                        "    ████████▌ You can use the following commands: ██████████\n" +
+                        "    ████████                                 ██████████████\n" +
+                        "    ████████**Verbs**go, use, talk, dance,  ██████████████\n" +
+                        "    ████████▌  open, grab, listen, look, cry, ██████████████\n" +
+                        "    ████████▌  get, drop, yell, comfort, hug, █████████████\n" +
+                        "    ████████▌  hide, attack, music, move, feed, ███████████\n" +
+                        "    ████████▌  turn, reject, accept, teach, show, ███████████\n" +
+                        "    ████████▌  remove, affirm.                 ██████████████\n" +
+                        "    ████████                                  ██████████████\n" +
+                        "    ████████**Nouns**left, right, up, teddy, ████████████\n" +
+                        "    ████████  down, candle, fridge, stove, gun, ███████████\n" +
+                        "    ████████  sword, amulet, ghost, door, nazi, ████████████\n" +
+                        "    ████████  sandwich, goblin, island, casper, █████████████\n" +
+                        "    ████████  toaster, mixer, succubus, mix, ██████████████\n" +
+                        "    ████████  wereworf, direbear, bear, blanket, █████████████\n" +
+                        "    ████████  vampire, mirror, zombie, off, key, █████████████\n" +
+                        "    ████████  alien, window, prince, tim, understand,███████████\n" +
+                        "    ████████  around, handkerchief.             █████████████\n" +
+                        "    █████████                               └████████████\n" +
+                        "    █████████⌐   **A few others**          ▐█████████████\n" +
+                        "    █████████▌      look around            █████████████\n" +
+                        "    ██████████       music                 ▐████████████\n" +
+                        "    ███████████        quit                 ████████████\n" +
+                        "    ██████████████                           └████████\n" +
+                        "    ██████████▀▀▀▀▀MMMMMMMMMMMMMMMMMMMMMMM█ß▄ ████████\n" +
+                        "    ████████                              ▐▌▒░▌▐███████\n" +
+                        "    ███████▌                             █▒▒▒█▐███████\n" +
+                        "    ███████▌    Press enter to continue    █▒▒▒█▐███████\n" +
+                        "    ████████                               ▐▄▄▄▀▐███████\n" +
+                        "    ████████▄                               █   ████████\n" +
+                        "    █████████▀∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞4▀4█████████\n");
+            }
+        });
+
+        mainTextPanel.add(helpButton);
+        con.add(mainTextPanel);
+
 
         //Choice TEXT PANEL
         choiceTextPanel = new JPanel();
@@ -208,13 +260,33 @@ public class GuiBuild {
         });
 
         instructionPanel.add(instructionTextArea); //adding text area to text panel
-
-
     }
 
     public void playerSetup() {
 
     }
+
+//    public class HelpButtonHandler implements ActionListener {
+//
+//        @Override
+//        public void actionPerformed(ActionEvent event) {
+//            try {
+//                String fileContent = readFile("path/to/your/helpfile.txt"); // Replace with the actual file path
+//                JOptionPane.showMessageDialog(mainTextPanel, fileContent);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    private String readFile(String filePath) throws IOException {
+//        Path path = Paths.get(filePath);
+//        byte[] fileBytes = Files.readAllBytes(path);
+//        return new String(fileBytes);
+//    }
+
+
+
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
