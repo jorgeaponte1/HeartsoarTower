@@ -82,19 +82,13 @@ public class AlwaysCommands {
     }
 
     private static void help() {
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
-        String path = "/Ascii_art/Help.txt";
-        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
-            if (is == null) {
-                throw new FileNotFoundException("Resource not found: " + path);
-            }
-            System.out.println(new String(is.readAllBytes(), StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        String path = "/Ascii_art/Help2.txt";
+        showPrompt(path);
+    }
+
+    private static void gameOver() {
+        String path = "/Ascii_art/GameOver.txt";
+        showPrompt(path);
     }
 
     private static void lookAtItem(String itemName, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, List<Room> rooms) {
@@ -176,6 +170,7 @@ public class AlwaysCommands {
         }
         if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
             System.out.println("Quitting the game. Goodbye!");
+            gameOver();
             System.exit(0);
         } else {
             System.out.println("Returning to the start..");
@@ -184,4 +179,18 @@ public class AlwaysCommands {
         return true;
     }
 
+    private static void showPrompt(String path) {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            System.out.println(new String(is.readAllBytes(), StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+    }
 }
