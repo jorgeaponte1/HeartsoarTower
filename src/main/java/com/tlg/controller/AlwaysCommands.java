@@ -6,6 +6,10 @@ import com.tlg.model.Room;
 import com.tlg.model.Scene;
 import com.tlg.view.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 
@@ -64,46 +68,17 @@ public class AlwaysCommands {
 
 
     private static void help() {
-//      Clear the console screen:
         System.out.println("\033[H\033[2J");
         System.out.flush();
-        System.out.println(
-
-                "    ██████████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▀▀█████████\n" +
-                        "    █████████ Welcome to Heartsoar Tower █████████████\n" +
-                        "    ████████                                 ████████████\n" +
-                        "    ████████▌ You can use the following commands: ██████████\n" +
-                        "    ████████                                 ██████████████\n" +
-                        "    ████████**Verbs**go, use, talk, dance,  ██████████████\n" +
-                        "    ████████▌  open, grab, listen, look, cry, ██████████████\n" +
-                        "    ████████▌  get, drop, yell, comfort, hug, █████████████\n" +
-                        "    ████████▌  hide, attack, music, move, feed, ███████████\n" +
-                        "    ████████▌  turn, reject, accept, teach, show, ███████████\n" +
-                        "    ████████▌  remove, affirm.                 ██████████████\n" +
-                        "    ████████                                  ██████████████\n" +
-                        "    ████████**Nouns**left, right, up, teddy, ████████████\n" +
-                        "    ████████  down, candle, fridge, stove, gun, ███████████\n" +
-                        "    ████████  sword, amulet, ghost, door, nazi, ████████████\n" +
-                        "    ████████  sandwich, goblin, island, casper, █████████████\n" +
-                        "    ████████  toaster, mixer, succubus, mix, ██████████████\n" +
-                        "    ████████  wereworf, direbear, bear, blanket, █████████████\n" +
-                        "    ████████  vampire, mirror, zombie, off, key, █████████████\n" +
-                        "    ████████  alien, window, prince, tim, understand,███████████\n" +
-                        "    ████████  around, handkerchief.             █████████████\n" +
-                        "    █████████                               └████████████\n" +
-                        "    █████████⌐   **A few others**          ▐█████████████\n" +
-                        "    █████████▌      look around            █████████████\n" +
-                        "    ██████████       music                 ▐████████████\n" +
-                        "    ███████████        quit                 ████████████\n" +
-                        "    ██████████████                           └████████\n" +
-                        "    ██████████▀▀▀▀▀MMMMMMMMMMMMMMMMMMMMMMM█ß▄ ████████\n" +
-                        "    ████████                              ▐▌▒░▌▐███████\n" +
-                        "    ███████▌                             █▒▒▒█▐███████\n" +
-                        "    ███████▌    Press enter to continue    █▒▒▒█▐███████\n" +
-                        "    ████████                               ▐▄▄▄▀▐███████\n" +
-                        "    ████████▄                               █   ████████\n" +
-                        "    █████████▀∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞4▀4█████████\n");
-//        Press enter to continue
+        String path = "/Ascii_art/Help.txt";
+        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            System.out.println(new String(is.readAllBytes(), StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }

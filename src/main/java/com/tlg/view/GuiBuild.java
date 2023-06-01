@@ -69,11 +69,7 @@ public class GuiBuild {
             musicButton.setBackground(Color.YELLOW);
             musicButton.setForeground(Color.RED);
             musicButton.setFont(normalFont);
-            musicButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                musicSettings(musicPlayer);
-            }
-        });
+            musicButton.addActionListener(e -> musicSettings(musicPlayer));
 
             titleNamePanel.add(titleNameLabel); // Add the label to the panel
             con.add(titleNamePanel); // Add the title name panel to the content pane
