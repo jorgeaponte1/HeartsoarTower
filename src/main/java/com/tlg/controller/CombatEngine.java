@@ -56,20 +56,54 @@ class CombatEngine {
 //                Kill the monster by adding an extra white line 30 times until the monster has dissapeared:
 
             }
+            if (instruct[0].equalsIgnoreCase("get") && instruct[1].equalsIgnoreCase("key")) {
+                for (Item item : scene.getSceneItems()) {
+                    if (item.getName().equalsIgnoreCase(instruct[1])) {
+                        player.addItemToInventory(item);
+                        scene.removeItem(item);
+                        break;
+                    }
+                }
+            }
             text.setDisplay(monster.progressDescription());
+        }
+        else if (instruct[0].equalsIgnoreCase("use") && instruct[1].equalsIgnoreCase("amulet")) {
+            return false;
         }
         else if(!instruct[0].equalsIgnoreCase("look")){
             if (failures.contains(instruct[0]) || failures.contains(instruct[1])){
                 actionTaken = true;
                 text.setDisplay(monster.getSceneFailed());
+                displayEngine.printScreen(art, text, inputter, rooms);
 //            TODO: RETURN TO SAVE POINT
                 System.out.println("Press enter to continue...");
                 Scanner scanner = new Scanner(System.in);
                 scanner.nextLine();
-                player.useAmulet();
+                System.out.println("Would you like to use your amulet? Y/N");
+                String userInput = scanner.nextLine();
+                while (!"Y".equalsIgnoreCase(userInput) && !"Yes".equalsIgnoreCase(userInput) &&
+                        !"N".equalsIgnoreCase(userInput) && !"No".equalsIgnoreCase(userInput)) {
+                    System.out.println("Invalid input. Please enter Y/Yes to confirm use of amulet, or N/No to reject use and Game Over.");
+                    userInput = scanner.nextLine();
+                }
+                if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
+                    if (player.getPrevLocation() == null) {
+                        player.setPrevLocation(player.getLocation());
+                        player.setLocation(player.getLocation());
+                        text.setDisplay("You use the amulet to redo the current room. " + player.getLocation().getDesc()[0]);
+                    }
+                    for (Room room : rooms) {
+                        if (room.getName().equals(player.getPrevLocation().getName())) {
+                            player.setPrevLocation(player.getLocation());
+                            player.setLocation(room);
+                            text.setDisplay("You use the amulet to return to the previous room. " + player.getLocation().getDesc()[0]);
+                        }
+                    }
+                } else {
+                    AlwaysCommands.gameOver();
+                }
             }
-            }
-
+        }
 
         if (actionTaken) displayEngine.printScreen(art, text, inputter, rooms);
         return actionTaken;

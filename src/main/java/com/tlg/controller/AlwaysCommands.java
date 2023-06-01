@@ -5,9 +5,11 @@ import com.tlg.model.Player;
 import com.tlg.model.Room;
 import com.tlg.model.Scene;
 import com.tlg.view.*;
-import org.w3c.dom.Text;
 
-import java.util.HashMap;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,19 +17,13 @@ import java.util.Scanner;
 /**
  * AlwaysCommands are commands that are available to the player regardless of the location
  */
-class AlwaysCommands {
+public class AlwaysCommands {
     protected static Boolean alwaysAvailableCommands(String[] instruct, Player player, Scene scene, List<Room> rooms, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, MusicPlayer musicPlayer) {
 //            Functions that we need REGARDLESS of what room we are in or our inventory state:
         if (instruct[0] == null && instruct[1] == null) {
             text.setDisplay("Invalid Command.");
             displayEngine.printScreen(art, text, inputter, rooms);
             return true;
-        }
-//        If the player wants to use the magical amulet to go to the previous room:
-        if (instruct[0].equalsIgnoreCase("use") && instruct[1].equalsIgnoreCase("amulet")){
-            player.useAmulet();
-            text.setDisplay("You use the amulet to return to the previous room. " + player.getLocation().getDesc()[0]);
-            displayEngine.printScreen(art, text, inputter, rooms);
         }
         if (instruct[0] != null) {
             if (instruct[0].equalsIgnoreCase("quit")) {
@@ -70,39 +66,32 @@ class AlwaysCommands {
         return false;
     }
 
-
-    private static void help() {
-//      Clear the console screen:
+    public static Object showHelp() {
         System.out.println("\033[H\033[2J");
         System.out.flush();
-        System.out.println(
+        String path = "/Ascii_art/Help2.txt";
+        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-                "    ██████████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▀▀█████████\n" +
-                        "    █████████`Welcome to Heartsoar Tower █░░▒▐████████\n" +
-                        "    █████████                           ▐░█░▒░████████\n" +
-                        "    ████████▌ You can use the following: ▒▌▒▒▒████████\n" +
-                        "    ████████▌                           █▒█▒▒▒████████\n" +
-                        "    █████████   go <direction>          █▒▀░▒▐████████\n" +
-                        "    █████████⌐    look <item>           ▐█████████████\n" +
-                        "    █████████▌      look around          █████████████\n" +
-                        "    ██████████       check inventory     ▐████████████\n" +
-                        "    ███████████       talk <npc>          ████████████\n" +
-                        "    ███████████µ        use <item>        ▐███████████\n" +
-                        "    ████████████         drop <item>       ███████████\n" +
-                        "    ████████████▌          music            ██████████\n" +
-                        "    █████████████            quit           ▐█████████\n" +
-                        "    █████████████▌                           █████████\n" +
-                        "    ██████████████                           └████████\n" +
-                        "    ██████████▀▀▀▀▀MMMMMMMMMMMMMMMMMMMMMMM█ß▄ ████████\n" +
-                        "    ████████'                            ▐▌▒░▌▐███████\n" +
-                        "    ███████▌                             █▒▒▒█▐███████\n" +
-                        "    ███████▌  Press enter to continue    █▒▒▒█▐███████\n" +
-                        "    ████████                             ▐▄▄▄▀▐███████\n" +
-                        "    ████████▄                             █   ████████\n" +
-                        "    █████████▀∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞4▀4█████████\n");
-//        Press enter to continue
+    private static void help() {
+        String path = "/Ascii_art/Help2.txt";
+        showPrompt(path);
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
+    }
+
+    public static void gameOver() {
+        String path = "/Ascii_art/GameOver.txt";
+        showPrompt(path);
+        System.exit(0);
     }
 
     private static void lookAtItem(String itemName, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, List<Room> rooms) {
@@ -138,7 +127,7 @@ class AlwaysCommands {
         System.out.println(roomDescription);
     }
 
-    private static void musicSettings(MusicPlayer musicPlayer) {
+    public static void musicSettings(MusicPlayer musicPlayer) {
         System.out.println("=== Music Settings ===");
         System.out.println("1. Play music");
         System.out.println("2. Stop music");
@@ -150,7 +139,7 @@ class AlwaysCommands {
 
         switch (choice) {
             case 1:
-                musicPlayer.play("src/main/resources/Music/medievalrpg-music.wav");
+                musicPlayer.play();
                 break;
             case 2:
                 musicPlayer.stop();
@@ -184,7 +173,7 @@ class AlwaysCommands {
         }
         if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
             System.out.println("Quitting the game. Goodbye!");
-            System.exit(0);
+            gameOver();
         } else {
             System.out.println("Returning to the start..");
             return true;
@@ -192,4 +181,16 @@ class AlwaysCommands {
         return true;
     }
 
+    private static void showPrompt(String path) {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            System.out.println(new String(is.readAllBytes(), StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

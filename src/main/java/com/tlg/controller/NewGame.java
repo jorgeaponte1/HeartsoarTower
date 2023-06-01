@@ -2,9 +2,9 @@ package com.tlg.controller;
 
 import java.util.Scanner;
 
-class NewGame {
+public class NewGame {
 
-    protected static void newGame() {
+    public static void newGame() {
         Scanner inputScanner = new Scanner(System.in);
         String userInput;
 

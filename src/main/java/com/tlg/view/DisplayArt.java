@@ -39,6 +39,5 @@ public class DisplayArt extends Display {
     public String getDisplay() {
         return display;
     }
-
 }
 

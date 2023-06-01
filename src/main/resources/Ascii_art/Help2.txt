@@ -1,0 +1,36 @@
+ .-.---------------------------------------.-.
+((o))                                         )
+ \U/_______          _____               ____/
+   |                                        |
+   |       Welcome to Heartsoar Tower       |
+   |                                        |
+   |  You can use the following commands:   |
+   |                                        |
+   |                                        |
+   |    **Verbs** go, use, talk, dance,     |
+   |    open, grab, listen, look, cry,      |
+   |    get, drop, yell, comfort, hug,      |
+   |    hide, attack, music, move, feed,    |
+   |    turn, reject, accept, teach,        |
+   |    show, remove, affirm.               |
+   |                                        |
+   |                                        |
+   |    **Nouns** left, right, up, teddy,   |
+   |    down, candle, fridge, stove, sword  |
+   |    amulet, ghost, island, casper,      |
+   |    toaster, mixer, succubus, mix,      |
+   |    werewolf, direbear, bear, blanket,  |
+   |    mirror, zombie, off, key, alien,    |
+   |    window, prince, tim, understand,    |
+   |    around, handkerchief                |
+   |                                        |
+   |                                        |
+   |    **A few others**                    |
+   |      look around,                      |
+   |      music,                            |
+   |      quit                              |
+   |                                        |
+   |____    _______    __  ____    __  _    |
+  /A\                                        \
+((o))       Press enter to Continue           )
+  '-'----------------------------------------'

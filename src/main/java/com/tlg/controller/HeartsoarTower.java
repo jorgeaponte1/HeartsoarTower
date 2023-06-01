@@ -6,7 +6,6 @@ import com.tlg.view.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 import static com.tlg.controller.AlwaysCommands.alwaysAvailableCommands;
@@ -37,29 +36,27 @@ class HeartsoarTower {
     HeartsoarTower() throws IOException {
         this.player = new Player(rooms, items);
         this.isRunning = true;
-        this.musicPlayer = new MusicPlayer();
+        this.musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
         this.inputter = new DisplayInput(player);
     }
 
     void gameLoop() {
-        musicPlayer.play("Music/medievalrpg-music.wav");
+        musicPlayer.play();
         TitleScreen.displayTitleScreen();
         newGame();
-        Scanner scanner = new Scanner(System.in);
         boolean justEntered = true;
         while (isRunning) {
 //            Just entered a room:
             if (justEntered) grabScene();
             justEntered = false;
-            String input = scanner.nextLine();
-            String[] instruct = textParser.validCombo(input);
+            String[] instruct = textParser.validCombo();
             Boolean actionTaken = false;
             if (scene.getAllSceneMonsters().size() != 0)
                 actionTaken = combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
             if (!actionTaken) actionTaken = alwaysAvailableCommands(instruct, player, scene, rooms, displayEngine, art, text, inputter, musicPlayer);
             if (!actionTaken) actionTaken = specificCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
             if (!actionTaken) {
-                actionTaken = moveCommands(instruct, player, scene, rooms);
+                actionTaken = moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
                 if (actionTaken) {
                     justEntered = true;
                 }
@@ -69,8 +66,6 @@ class HeartsoarTower {
             }
         }
     }
-
-
 
     private void grabScene() {
         for (Scene scene : scenes) {
@@ -84,17 +79,18 @@ class HeartsoarTower {
             String monsterPicture = scene.getAllSceneMonsters().get(0).getArt();
             art.setDisplay(monsterPicture);
             text.setDisplay(scene.getDescription(0));
-            displayEngine.printScreen(art, text, inputter, rooms);
         }
         else if (scene.getSceneItems().size() != 0) {
-            System.out.println(scene.getDescription(1));
-            String itemPicture = scene.getSceneItems().get(0).getArt();
+            art.setDisplay(scene.getSceneItems().get(0).getArt());
+            text.setDisplay(scene.getDescription(0));
         }
         else {
-            System.out.println(scene.getDescription(2));
+            art.setDisplay("");
+            text.setDisplay(scene.getDescription(0));
         }
-
+        displayEngine.printScreen(art, text, inputter, rooms);
     }
+
     public static void main(String[] args) throws IOException {
         HeartsoarTower game = new HeartsoarTower();
         game.gameLoop();
