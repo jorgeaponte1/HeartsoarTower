@@ -66,6 +66,20 @@ public class AlwaysCommands {
         return false;
     }
 
+    public static Object showHelp() {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+        String path = "/Ascii_art/Help2.txt";
+        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private static void help() {
         System.out.println("\033[H\033[2J");

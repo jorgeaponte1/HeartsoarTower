@@ -1,5 +1,7 @@
 package com.tlg.view;
 
+import com.tlg.controller.AlwaysCommands;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -108,43 +110,9 @@ public class GuiBuild {
         helpButton.setFont(normalFont);
         helpButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,
-                        "    ██████████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▀▀█████████\n" +
-                        "    █████████ Welcome to Heartsoar Tower █████████████\n" +
-                        "    ████████                                 ████████████\n" +
-                        "    ████████▌ You can use the following commands: ██████████\n" +
-                        "    ████████                                 ██████████████\n" +
-                        "    ████████**Verbs**go, use, talk, dance,  ██████████████\n" +
-                        "    ████████▌  open, grab, listen, look, cry, ██████████████\n" +
-                        "    ████████▌  get, drop, yell, comfort, hug, █████████████\n" +
-                        "    ████████▌  hide, attack, music, move, feed, ███████████\n" +
-                        "    ████████▌  turn, reject, accept, teach, show, ███████████\n" +
-                        "    ████████▌  remove, affirm.                 ██████████████\n" +
-                        "    ████████                                  ██████████████\n" +
-                        "    ████████**Nouns**left, right, up, teddy, ████████████\n" +
-                        "    ████████  down, candle, fridge, stove, gun, ███████████\n" +
-                        "    ████████  sword, amulet, ghost, door, nazi, ████████████\n" +
-                        "    ████████  sandwich, goblin, island, casper, █████████████\n" +
-                        "    ████████  toaster, mixer, succubus, mix, ██████████████\n" +
-                        "    ████████  wereworf, direbear, bear, blanket, █████████████\n" +
-                        "    ████████  vampire, mirror, zombie, off, key, █████████████\n" +
-                        "    ████████  alien, window, prince, tim, understand,███████████\n" +
-                        "    ████████  around, handkerchief.             █████████████\n" +
-                        "    █████████                               └████████████\n" +
-                        "    █████████⌐   **A few others**          ▐█████████████\n" +
-                        "    █████████▌      look around            █████████████\n" +
-                        "    ██████████       music                 ▐████████████\n" +
-                        "    ███████████        quit                 ████████████\n" +
-                        "    ██████████████                           └████████\n" +
-                        "    ██████████▀▀▀▀▀MMMMMMMMMMMMMMMMMMMMMMM█ß▄ ████████\n" +
-                        "    ████████                              ▐▌▒░▌▐███████\n" +
-                        "    ███████▌                             █▒▒▒█▐███████\n" +
-                        "    ███████▌    Press enter to continue    █▒▒▒█▐███████\n" +
-                        "    ████████                               ▐▄▄▄▀▐███████\n" +
-                        "    ████████▄                               █   ████████\n" +
-                        "    █████████▀∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞4▀4█████████\n");
-            }
-        });
+        JOptionPane.showMessageDialog(null, AlwaysCommands.showHelp());
+        }
+    });
 
         mainTextPanel.add(helpButton);
         con.add(mainTextPanel);
