@@ -6,7 +6,6 @@ import com.tlg.view.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 import static com.tlg.controller.AlwaysCommands.alwaysAvailableCommands;
@@ -45,14 +44,14 @@ class HeartsoarTower {
 //        musicPlayer.play();
         TitleScreen.displayTitleScreen();
         newGame();
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         boolean justEntered = true;
         while (isRunning) {
 //            Just entered a room:
             if (justEntered) grabScene();
             justEntered = false;
-            String input = scanner.nextLine();
-            String[] instruct = textParser.validCombo(input);
+            //String input = scanner.nextLine();
+            String[] instruct = textParser.validCombo();
             Boolean actionTaken = false;
             if (scene.getAllSceneMonsters().size() != 0)
                 actionTaken = combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
