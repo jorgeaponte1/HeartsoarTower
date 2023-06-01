@@ -41,6 +41,7 @@ public class GuiBuild {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().setBackground(Color.BLACK);
             frame.setLayout(null);
+            // Test
 
             // Get the content pane of the frame
             con = frame.getContentPane();
