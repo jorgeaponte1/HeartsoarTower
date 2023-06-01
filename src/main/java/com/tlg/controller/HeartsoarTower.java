@@ -82,17 +82,18 @@ class HeartsoarTower {
             String monsterPicture = scene.getAllSceneMonsters().get(0).getArt();
             art.setDisplay(monsterPicture);
             text.setDisplay(scene.getDescription(0));
-            displayEngine.printScreen(art, text, inputter, rooms);
         }
         else if (scene.getSceneItems().size() != 0) {
-            System.out.println(scene.getDescription(1));
-            String itemPicture = scene.getSceneItems().get(0).getArt();
+            art.setDisplay(scene.getSceneItems().get(0).getArt());
+            text.setDisplay(scene.getDescription(0));
         }
         else {
-            System.out.println(scene.getDescription(2));
+            art.setDisplay("");
+            text.setDisplay(scene.getDescription(0));
         }
-
+        displayEngine.printScreen(art, text, inputter, rooms);
     }
+
     public static void main(String[] args) throws IOException {
         HeartsoarTower game = new HeartsoarTower();
         game.gameLoop();

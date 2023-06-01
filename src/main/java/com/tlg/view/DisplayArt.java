@@ -8,7 +8,6 @@ import java.util.List;
 public class DisplayArt extends Display {
     private final static int MAX_LINES = 30;
     private String display;
-    private String prevDisplay;
 
     public DisplayArt() {
         super(MAX_LINES);
@@ -39,20 +38,6 @@ public class DisplayArt extends Display {
 
     public String getDisplay() {
         return display;
-    }
-
-    public String getPrevDisplay() {
-        return prevDisplay;
-    }
-
-    public void setPrevDisplay(String prevDisplay) {
-        this.prevDisplay = prevDisplay;
-    }
-
-    public void swapToPrevArt() {
-        if (prevDisplay != null) {
-            display = prevDisplay;
-        }
     }
 }
 
