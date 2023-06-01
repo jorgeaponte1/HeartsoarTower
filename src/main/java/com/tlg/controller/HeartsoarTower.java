@@ -41,16 +41,14 @@ class HeartsoarTower {
     }
 
     void gameLoop() {
-//        musicPlayer.play();
+        musicPlayer.play();
         TitleScreen.displayTitleScreen();
         newGame();
-        //Scanner scanner = new Scanner(System.in);
         boolean justEntered = true;
         while (isRunning) {
 //            Just entered a room:
             if (justEntered) grabScene();
             justEntered = false;
-            //String input = scanner.nextLine();
             String[] instruct = textParser.validCombo();
             Boolean actionTaken = false;
             if (scene.getAllSceneMonsters().size() != 0)
