@@ -84,11 +84,14 @@ public class AlwaysCommands {
     private static void help() {
         String path = "/Ascii_art/Help2.txt";
         showPrompt(path);
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
     }
 
-    private static void gameOver() {
+    public static void gameOver() {
         String path = "/Ascii_art/GameOver.txt";
         showPrompt(path);
+        System.exit(0);
     }
 
     private static void lookAtItem(String itemName, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, List<Room> rooms) {
@@ -171,7 +174,6 @@ public class AlwaysCommands {
         if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
             System.out.println("Quitting the game. Goodbye!");
             gameOver();
-            System.exit(0);
         } else {
             System.out.println("Returning to the start..");
             return true;
@@ -190,7 +192,5 @@ public class AlwaysCommands {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
     }
 }
