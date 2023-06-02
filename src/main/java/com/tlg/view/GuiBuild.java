@@ -13,6 +13,11 @@ import java.nio.file.Paths;
 
 import static com.tlg.controller.AlwaysCommands.*;
 import static com.tlg.controller.NewGame.newGame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import static com.tlg.controller.AlwaysCommands.musicSettings;
 
 public class GuiBuild {
 
@@ -39,6 +44,7 @@ public class GuiBuild {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().setBackground(Color.WHITE);
             frame.setLayout(null);
+            // Test
 
             // Get the content pane of the frame
             con = frame.getContentPane();

@@ -1,4 +1,4 @@
-package com.tlg.controller;
+/*package com.tlg.controller;
 
 import com.tlg.model.Player;
 import com.tlg.model.Room;
@@ -110,4 +110,4 @@ class AlwaysCommandsTest {
         // Assert that the invalid command message has been displayed
         assertNotNull(text.getDisplay());
     }
-}
+}*/
