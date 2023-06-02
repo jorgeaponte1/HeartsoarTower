@@ -22,24 +22,27 @@ import static com.tlg.controller.AlwaysCommands.musicSettings;
 public class GuiBuild {
 
     private JFrame frame;
-    private JPanel titleNamePanel, musicButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel,
-    choiceTextPanel, helpPanel, instructionPanel;
-    private JTextArea mainTextArea, choiceTextArea, instructionTextArea;
+    private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
+    choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel;
+    private JTextArea userInputTextField, instructionTextArea;
     private Container con;
-    private JLabel titleNameLabel, playerLabel, artLabel;
+    private JLabel titleNameLabel, graphicLabel, gameTextLabel, mapLabel, inventoryLabel;
+
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
     private Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
     private Font storyFont = new Font("Times New Roman", Font.PLAIN, 20);
-    private JButton musicButton, helpButton;
+    private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer;
+
+    private NewGame introductionMessage;
 
     private GuiBuild() {
             // Create and set up the window.
             frame = new JFrame("Heartsoar Tower");
-            frame.setSize(800, 900);
+            frame.setSize(1100, 900);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.getContentPane().setBackground(Color.BLACK);
+            frame.getContentPane().setBackground(Color.WHITE);
             frame.setLayout(null);
             // Test
 
@@ -65,6 +68,7 @@ public class GuiBuild {
             titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
                     createInstructionScreen();
+                   // instructionTextArea.setText(introductionMessage);
                 }
             });
 
@@ -89,42 +93,70 @@ public class GuiBuild {
         }
 
     public void createGameScreen() {
-
         // HIDE TITLE SCREEN
         instructionPanel.setVisible(false);
         // musicButtonPanel.setVisible(false);
 
-        // TEXT PANEL
-        mainTextPanel = new JPanel();
-        mainTextPanel.setBackground(Color.CYAN);
+        // Set up the layout using BorderLayout
+        con.setLayout(new BorderLayout());
 
-        // TEXT AREA
-        mainTextArea = new JTextArea("This is the main game text area");
-        mainTextArea.setBackground(Color.black);
-        mainTextArea.setForeground(Color.WHITE);
-        mainTextArea.setFont(normalFont);
-        mainTextArea.setLineWrap(true);
-        mainTextArea.setWrapStyleWord(true);
-        mainTextArea.setEditable(false);
-        mainTextPanel.add(mainTextArea);
+        // Graphic PANEL
+        graphicPanel = new JPanel();
+        graphicPanel.setBounds(0,0,750,800);
+        graphicPanel.setBackground(Color.BLUE);
 
-        // CHOICE TEXT PANEL
-        choiceTextPanel = new JPanel();
-        choiceTextPanel.setBackground(Color.YELLOW);
+        //graphic label
+        graphicLabel = new JLabel("game graphics");
+        graphicLabel.setForeground(Color.WHITE);
+        graphicLabel.setFont(normalFont);
+        graphicPanel.add(graphicLabel);
 
-        // USER INPUT
-        choiceTextArea = new JTextArea("This is the player input text area");
-        choiceTextArea.setBackground(Color.white);
-        choiceTextArea.setForeground(Color.BLACK);
-        choiceTextArea.setFont(normalFont);
-        choiceTextArea.setLineWrap(true);
-        choiceTextArea.setWrapStyleWord(true);
+        // GameText panel
+        gameTextPanel = new JPanel();
+        gameTextPanel.setBackground(Color.CYAN);
 
-        choiceTextPanel.add(choiceTextArea);
+        // GameText label
+        gameTextLabel = new JLabel("Game text goes here");
+        gameTextLabel.setForeground(Color.MAGENTA);
+        gameTextLabel.setFont(normalFont);
+        gameTextPanel.add(gameTextLabel);
 
-        // HELP PANEL
-        helpPanel = new JPanel();
-        helpPanel.setBackground(Color.GREEN);
+        // UserInput TEXT PANEL
+        userInputPanel = new JPanel();
+        // added this line to make userInputPanel have a layout to be the parent of navBtnPanel
+        userInputPanel.setLayout(new BorderLayout());
+        userInputPanel.setBackground(Color.YELLOW);
+
+        // UserInput TEXT AREA (bottom left)
+        userInputTextField = new JTextArea("This is the main game text area");
+        userInputTextField.setBackground(Color.black);
+        userInputTextField.setForeground(Color.WHITE);
+        userInputTextField.setFont(normalFont);
+//        userInputTextField.setPreferredSize(new Dimension(300, 180));
+//        userInputPanel.add(userInputTextField);
+        userInputPanel.add(userInputTextField, BorderLayout.CENTER);
+
+        // Nav PANEL (right column)
+        navPanel = new JPanel();
+        navPanel.setLayout(new BorderLayout());
+        navPanel.setBackground(Color.GREEN);
+
+        // Map label
+        mapLabel = new JLabel("Map goes here");
+        mapLabel.setBackground(Color.lightGray);
+        mapLabel.setForeground(Color.BLACK);
+        navPanel.add(mapLabel, BorderLayout.NORTH);
+
+        // Inventory label
+        inventoryLabel = new JLabel("Inventory goes here");
+        inventoryLabel.setBackground(Color.lightGray);
+        inventoryLabel.setForeground(Color.BLACK);
+        navPanel.add(inventoryLabel, BorderLayout.CENTER);
+
+        // NavBtn Panel
+        navBtnPanel = new JPanel();
+        navBtnPanel.setLayout(new GridLayout(5, 1));
+        navBtnPanel.setBackground(Color.PINK);
 
         // HELP BUTTON
         helpButton = new JButton("HELP");
@@ -135,36 +167,44 @@ public class GuiBuild {
         helpButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, imageIcon)
         );
+        navBtnPanel.add(helpButton);
+        // Nav Buttons
+        upButton = new JButton("Up");
+        upButton.setForeground(Color.RED);
+        upButton.setFont(normalFont);
+        navBtnPanel.add(upButton);
 
-        helpPanel.add(helpButton);
+        downButton = new JButton("Down");
+        downButton.setForeground(Color.RED);
+        downButton.setFont(normalFont);
+        navBtnPanel.add(downButton);
 
-        // PLAYER PANEL
-        playerPanel = new JPanel();
-        playerPanel.setBackground(Color.BLUE);
+        rightButton = new JButton("Right");
+        rightButton.setForeground(Color.RED);
+        rightButton.setFont(normalFont);
+        navBtnPanel.add(rightButton);
 
-        playerLabel = new JLabel("Map");
-        playerLabel.setForeground(Color.WHITE);
-        playerLabel.setFont(normalFont);
-        playerPanel.add(playerLabel);
+        leftButton = new JButton("Left");
+        leftButton.setForeground(Color.RED);
+        leftButton.setFont(normalFont);
+        navBtnPanel.add(leftButton);
 
-        artLabel = new JLabel("Ascii art graphics");
-        artLabel.setForeground(Color.MAGENTA);
-        artLabel.setFont(normalFont);
-        playerPanel.add(artLabel);
+        // Sub Panel for navBtnPanel and gameTextPanel inside UserInput Panel
+        userInputPanel.add(navBtnPanel, BorderLayout.EAST);
+        userInputPanel.add(gameTextPanel, BorderLayout.NORTH);
 
-        // Set up the layout using BorderLayout
-        con.setLayout(new BorderLayout());
-
-        // Add panels to the container using BorderLayout regions
-        con.add(mainTextPanel, BorderLayout.CENTER);
-        con.add(choiceTextPanel, BorderLayout.SOUTH);
-        con.add(helpPanel, BorderLayout.NORTH);
-        con.add(playerPanel, BorderLayout.WEST);
+        // Add panels to the container using BorderLayout
+        con.add(graphicPanel, BorderLayout.NORTH);
+        con.add(userInputPanel, BorderLayout.SOUTH);
+        con.add(navPanel, BorderLayout.EAST);
+        con.add(gameTextPanel, BorderLayout.CENTER);
 
         playerSetup();
     }
 
-
+    // I can create a subpanel above the userInputTextField that can include the game Text
+    // I can also add some margins to the userInputTextField so that the userInput is seperated from game Text. Yes,
+    // maybe center the text inside the panel or just add right 20 px
 
     public void createInstructionScreen() {
         //HIDE TITLE SCREEN
@@ -173,24 +213,15 @@ public class GuiBuild {
 
         //TEXT PANEL
         instructionPanel = new JPanel();
-        instructionPanel.setBounds(100, 180, 600, 550);
-        instructionPanel.setBackground(Color.BLACK);
+        instructionPanel.setBounds(180, 180, 800, 550);
+        instructionPanel.setBackground(Color.WHITE);
         con.add(instructionPanel);
 
         //TEXT AREA
-        instructionTextArea = new JTextArea("Welcome, Harmony, to the enchanted world of Terra Motus."+
-                "\n\nStory:"+
-                "\nThe King and Queen of Terra Motus are grief-stricken. An evil curse has sealed away their young Prince Timore in a tower at the edge of their kingdom."+
-                "\nThe royalty have requested you, Harmony, to enter the tower and save their gentle son."+
-                "\nArmed with only your trusted sword and an amulet wrapped in a handkerchief given by the queen, you approach the ominous tower, unsure of what lies within."+
-                "\n\nObjective:"+
-                "\nYour mission is to navigate through the tower, overcoming challenges along the way."+
-                "\nTo win, you must free Prince Timore from the curse by reaching the top of the tower."+
-
-                "\n\nAre you ready to begin your journey, Harmony? The fate of Prince Timore rests in your hands!");
-        instructionTextArea.setBounds(100, 180, 600, 550);
-        instructionTextArea.setBackground(Color.black);
-        instructionTextArea.setForeground(Color.WHITE);
+        instructionTextArea = new JTextArea();
+        instructionTextArea.setBounds(180, 180, 800, 550);
+        instructionTextArea.setBackground(Color.WHITE);
+        instructionTextArea.setForeground(Color.black);
         instructionTextArea.setFont(storyFont);
         instructionTextArea.setLineWrap(true);
         instructionTextArea.setWrapStyleWord(true);
