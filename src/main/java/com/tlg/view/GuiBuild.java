@@ -176,37 +176,62 @@ public class GuiBuild {
         navBtnPanel.setLayout(new GridBagLayout());
         navBtnPanel.setBackground(Color.PINK);
 
-        // HELP BUTTON
+// Create GridBagConstraints
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+// HELP BUTTON
         helpButton = new JButton("HELP");
         helpButton.setForeground(Color.RED);
         helpButton.setFont(normalFont);
-
         ImageIcon imageIcon = new ImageIcon("/Users/stanjess24/Documents/Practical-Applications/Capstone-T1-HeartsoarTower/src/main/resources/Images/Help.png");
         helpButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, imageIcon)
         );
-        navBtnPanel.add(helpButton);
-        // Nav Buttons
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        navBtnPanel.add(helpButton, gbc);
+
+// Nav Buttons
         upButton = new JButton("Up");
         upButton.setForeground(Color.RED);
-        //upButton.setBorder();
         upButton.setFont(normalFont);
-        navBtnPanel.add(upButton);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        navBtnPanel.add(upButton, gbc);
 
         downButton = new JButton("Down");
         downButton.setForeground(Color.RED);
         downButton.setFont(normalFont);
-        navBtnPanel.add(downButton);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        navBtnPanel.add(downButton, gbc);
 
         rightButton = new JButton("Right");
         rightButton.setForeground(Color.RED);
         rightButton.setFont(normalFont);
-        navBtnPanel.add(rightButton);
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        navBtnPanel.add(rightButton, gbc);
 
         leftButton = new JButton("Left");
         leftButton.setForeground(Color.RED);
         leftButton.setFont(normalFont);
-        navBtnPanel.add(leftButton);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        navBtnPanel.add(leftButton, gbc);
+
 
         // Music Panel
         musicButtonPanel = new JPanel();
