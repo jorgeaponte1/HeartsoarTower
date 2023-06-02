@@ -3,6 +3,9 @@ package com.tlg.view;
 import com.tlg.controller.AlwaysCommands;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -19,7 +22,8 @@ public class GuiBuild {
     private JFrame frame;
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
     choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel;
-    private JTextArea userInputTextField, introductionTextArea;
+    private JTextField userInputTextField;
+    private JTextArea instructionTextArea, introductionTextArea;
     private Container con;
     private JLabel titleNameLabel, graphicLabel, gameTextLabel, mapLabel, inventoryLabel, introductionLabel;
 
@@ -116,17 +120,32 @@ public class GuiBuild {
 
         // UserInput TEXT PANEL
         userInputPanel = new JPanel();
-        // added this line to make userInputPanel have a layout to be the parent of navBtnPanel
         userInputPanel.setLayout(new BorderLayout());
         userInputPanel.setBackground(Color.YELLOW);
 
         // UserInput TEXT AREA (bottom left)
-        userInputTextField = new JTextArea("This is the main game text area");
+        userInputTextField = new JTextField("This is the main game text area");
+        userInputTextField.setDocument(new JTextFieldLimit(25));
         userInputTextField.setBackground(Color.black);
         userInputTextField.setForeground(Color.WHITE);
         userInputTextField.setFont(normalFont);
-//        userInputTextField.setPreferredSize(new Dimension(300, 180));
-//        userInputPanel.add(userInputTextField);
+        userInputTextField.setCaretColor(Color.WHITE);
+        userInputTextField.setHorizontalAlignment(JTextField.CENTER);  // Add this line
+
+        // Set margin around the text area
+        int marginSize = 40;
+        Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
+        userInputTextField.setMargin(margin);
+
+        // Saved Variable that will have the text from userInputTextField
+        String[] text = new String[1];
+        // ActionListener for the userInputTextField
+        userInputTextField.addActionListener(e -> {
+            text[0] = userInputTextField.getText();
+            System.out.println("Text saved: " + text[0]);
+            userInputTextField.setText("");
+        });
+
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
         // Nav PANEL (right column)
@@ -138,13 +157,13 @@ public class GuiBuild {
         mapLabel = new JLabel("Map goes here");
         mapLabel.setBackground(Color.lightGray);
         mapLabel.setForeground(Color.BLACK);
-        navPanel.add(mapLabel, BorderLayout.NORTH);
+        navPanel.add(mapLabel, BorderLayout.CENTER);
 
         // Inventory label
         inventoryLabel = new JLabel("Inventory goes here");
         inventoryLabel.setBackground(Color.lightGray);
         inventoryLabel.setForeground(Color.BLACK);
-        navPanel.add(inventoryLabel, BorderLayout.CENTER);
+        navPanel.add(inventoryLabel, BorderLayout.SOUTH);
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
@@ -183,17 +202,48 @@ public class GuiBuild {
         leftButton.setFont(normalFont);
         navBtnPanel.add(leftButton);
 
+        // Music Panel
+        musicButtonPanel = new JPanel();
+        musicButtonPanel.setBounds(300, 400, 200, 100);
+        musicButtonPanel.setBackground(Color.BLACK);
+
+        // Create the start button
+        musicButton = new JButton("music");
+        musicButton.setBackground(Color.YELLOW);
+        musicButton.setForeground(Color.RED);
+        musicButton.setFont(normalFont);
+        musicButton.addActionListener(e -> musicSettings(musicPlayer));
+        musicButtonPanel.add(musicButton);
+
         // Sub Panel for navBtnPanel and gameTextPanel inside UserInput Panel
-        userInputPanel.add(navBtnPanel, BorderLayout.EAST);
         userInputPanel.add(gameTextPanel, BorderLayout.NORTH);
+        userInputPanel.add(navBtnPanel, BorderLayout.EAST);
+
+        // Sub Panel for musicButtonPanel inside navPanel
+        navPanel.add(musicButtonPanel, BorderLayout.NORTH);
 
         // Add panels to the container using BorderLayout
-        con.add(graphicPanel, BorderLayout.NORTH);
+        con.add(graphicPanel, BorderLayout.CENTER);
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
-        con.add(gameTextPanel, BorderLayout.CENTER);
+        //con.add(gameTextPanel, BorderLayout.CENTER);
 
         playerSetup();
+    }
+
+    class JTextFieldLimit extends PlainDocument {
+        private int limit;
+        JTextFieldLimit(int limit) {
+            super();
+            this.limit = limit;
+        }
+        public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+            if (str == null)
+                return;
+            if ((getLength() + str.length()) <= limit) {
+                super.insertString(offset, str, attr);
+            }
+        }
     }
 
     public String createInstructionScreen() {
