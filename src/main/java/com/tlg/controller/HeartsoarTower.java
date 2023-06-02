@@ -3,6 +3,7 @@ package com.tlg.controller;
 import com.tlg.model.*;
 import com.tlg.view.*;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ class HeartsoarTower {
     }
 
     void gameLoop() {
+        launchGUI();
         musicPlayer.play();
         TitleScreen.displayTitleScreen();
         newGame();
@@ -89,6 +91,15 @@ class HeartsoarTower {
             text.setDisplay(scene.getDescription(0));
         }
         displayEngine.printScreen(art, text, inputter, rooms);
+    }
+
+    private void launchGUI() {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GuiBuild frame = new GuiBuild();
+            }
+        });
     }
 
     public static void main(String[] args) throws IOException {

@@ -34,7 +34,7 @@ public class GuiBuild {
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer;
 
-    private GuiBuild() {
+    public GuiBuild() {
             // Create and set up the window.
             frame = new JFrame("Heartsoar Tower");
             frame.setSize(1100, 900);
@@ -153,6 +153,10 @@ public class GuiBuild {
         navPanel.setLayout(new BorderLayout());
         navPanel.setBackground(Color.GREEN);
 
+        // Set preferred width for the navPanel
+        int navPanelWidth = 300; // Adjust this value as desired
+        navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
+
         // Map label
         mapLabel = new JLabel("Map goes here");
         mapLabel.setBackground(Color.lightGray);
@@ -167,7 +171,7 @@ public class GuiBuild {
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
-        navBtnPanel.setLayout(new GridLayout(5, 1));
+        navBtnPanel.setLayout(new GridBagLayout());
         navBtnPanel.setBackground(Color.PINK);
 
         // HELP BUTTON
