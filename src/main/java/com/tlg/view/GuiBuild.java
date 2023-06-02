@@ -23,7 +23,7 @@ public class GuiBuild {
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
     choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel;
     private JTextField userInputTextField;
-    private JTextArea instructionTextArea;
+    private JTextArea instructionTextArea, introductionTextArea;
     private Container con;
     private JLabel titleNameLabel, graphicLabel, gameTextLabel, mapLabel, inventoryLabel, introductionLabel;
 
