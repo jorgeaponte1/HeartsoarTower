@@ -3,6 +3,8 @@ package com.tlg.view;
 import com.tlg.controller.AlwaysCommands;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -207,13 +209,28 @@ public class GuiBuild {
         musicButtonPanel.setBounds(300, 400, 200, 100);
         musicButtonPanel.setBackground(Color.BLACK);
 
-        // Create the start button
-        musicButton = new JButton("music");
-        musicButton.setBackground(Color.YELLOW);
-        musicButton.setForeground(Color.RED);
-        musicButton.setFont(normalFont);
-        musicButton.addActionListener(e -> musicSettings(musicPlayer));
-        musicButtonPanel.add(musicButton);
+        // Music Panel Label
+        JLabel music = new JLabel();
+        // TODO ADD Speaker ICON instead of setText
+        music.setText("Volume");
+        music.setForeground(Color.WHITE);
+        musicButtonPanel.add(music);
+
+        // Volume Slider
+        JSlider slider = new JSlider(0,100,50);
+        slider.setPaintTicks(true);
+        slider.setMinorTickSpacing(10);
+        slider.setPaintTrack(true);
+        slider.setMajorTickSpacing(25);
+        slider.setPaintLabels(true);
+        musicButtonPanel.add(slider);
+
+        // Volume Slider Listener
+        final int[] Volume = {slider.getValue()};
+        slider.addChangeListener(e -> {
+            Volume[0] = ((JSlider)e.getSource()).getValue();
+            System.out.println(Volume[0]);
+        });
 
         // Sub Panel for navBtnPanel and gameTextPanel inside UserInput Panel
         userInputPanel.add(gameTextPanel, BorderLayout.NORTH);
