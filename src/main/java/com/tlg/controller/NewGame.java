@@ -20,7 +20,7 @@ public class NewGame {
             }
         }
 
-        System.out.println("Welcome, Harmony, to the enchanted world of Terra Motus."+
+        String introductionMessage = "Welcome, Harmony, to the enchanted world of Terra Motus."+
         "\nStory:"+
         "\nThe King and Queen of Terra Motus are grief-stricken. An evil curse has sealed away their young Prince Timore in a tower at the edge of their kingdom."+
         "\nThe royalty have requested you, Harmony, to enter the tower and save their gentle son."+
@@ -29,7 +29,8 @@ public class NewGame {
         "\nYour mission is to navigate through the tower, overcoming challenges along the way."+
         "\nTo win, you must free Prince Timore from the curse by reaching the top of the tower."+
 
-        "\nAre you ready to begin your journey, Harmony? The fate of Prince Timore rests in your hands!");
+        "\nAre you ready to begin your journey, Harmony? The fate of Prince Timore rests in your hands!";
+        System.out.println(introductionMessage);
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nPress Enter to start your journey...");

@@ -1,0 +1,10 @@
+"Welcome, Harmony, to the enchanted world of Terra Motus."+
+                "\n\nStory:"+
+                "\nThe King and Queen of Terra Motus are grief-stricken. An evil curse has sealed away their young Prince Timore in a tower at the edge of their kingdom."+
+                "\nThe royalty have requested you, Harmony, to enter the tower and save their gentle son."+
+                "\nArmed with only your trusted sword and an amulet wrapped in a handkerchief given by the queen, you approach the ominous tower, unsure of what lies within."+
+                "\n\nObjective:"+
+                "\nYour mission is to navigate through the tower, overcoming challenges along the way."+
+                "\nTo win, you must free Prince Timore from the curse by reaching the top of the tower."+
+
+                "\n\nAre you ready to begin your journey, Harmony? The fate of Prince Timore rests in your hands!"
