@@ -6,18 +6,13 @@ import javax.swing.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
-import static com.tlg.controller.AlwaysCommands.*;
-import static com.tlg.controller.NewGame.newGame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import static com.tlg.controller.AlwaysCommands.musicSettings;
@@ -30,7 +25,7 @@ public class GuiBuild {
     private JTextField userInputTextField;
     private JTextArea instructionTextArea;
     private Container con;
-    private JLabel titleNameLabel, graphicLabel, gameTextLabel, mapLabel, inventoryLabel;
+    private JLabel titleNameLabel, graphicLabel, gameTextLabel, mapLabel, inventoryLabel, introductionLabel;
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -38,8 +33,6 @@ public class GuiBuild {
     private Font storyFont = new Font("Times New Roman", Font.PLAIN, 20);
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer;
-
-    private NewGame introductionMessage;
 
     private GuiBuild() {
             // Create and set up the window.
@@ -71,8 +64,8 @@ public class GuiBuild {
                     KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
             titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
+
                     createInstructionScreen();
-                   // instructionTextArea.setText(introductionMessage);
                 }
             });
 
@@ -190,6 +183,7 @@ public class GuiBuild {
         // Nav Buttons
         upButton = new JButton("Up");
         upButton.setForeground(Color.RED);
+        //upButton.setBorder();
         upButton.setFont(normalFont);
         navBtnPanel.add(upButton);
 
@@ -252,26 +246,44 @@ public class GuiBuild {
         }
     }
 
-    public void createInstructionScreen() {
-        //HIDE TITLE SCREEN
+    public String createInstructionScreen() {
+        // HIDE TITLE SCREEN
         titleNamePanel.setVisible(false);
         musicButtonPanel.setVisible(false);
 
-        //TEXT PANEL
+        // TEXT PANEL
         instructionPanel = new JPanel();
-        instructionPanel.setBounds(180, 180, 800, 550);
         instructionPanel.setBackground(Color.WHITE);
-        con.add(instructionPanel);
+        instructionPanel.setLayout(new BorderLayout());
 
-        //TEXT AREA
-        instructionTextArea = new JTextArea();
-        instructionTextArea.setBounds(180, 180, 800, 550);
-        instructionTextArea.setBackground(Color.WHITE);
-        instructionTextArea.setForeground(Color.black);
-        instructionTextArea.setFont(storyFont);
-        instructionTextArea.setLineWrap(true);
-        instructionTextArea.setWrapStyleWord(true);
-        instructionTextArea.setEditable(false);
+        // TEXT AREA
+        introductionTextArea = new JTextArea();
+        introductionTextArea.setBackground(Color.WHITE);
+        introductionTextArea.setForeground(Color.BLACK);
+        introductionTextArea.setFont(storyFont);
+        introductionTextArea.setLineWrap(true);
+        introductionTextArea.setWrapStyleWord(true);
+        introductionTextArea.setEditable(false);
+        instructionPanel.add(introductionTextArea, BorderLayout.CENTER);
+
+        int marginSize = 50;
+        Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
+        introductionTextArea.setMargin(margin);
+
+        // ADD PANEL TO CONTAINER
+        con.setLayout(new BorderLayout());
+        con.add(instructionPanel, BorderLayout.CENTER);
+
+        String path = "/Intro/Introduction.txt";
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is == null) {
+                throw new FileNotFoundException("Resource not found: " + path);
+            }
+            String text = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            introductionTextArea.setText(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         instructionPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
@@ -281,36 +293,12 @@ public class GuiBuild {
             }
         });
 
-        instructionPanel.add(instructionTextArea); //adding text area to text panel
+        return path;
     }
 
     public void playerSetup() {
 
     }
-
-
-
-//    public class HelpButtonHandler implements ActionListener {
-//
-//        @Override
-//        public void actionPerformed(ActionEvent event) {
-//            try {
-//                String fileContent = readFile("path/to/your/helpfile.txt"); // Replace with the actual file path
-//                JOptionPane.showMessageDialog(mainTextPanel, fileContent);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    private String readFile(String filePath) throws IOException {
-//        Path path = Paths.get(filePath);
-//        byte[] fileBytes = Files.readAllBytes(path);
-//        return new String(fileBytes);
-//    }
-
-
-
 
     public static void main(String[] args) throws IOException {
         //Schedule a job for the event-dispatching thread:
