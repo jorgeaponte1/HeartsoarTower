@@ -11,6 +11,7 @@ import javax.swing.text.PlainDocument;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -199,6 +200,10 @@ public class GuiBuild {
         upButton = new JButton("Up");
         upButton.setForeground(Color.RED);
         upButton.setFont(normalFont);
+        upButton.addActionListener(e -> {
+            text[0] = "Go Up";
+            System.out.println(text[0]);
+        });
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -208,6 +213,10 @@ public class GuiBuild {
         downButton = new JButton("Down");
         downButton.setForeground(Color.RED);
         downButton.setFont(normalFont);
+        downButton.addActionListener(e -> {
+            text[0] = "Go Down";
+            System.out.println(text[0]);
+        });
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 1;
@@ -217,6 +226,10 @@ public class GuiBuild {
         rightButton = new JButton("Right");
         rightButton.setForeground(Color.RED);
         rightButton.setFont(normalFont);
+        rightButton.addActionListener(e -> {
+            text[0] = "Go Right";
+            System.out.println(text[0]);
+        });
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -226,6 +239,10 @@ public class GuiBuild {
         leftButton = new JButton("Left");
         leftButton.setForeground(Color.RED);
         leftButton.setFont(normalFont);
+        leftButton.addActionListener(e -> {
+            text[0] = "Go Left";
+            System.out.println(text[0]);
+        });
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
