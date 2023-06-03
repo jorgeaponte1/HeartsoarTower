@@ -1,6 +1,7 @@
 package com.tlg.view;
 
 import com.tlg.controller.AlwaysCommands;
+import com.tlg.controller.GameInputListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 import static com.tlg.controller.AlwaysCommands.musicSettings;
 
@@ -36,8 +38,9 @@ public class GuiBuild {
     private Font storyFont = new Font("Times New Roman", Font.PLAIN, 20);
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer;
+    private GameInputListener gameInputListener;
 
-    public GuiBuild() {
+    public GuiBuild(GameInputListener gameInputListener) {
             // Create and set up the window.
             frame = new JFrame("Heartsoar Tower");
             frame.setSize(1100, 900);
@@ -89,6 +92,7 @@ public class GuiBuild {
             con.add(musicButtonPanel);
             musicButtonPanel.add(musicButton);
 
+            this.gameInputListener = gameInputListener;
             frame.setVisible(true);
         }
 
@@ -141,14 +145,17 @@ public class GuiBuild {
         userInputTextField.setMargin(margin);
 
         // Saved Variable that will have the text from userInputTextField
-        String[] text = new String[1];
+
+        String[] text = new String[2];
         // ActionListener for the userInputTextField
         userInputTextField.addActionListener(e -> {
-            text[0] = userInputTextField.getText();
-            System.out.println("Text saved: " + text[0]);
+            String input = userInputTextField.getText();
+            input = input.replaceAll("\\W+", " ").toLowerCase().strip();
+            String[] words = input.split("\\s+");  // split on one or more whitespace characters
+            //System.out.println(Arrays.toString(words));
             userInputTextField.setText("");
+            gameInputListener.onInputReceived(words);
         });
-
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
         // Nav PANEL (right column)
@@ -201,8 +208,9 @@ public class GuiBuild {
         upButton.setForeground(Color.RED);
         upButton.setFont(normalFont);
         upButton.addActionListener(e -> {
-            text[0] = "Go Up";
-            System.out.println(text[0]);
+            String[] upCommand = {"go", "up"};
+            gameInputListener.onInputReceived(upCommand);
+            //System.out.println(text[0]);
         });
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -214,8 +222,9 @@ public class GuiBuild {
         downButton.setForeground(Color.RED);
         downButton.setFont(normalFont);
         downButton.addActionListener(e -> {
-            text[0] = "Go Down";
-            System.out.println(text[0]);
+            String[] downCommand = {"go", "down"};
+            gameInputListener.onInputReceived(downCommand);
+            //System.out.println(text[0]);
         });
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -227,8 +236,9 @@ public class GuiBuild {
         rightButton.setForeground(Color.RED);
         rightButton.setFont(normalFont);
         rightButton.addActionListener(e -> {
-            text[0] = "Go Right";
-            System.out.println(text[0]);
+            String[] rightCommand = {"go", "right"};
+            gameInputListener.onInputReceived(rightCommand);
+            //System.out.println(text[0]);
         });
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -240,8 +250,9 @@ public class GuiBuild {
         leftButton.setForeground(Color.RED);
         leftButton.setFont(normalFont);
         leftButton.addActionListener(e -> {
-            text[0] = "Go Left";
-            System.out.println(text[0]);
+            String[] leftCommand = {"go", "left"};
+            gameInputListener.onInputReceived(leftCommand);
+            //System.out.println(text[0]);
         });
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -293,6 +304,15 @@ public class GuiBuild {
 
         playerSetup();
     }
+
+    // TODO This method I need to Change to Create the Pop-Up of the Yes/No
+    public void onYesNoInputReceived() {
+        // Here, you should wait for user input from the GUI,
+        // When the user inputs something, return it.
+        String input = "Yes";
+        gameInputListener.onYesNoInputReceived(input);
+    }
+
 
     class JTextFieldLimit extends PlainDocument {
         private int limit;
@@ -372,6 +392,6 @@ public class GuiBuild {
 //            }
 //        });
 //    }
-        new GuiBuild();
+        //new GuiBuild();
     }
 }

@@ -11,13 +11,20 @@ import java.util.Scanner;
 
 class CombatEngine {
 
-    public static boolean combatCommands(String[] instruct, Player player, Scene scene, DisplayArt art, DisplayText text, DisplayInput inputter, DisplayEngine displayEngine, List<Room> rooms, List<Item> items) {
+    private GameInputListener gameInputListener;
+
+    public CombatEngine(GameInputListener gameInputListener) {
+        this.gameInputListener = gameInputListener;
+    }
+
+    public boolean combatCommands(String[] instruct, Player player, Scene scene, DisplayArt art, DisplayText text, DisplayInput inputter, DisplayEngine displayEngine, List<Room> rooms, List<Item> items) {
         boolean actionTaken = false;
         if (instruct[0] == null && instruct[1] == null) {
             text.setDisplay("Invalid Command.");
             displayEngine.printScreen(art, text, inputter, rooms);
             return true;
         }
+        String[] input = instruct;
 //        Verify there's even a monster in the room:
         if (scene.getSceneMonsters(0) == null) return actionTaken;
 //        Every monster has some acceptable commands for defeating:
@@ -81,9 +88,12 @@ class CombatEngine {
                 scanner.nextLine();
                 System.out.println("Would you like to use your amulet? Y/N");
                 String userInput = scanner.nextLine();
+                // TODO: Need to Create an actionListener for Yes or No Input from Pop-Up
+                //String userInput = gameInputListener.onYesNoInputReceived();
                 while (!"Y".equalsIgnoreCase(userInput) && !"Yes".equalsIgnoreCase(userInput) &&
                         !"N".equalsIgnoreCase(userInput) && !"No".equalsIgnoreCase(userInput)) {
                     System.out.println("Invalid input. Please enter Y/Yes to confirm use of amulet, or N/No to reject use and Game Over.");
+                    //userInput = gameInputListener.onYesNoInputReceived();
                     userInput = scanner.nextLine();
                 }
                 if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
