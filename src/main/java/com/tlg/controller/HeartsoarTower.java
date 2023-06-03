@@ -6,16 +6,19 @@ import com.tlg.view.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static com.tlg.controller.AlwaysCommands.alwaysAvailableCommands;
-import static com.tlg.controller.CombatEngine.combatCommands;
+//import static com.tlg.controller.CombatEngine.combatCommands;
 import static com.tlg.controller.MoveCommand.moveCommands;
 import static com.tlg.controller.NewGame.newGame;
 import static com.tlg.controller.SpecificCommands.specificCommands;
 
-class HeartsoarTower {
+class HeartsoarTower implements GameInputListener{
     private Factory factory = new Factory();
     private List<Room> rooms = factory.getRooms();
     private List<Item> items = factory.getItems();
@@ -32,6 +35,10 @@ class HeartsoarTower {
     private DisplayInput inputter;
     private DisplayText text = new DisplayText();
     private MusicPlayer musicPlayer;
+    private String[] instruct;
+    private BlockingQueue<String[]> instructQueue = new LinkedBlockingQueue<>();
+    private BlockingQueue<String> yesNoInstructQueue = new LinkedBlockingQueue<>();
+    private CombatEngine combatEngine;
 
 
     HeartsoarTower() throws IOException {
@@ -39,6 +46,8 @@ class HeartsoarTower {
         this.isRunning = true;
         this.musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
         this.inputter = new DisplayInput(player);
+        this.instruct = new String[]{"", ""};
+        this.combatEngine = new CombatEngine(this);
     }
 
     void gameLoop() {
@@ -51,10 +60,14 @@ class HeartsoarTower {
 //            Just entered a room:
             if (justEntered) grabScene();
             justEntered = false;
-            String[] instruct = textParser.validCombo();
+            try {
+                instruct = instructQueue.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Boolean actionTaken = false;
             if (scene.getAllSceneMonsters().size() != 0)
-                actionTaken = combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
+                actionTaken = combatEngine.combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
             if (!actionTaken) actionTaken = alwaysAvailableCommands(instruct, player, scene, rooms, displayEngine, art, text, inputter, musicPlayer);
             if (!actionTaken) actionTaken = specificCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
             if (!actionTaken) {
@@ -66,6 +79,7 @@ class HeartsoarTower {
             if (!actionTaken) {
                 text.setDisplay("I do not know that command.  Please try again:    ");
             }
+            instruct = new String[]{"", ""};
         }
     }
 
@@ -93,11 +107,24 @@ class HeartsoarTower {
         displayEngine.printScreen(art, text, inputter, rooms);
     }
 
+    @Override
+    public void onInputReceived(String[] input) {
+        instructQueue.offer(textParser.validCombo(input));
+        this.instruct = input;
+//        textParser.validCombo(input);
+    }
+
+    // TODO: Continue working on this method.
+    @Override
+    public void onYesNoInputReceived(String input) {
+        yesNoInstructQueue.offer(input);
+    }
+
     private void launchGUI() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                GuiBuild frame = new GuiBuild();
+                GuiBuild frame = new GuiBuild(HeartsoarTower.this);
             }
         });
     }
