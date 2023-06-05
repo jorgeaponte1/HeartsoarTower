@@ -2,6 +2,7 @@ package com.tlg.controller;
 
 import com.tlg.model.*;
 import com.tlg.view.*;
+import com.tlg.view.GuiBuild;
 
 import java.awt.*;
 import java.io.IOException;
