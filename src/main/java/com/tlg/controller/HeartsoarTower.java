@@ -19,8 +19,8 @@ import static com.tlg.controller.MoveCommand.moveCommands;
 import static com.tlg.controller.NewGame.newGame;
 import static com.tlg.controller.SpecificCommands.specificCommands;
 
-class HeartsoarTower implements GameInputListener{
-    private Factory factory = new Factory();
+public class HeartsoarTower implements GameInputListener{
+    public Factory factory = new Factory();
     private List<Room> rooms = factory.getRooms();
     private List<Item> items = factory.getItems();
     private List<Monster> monsters = factory.getMonsters();
@@ -50,6 +50,10 @@ class HeartsoarTower implements GameInputListener{
         this.inputter = new DisplayInput(player);
         this.instruct = new String[]{"", ""};
         this.combatEngine = new CombatEngine(this);
+    }
+
+    public static List<Room> getRooms() throws IOException {
+        return new Factory().getRooms();
     }
 
     void gameLoop() {
@@ -100,6 +104,7 @@ class HeartsoarTower implements GameInputListener{
     }
 
     private void grabScene() {
+
         for (Scene scene : scenes) {
             if (scene.getRoom().equals(player.getLocation())) {
                 this.scene = scene;
