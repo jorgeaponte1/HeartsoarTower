@@ -1,6 +1,7 @@
 package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
+import com.tlg.controller.HeartsoarTower;
 import com.tlg.model.Room;
 
 import javax.swing.*;
@@ -31,6 +32,8 @@ public class GuiBuild {
     private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
     private JLabel introductionLabel;
+    //initialize the rooms
+    private List<Room> rooms;
 
 
 
@@ -305,6 +308,9 @@ public class GuiBuild {
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
         //con.add(gameTextPanel, BorderLayout.CENTER);
+
+        //Call displayGUimap
+        displayGuiMap();
     }
 
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
@@ -389,9 +395,12 @@ public class GuiBuild {
         }
     }
 
-    public void displayGuiMap(List<Room> rooms) {
+    public String displayGuiMap() {
         DisplayEngine displayEngine = new DisplayEngine();
-        String map = displayEngine.getMap(rooms);
+        //Display MapUI FULL MAP in Gui
+        String map = MapUI.getFullMap();
+        System.out.println(map);
         mapLabel.setText(map);
+        return map;
     }
 }
