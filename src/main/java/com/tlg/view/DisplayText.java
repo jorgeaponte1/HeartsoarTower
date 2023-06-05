@@ -9,14 +9,14 @@ import java.util.stream.Stream;
 public class DisplayText extends Display{
     private final static int MAX_LINES = 4;
     private final int MAX_WIDTH = 250;
-    private String display;
+    private static String display;
     private String prevDisplay;
 
     public DisplayText() {
         super(MAX_LINES);
     }
 
-    public String getDisplay() {
+    public static String getDisplay() {
         return display;
     }
 
