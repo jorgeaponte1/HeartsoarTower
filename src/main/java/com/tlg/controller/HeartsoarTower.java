@@ -40,6 +40,7 @@ class HeartsoarTower implements GameInputListener{
     private BlockingQueue<String[]> instructQueue = new LinkedBlockingQueue<>();
     private BlockingQueue<String> yesNoInstructQueue = new LinkedBlockingQueue<>();
     private CombatEngine combatEngine;
+    private boolean justEntered;
 
 
     HeartsoarTower() throws IOException {
@@ -52,36 +53,50 @@ class HeartsoarTower implements GameInputListener{
     }
 
     void gameLoop() {
+        grabScene();
         launchGUI();
-        musicPlayer.play();
-        TitleScreen.displayTitleScreen();
-        newGame();
-        boolean justEntered = true;
-        while (isRunning) {
+        //musicPlayer.play();
+//        TitleScreen.displayTitleScreen();
+//        newGame();
+        justEntered = true;
+        //while (isRunning) {
 //            Just entered a room:
-            if (justEntered) grabScene();
-            justEntered = false;
-            try {
-                instruct = instructQueue.take();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Boolean actionTaken = false;
-            if (scene.getAllSceneMonsters().size() != 0)
-                actionTaken = combatEngine.combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
-            if (!actionTaken) actionTaken = alwaysAvailableCommands(instruct, player, scene, rooms, displayEngine, art, text, inputter, musicPlayer);
-            if (!actionTaken) actionTaken = specificCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
-            if (!actionTaken) {
-                actionTaken = moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
-                if (actionTaken) {
-                    justEntered = true;
-                }
-            }
-            if (!actionTaken) {
-                text.setDisplay("I do not know that command.  Please try again:    ");
-            }
-            instruct = new String[]{"", ""};
+//            if (justEntered) {
+//                grabScene();
+//            }
+//            justEntered = false;
+//            try {
+//                instruct = instructQueue.take();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            boolean actionTaken = false;
+//            actionTaken = processNonMovementCommand(instruct);
+//            if (!actionTaken) {
+//                actionTaken = moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
+//                if (actionTaken) {
+//                    justEntered = true;
+//                }
+//            }
+//            if (!actionTaken) {
+//                text.setDisplay("I do not know that command.  Please try again:    ");
+//            }
+            //instruct = new String[]{"", ""};
+        //}
+    }
+
+    private boolean processNonMovementCommand(String[] instruct) {
+        boolean actionTaken = false;
+        if (scene.getAllSceneMonsters().size() != 0) {
+            actionTaken = combatEngine.combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
         }
+        if (!actionTaken) {
+            actionTaken = alwaysAvailableCommands(instruct, player, scene, rooms, displayEngine, art, text, inputter, musicPlayer);
+        }
+        if (!actionTaken) {
+            actionTaken = specificCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
+        }
+        return actionTaken;
     }
 
     private void grabScene() {
@@ -105,14 +120,23 @@ class HeartsoarTower implements GameInputListener{
             art.setDisplay("");
             text.setDisplay(scene.getDescription(0));
         }
-        displayEngine.printScreen(art, text, inputter, rooms);
+        DisplayEngine.printScreen(art, text, inputter, rooms);
     }
 
     @Override
     public void onInputReceived(String[] input) {
-        instructQueue.offer(textParser.validCombo(input));
+        //instructQueue.offer(textParser.validCombo(input));
+
+        if(!processNonMovementCommand(textParser.validCombo(input))) {
+            if (moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms)) {
+                // Refactor grabScene to grab specific information to the GUI
+                grabScene();
+            }
+            else {
+                text.setDisplay("I do not know that command.  Please try again:    ");
+            }
+        }
         this.instruct = input;
-//        textParser.validCombo(input);
     }
 
     // TODO: Continue working on this method.

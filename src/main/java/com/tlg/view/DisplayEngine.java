@@ -12,15 +12,14 @@ public class DisplayEngine {
     private DisplayArt artDisplay;
     private DisplayText textDisplay;
     private DisplayInput displayInput;
-    private static String lineBreak = "------------------------------------------------------------------------------------------------------------------------";
-
+    private static final String lineBreak = "------------------------------------------------------------------------------------------------------------------------";
 
 
     public static void printScreen(DisplayArt artDisplay, DisplayText textDisplay, DisplayInput inputDisplay, List<Room> rooms) {
         System.out.print("\033[H\033[2J");
         System.out.println(printMapAndArt(artDisplay, rooms));
         System.out.println(lineBreak);
-        System.out.println(textDisplay.getDisplay());
+        System.out.println(DisplayText.getDisplay());
         System.out.println(lineBreak);
         System.out.println(inputDisplay.getDisplay());
     }
@@ -40,9 +39,4 @@ public class DisplayEngine {
         }
         return String.join("\n", output);
     }
-
-
-
-
-
 }
