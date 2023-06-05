@@ -22,15 +22,15 @@ public class AlwaysCommands {
 //            Functions that we need REGARDLESS of what room we are in or our inventory state:
         if (instruct[0] == null && instruct[1] == null) {
             text.setDisplay("Invalid Command.");
-            displayEngine.printScreen(art, text, inputter, rooms);
+            DisplayEngine.printScreen(art, text, inputter, rooms);
             return true;
         }
         if (instruct[0] != null) {
             if (instruct[0].equalsIgnoreCase("quit")) {
-                quitGame();
+                quitGame(instruct);
             } else if (instruct[0].equalsIgnoreCase("help")) {
                 help();
-                displayEngine.printScreen(art, text, inputter, rooms);
+                DisplayEngine.printScreen(art, text, inputter, rooms);
                 return true;
             } else if (instruct[0].equalsIgnoreCase("look")) {
                 if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
@@ -53,7 +53,7 @@ public class AlwaysCommands {
                     inventory.append(item.getName()).append(", ");
                 }
                 text.setDisplay("You have the following items in your inventory:" + inventory.toString());
-                displayEngine.printScreen(art, text, inputter, rooms);
+                DisplayEngine.printScreen(art, text, inputter, rooms);
             }
         } else if (instruct[0].equalsIgnoreCase("look") && instruct[1].equalsIgnoreCase("sword")) {
 //            lookAtSword();
@@ -162,14 +162,17 @@ public class AlwaysCommands {
         }
     }
 
-    private static boolean quitGame() {
+    // Work on either removing
+    private static boolean quitGame(String[] instruct) {
         System.out.println("Would you like to quit the game? Y/N");
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
+        // TODO Remove scanner and have instruct be userInput instead.
+//        Scanner scanner = new Scanner(System.in);
+//        String userInput = scanner.nextLine();
+        String userInput = instruct[0];
         while (!"Y".equalsIgnoreCase(userInput) && !"Yes".equalsIgnoreCase(userInput) &&
                 !"N".equalsIgnoreCase(userInput) && !"No".equalsIgnoreCase(userInput)) {
             System.out.println("Invalid input. Please enter Y/Yes to confirm quitting, or N/No to continue playing.");
-            userInput = scanner.nextLine();
+            userInput = instruct[0];
         }
         if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
             System.out.println("Quitting the game. Goodbye!");

@@ -161,6 +161,7 @@ public class GuiBuild {
             //System.out.println(Arrays.toString(words));
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
+
         });
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
