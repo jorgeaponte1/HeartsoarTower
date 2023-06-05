@@ -1,9 +1,7 @@
 package com.tlg.view;
 
-import com.tlg.controller.HeartsoarTower;
 import com.tlg.model.Room;
 
-import java.io.IOException;
 import java.util.List;
 
 public class DisplayEngine {
@@ -42,12 +40,9 @@ public class DisplayEngine {
         return String.join("\n", output);
     }
 
-    public static String getMap(List<Room> rooms) {
-        System.out.println(MapUI.getMap(rooms));
-        return null;
-    }
-
-    public static void main(String[] args) throws IOException {
-        getMap(HeartsoarTower.getRooms());
+    public String printMap(List<Room> rooms) {
+        String map = MapUI.getMap(rooms);
+        System.out.println(map);
+        return map;
     }
 }

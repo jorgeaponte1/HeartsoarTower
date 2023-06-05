@@ -41,6 +41,7 @@ public class HeartsoarTower implements GameInputListener{
     private BlockingQueue<String> yesNoInstructQueue = new LinkedBlockingQueue<>();
     private CombatEngine combatEngine;
     private boolean justEntered;
+    private GameInputListener gameInputListener;
 
 
     HeartsoarTower() throws IOException {
@@ -50,10 +51,6 @@ public class HeartsoarTower implements GameInputListener{
         this.inputter = new DisplayInput(player);
         this.instruct = new String[]{"", ""};
         this.combatEngine = new CombatEngine(this);
-    }
-
-    public static List<Room> getRooms() throws IOException {
-        return new Factory().getRooms();
     }
 
     void gameLoop() {
@@ -89,7 +86,7 @@ public class HeartsoarTower implements GameInputListener{
         //}
     }
 
-    private boolean processNonMovementCommand(String[] instruct) {
+    public boolean processNonMovementCommand(String[] instruct) {
         boolean actionTaken = false;
         if (scene.getAllSceneMonsters().size() != 0) {
             actionTaken = combatEngine.combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
@@ -103,7 +100,7 @@ public class HeartsoarTower implements GameInputListener{
         return actionTaken;
     }
 
-    private void grabScene() {
+    public void grabScene() {
 
         for (Scene scene : scenes) {
             if (scene.getRoom().equals(player.getLocation())) {
@@ -155,6 +152,7 @@ public class HeartsoarTower implements GameInputListener{
             @Override
             public void run() {
                 GuiBuild frame = new GuiBuild(HeartsoarTower.this);
+                //frame.displayGuiMap(rooms);
             }
         });
     }
