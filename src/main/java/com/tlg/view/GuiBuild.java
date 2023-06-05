@@ -30,7 +30,12 @@ public class GuiBuild {
     private JTextField userInputTextField;
     private JTextArea instructionTextArea, introductionTextArea;
     private Container con;
-    private JLabel titleNameLabel, graphicLabel, gameTextLabel, mapLabel, inventoryLabel, introductionLabel;
+    private JLabel titleNameLabel;
+    private JLabel graphicLabel;
+    private static JLabel gameTextLabel;
+    private JLabel mapLabel;
+    private JLabel inventoryLabel;
+    private JLabel introductionLabel;
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -118,9 +123,10 @@ public class GuiBuild {
         // GameText panel
         gameTextPanel = new JPanel();
         gameTextPanel.setBackground(Color.CYAN);
+        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 120));
 
         // GameText label
-        gameTextLabel = new JLabel("Game text goes here");
+        gameTextLabel = new JLabel("");
         gameTextLabel.setForeground(Color.MAGENTA);
         gameTextLabel.setFont(normalFont);
         gameTextPanel.add(gameTextLabel);
@@ -301,8 +307,6 @@ public class GuiBuild {
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
         //con.add(gameTextPanel, BorderLayout.CENTER);
-
-        playerSetup();
     }
 
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
@@ -379,19 +383,27 @@ public class GuiBuild {
         return path;
     }
 
-    public void playerSetup() {
-
+    public void updateGameText(DisplayText text) {
+        if (gameTextLabel != null) {
+            String displayWords = DisplayText.getDisplay();
+            gameTextLabel.setText(displayWords);
+            System.out.println(displayWords);
+        }
     }
 
-    public static void main(String[] args) throws IOException {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-//        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//            public void run() {
-//                createAndShowGUI();
-//            }
-//        });
+//    public void casperGif() {
+//        try {
+//            // add the image label
+//            ImageIcon casper = new ImageIcon(this.getClass().getResource(
+//                    "snoopy_dancing.gif"));
+//            imageLabel.setIcon(ii);
+//            contentPane.add(imageLabel, java.awt.BorderLayout.CENTER);
+//            // show it
+//            this.setLocationRelativeTo(null);
+//            this.setVisible(true);
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//        }
 //    }
-        //new GuiBuild();
-    }
+
 }
