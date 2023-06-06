@@ -16,7 +16,7 @@ public class DisplayText extends Display{
         super(MAX_LINES);
     }
 
-    public static String getDisplay() {
+    public String getDisplay() {
         return display;
     }
 

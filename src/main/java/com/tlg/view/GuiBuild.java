@@ -6,6 +6,7 @@ import com.tlg.model.Factory;
 import com.tlg.model.Room;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -47,60 +48,65 @@ public class GuiBuild {
     private HeartsoarTower heartsoarTower;
 
     public GuiBuild(GameInputListener gameInputListener) {
-            // Create and set up the window.
-            frame = new JFrame("Heartsoar Tower");
-            frame.setSize(1100, 900);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.getContentPane().setBackground(Color.WHITE);
-            frame.setLayout(null);
-            // Test
+        // Create and set up the window.
+        frame = new JFrame("Heartsoar Tower");
+        frame.setSize(1650, 1080);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setBackground(Color.WHITE);
+        frame.setLayout(new BorderLayout());
+        // Test
 
-            // Get the content pane of the frame
-            con = frame.getContentPane();
-            frame.setTitle("HEARTSOAR TOWER");
+        // Get the content pane of the frame
+        con = frame.getContentPane();
+        frame.setTitle("HEARTSOAR TOWER");
 
-            // Create a panel for the title name
-            titleNamePanel = new JPanel();
-            titleNamePanel.setBounds(100, 100, 600, 150);
-            titleNamePanel.setBackground(Color.BLACK);
+        // Create a panel for the title name
+        titleNamePanel = new JPanel();
+        // DO NOT need to set Bounds on BorderLayout Manager
+        //titleNamePanel.setBounds(100, 100, 600, 150);
+        titleNamePanel.setBackground(Color.BLACK);
 
-            // Set the layout manager of the titleNamePanel to center the components
-            titleNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        // Set the layout manager of the titleNamePanel to center the components
+        //titleNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        titleNamePanel.setLayout(new GridBagLayout());
+        //titleNamePanel.setLayout(new BorderLayout());
 
-            // Create the title name label
-            titleNameLabel = new JLabel("HEARTSORE TOWER");
-            titleNameLabel.setForeground(Color.WHITE); // Text color
-            titleNameLabel.setFont(titleFont);
+        // Create the title name label
+        titleNameLabel = new JLabel("HEARTSORE TOWER");
+        titleNameLabel.setForeground(Color.WHITE); // Text color
+        titleNameLabel.setFont(titleFont);
 
-            titleNamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                    KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
-            titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    createInstructionScreen();
-                }
-            });
+        titleNamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
+        titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                createInstructionScreen();
+            }
+        });
 
-//            // Create button panel
-//            musicButtonPanel = new JPanel();
-//            musicButtonPanel.setBounds(300, 400, 200, 100);
-//            musicButtonPanel.setBackground(Color.BLACK);
+//        // Create button panel
+//        musicButtonPanel = new JPanel();
+//        musicButtonPanel.setBounds(300, 400, 200, 100);
+//        musicButtonPanel.setBackground(Color.BLACK);
 //
-//            // Create the start button
-//            musicButton = new JButton("music");
-//            musicButton.setBackground(Color.YELLOW);
-//            musicButton.setForeground(Color.RED);
-//            musicButton.setFont(normalFont);
-//            musicButton.addActionListener(e -> musicSettings(musicPlayer));
+//        // Create the start button
+//        musicButton = new JButton("music");
+//        musicButton.setBackground(Color.YELLOW);
+//        musicButton.setForeground(Color.RED);
+//        musicButton.setFont(normalFont);
+//        musicButton.addActionListener(e -> musicSettings(musicPlayer));
 
-            titleNamePanel.add(titleNameLabel); // Add the label to the panel
-            con.add(titleNamePanel); // Add the title name panel to the content pane
-            //con.add(musicButtonPanel);
-            //musicButtonPanel.add(musicButton);
+        titleNamePanel.add(titleNameLabel);
+        //titleNamePanel.add(titleNameLabel, BorderLayout.CENTER); // Add the label to the panel
+        con.add(titleNamePanel, BorderLayout.CENTER); // Add the title name panel to the content pane
+        //con.add(musicButtonPanel);
+        //musicButtonPanel.add(musicButton);
 
-            this.gameInputListener = gameInputListener;
-            musicPlayer.play();
-            frame.setVisible(true);
-        }
+        this.gameInputListener = gameInputListener;
+        musicPlayer.play();
+        frame.setVisible(true);
+    }
 
     public void createGameScreen() {
         // HIDE TITLE SCREEN
@@ -123,14 +129,31 @@ public class GuiBuild {
 
         // GameText panel
         gameTextPanel = new JPanel();
+        // Added this line
+        gameTextPanel.setLayout(new BorderLayout());
         gameTextPanel.setBackground(Color.CYAN);
         gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 120));
 
         // GameText label
-        gameTextLabel = new JLabel("");
-        gameTextLabel.setForeground(Color.MAGENTA);
-        gameTextLabel.setFont(normalFont);
-        gameTextPanel.add(gameTextLabel);
+//        gameTextLabel = new JLabel("");
+//        gameTextLabel.setForeground(Color.MAGENTA);
+//        gameTextLabel.setFont(normalFont);
+//        DisplayText displayText = new DisplayText();
+//        gameTextLabel.setText(displayText.getDisplay());
+
+        JTextArea gameTextArea = new JTextArea();
+        gameTextArea.setLineWrap(true); // Set line-wrap to true
+        gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
+        gameTextArea.setEditable(false); // Make the JTextArea uneditable
+        gameTextArea.setForeground(Color.MAGENTA);
+        gameTextArea.setFont(normalFont);
+        DisplayText displayText = new DisplayText();
+        gameTextArea.setText(displayText.getDisplay());
+
+        //JScrollPane scrollPane = new JScrollPane(gameTextArea);
+        //gameTextPanel.add(scrollPane, BorderLayout.CENTER);
+        //gameTextPanel.add(gameTextLabel);
+        gameTextPanel.add(gameTextArea, BorderLayout.CENTER);
 
         // UserInput TEXT PANEL
         userInputPanel = new JPanel();
@@ -161,6 +184,7 @@ public class GuiBuild {
             String[] words = input.split("\\s+");  // split on one or more whitespace characters
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
+            gameTextArea.setText(displayText.getDisplay());
         });
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
@@ -371,7 +395,8 @@ public class GuiBuild {
         // TEXT PANEL
         instructionPanel = new JPanel();
         instructionPanel.setBackground(Color.WHITE);
-        instructionPanel.setLayout(new BorderLayout());
+        instructionPanel.setLayout(new GridBagLayout());
+        //instructionPanel.setLayout(new BorderLayout());
 
         // TEXT AREA
         introductionTextArea = new JTextArea();
@@ -381,7 +406,8 @@ public class GuiBuild {
         introductionTextArea.setLineWrap(true);
         introductionTextArea.setWrapStyleWord(true);
         introductionTextArea.setEditable(false);
-        instructionPanel.add(introductionTextArea, BorderLayout.CENTER);
+        instructionPanel.add(introductionTextArea);
+        //instructionPanel.add(introductionTextArea, BorderLayout.CENTER);
 
         int marginSize = 50;
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
