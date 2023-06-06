@@ -35,6 +35,7 @@ public class Player {
             }
         }
     }
+
     public Room getLocation() {
         return location;
     }

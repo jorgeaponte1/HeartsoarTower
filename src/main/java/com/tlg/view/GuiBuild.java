@@ -2,6 +2,10 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
+import com.tlg.model.Factory;
+import com.tlg.model.Item;
+import com.tlg.model.Player;
+import com.tlg.model.Room;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import static com.tlg.controller.AlwaysCommands.musicSettings;
 
@@ -24,7 +29,7 @@ public class GuiBuild {
     private JFrame frame;
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
     choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel;
-    private JTextField userInputTextField;
+    private JTextField userInputTextField, inventoryTextField;
     private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
     private Container con;
     private JLabel titleNameLabel;
@@ -32,7 +37,13 @@ public class GuiBuild {
     private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
     private JLabel introductionLabel;
-    //get instance of rooms in heartsoar tower class
+    HeartsoarTower heartsoarTower = new HeartsoarTower();
+//    private List<Item> items = heartsoarTower.getItems();
+//    private List<Room> rooms = heartsoarTower.getRooms();
+    public com.tlg.model.Factory factory = new Factory();
+    private List<Room> rooms = factory.getRooms();
+    private List<Item> items = factory.getItems();
+    Player player = new Player(rooms, items);
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -41,10 +52,8 @@ public class GuiBuild {
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
-    private HeartsoarTower heartsoarTower;
-    private DisplayArt displayArt;
+    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt) throws IOException {
 
-    public GuiBuild(GameInputListener gameInputListener, DisplayArt displayArt) {
         // Create and set up the window.
         frame = new JFrame("Heartsoar Tower");
         frame.setSize(1650, 1080);
@@ -102,6 +111,9 @@ public class GuiBuild {
 
         this.gameInputListener = gameInputListener;
         this.displayArt = displayArt;
+        this.rooms = rooms;
+        this.items = items;
+        this.player = player;
         musicPlayer.play();
         frame.setVisible(true);
     }
@@ -196,6 +208,7 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
         });
+
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
         // Nav PANEL (right column)
@@ -207,7 +220,7 @@ public class GuiBuild {
         int navPanelWidth = 300; // Adjust this value as desired
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
 
-        // Map JList
+        // Map Text area
         mapTextArea = new JTextArea("Map goes here");
         mapTextArea.setBackground(Color.lightGray);
         mapTextArea.setForeground(Color.BLACK);
@@ -215,12 +228,32 @@ public class GuiBuild {
         String filePath = "/Ascii_art/fullmap.txt";
         readFileIntoJTextArea(filePath, mapTextArea);
 
+        int mapTextAreaHeight = 300;
+        mapTextArea.setPreferredSize(new Dimension(mapTextArea.getPreferredSize().width, mapTextAreaHeight));
 
-        // Inventory label
-        inventoryLabel = new JLabel("Inventory goes here");
-        inventoryLabel.setBackground(Color.lightGray);
-        inventoryLabel.setForeground(Color.BLACK);
-        navPanel.add(inventoryLabel, BorderLayout.SOUTH);
+        // Inventory Text field
+        inventoryTextField = new JTextField();
+        inventoryTextField.setBackground(Color.lightGray);
+        inventoryTextField.setForeground(Color.BLACK);
+        DisplayInput displayInput = new DisplayInput(player);
+        inventoryTextField.setText(displayInput.getInventory());
+
+        //preferred size of the inventoryTextField
+        Dimension textFieldSize = new Dimension(300, 250);
+        inventoryTextField.setPreferredSize(textFieldSize);
+        navPanel.add(inventoryTextField, BorderLayout.SOUTH);
+
+
+        // ActionListener for the userInputTextField
+        userInputTextField.addActionListener(e -> {
+            String input = userInputTextField.getText();
+            input = input.replaceAll("\\W+", " ").toLowerCase().strip();
+            String[] words = input.split("\\s+");  // split on one or more whitespace characters
+            userInputTextField.setText("");
+            gameInputListener.onInputReceived(words);
+            gameTextArea.setText(displayText.getDisplay());
+            inventoryTextField.setText(displayInput.getInventory());
+        });
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
