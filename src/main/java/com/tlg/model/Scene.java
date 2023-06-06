@@ -20,16 +20,22 @@ public class Scene {
     Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters) {
 //        Associate the room with the correct room:
         for (Room r : rooms){
-            if (r.getName().equalsIgnoreCase(sceneBuilder.getRoom()))    this.room = r;
+            if (r.getName().equalsIgnoreCase(sceneBuilder.getRoom())) {
+                this.room = r;
+            }
         }
         for (Item i : items) {
             for(String j : sceneBuilder.getItems()){
-                if (i.getName().equalsIgnoreCase(j)) addItem(i);
+                if (i.getName().equalsIgnoreCase(j)) {
+                    addItem(i);
+                }
             }
         }
         for (Monster i : monsters) {
             for(String j : sceneBuilder.getMonsters()){
-                if (i.getName().equalsIgnoreCase(j)) addMonster(i);
+                if (i.getName().equalsIgnoreCase(j)) {
+                    addMonster(i);
+                }
             }
         }
         this.description = sceneBuilder.getDescription();
