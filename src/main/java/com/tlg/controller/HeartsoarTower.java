@@ -147,10 +147,6 @@ public class HeartsoarTower implements GameInputListener{
         yesNoInstructQueue.offer(input);
     }
 
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
     private void launchGUI() {
         EventQueue.invokeLater(new Runnable() {
             @Override
