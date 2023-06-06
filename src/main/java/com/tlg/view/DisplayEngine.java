@@ -19,7 +19,7 @@ public class DisplayEngine {
         System.out.print("\033[H\033[2J");
         System.out.println(printMapAndArt(artDisplay, rooms));
         System.out.println(lineBreak);
-        System.out.println(DisplayText.getDisplay());
+        System.out.println(textDisplay.getDisplay());
         System.out.println(lineBreak);
         System.out.println(inputDisplay.getDisplay());
     }
