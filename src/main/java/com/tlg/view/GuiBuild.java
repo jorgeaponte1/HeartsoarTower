@@ -2,6 +2,7 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
+import com.tlg.model.Factory;
 import com.tlg.model.Room;
 
 import javax.swing.*;
@@ -25,16 +26,14 @@ public class GuiBuild {
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
     choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel;
     private JTextField userInputTextField;
-    private JTextArea instructionTextArea, introductionTextArea;
+    private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
     private Container con;
     private JLabel titleNameLabel;
-    private JLabel graphicLabel, mapLabel;
+    private JLabel graphicLabel;
     private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
     private JLabel introductionLabel;
-    //initialize the rooms
-    private List<Room> rooms;
-
+    //get instance of rooms in heartsoar tower class
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -43,7 +42,7 @@ public class GuiBuild {
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer;
     private GameInputListener gameInputListener;
-    private com.tlg.controller.HeartsoarTower heartsoarTower;
+    private HeartsoarTower heartsoarTower;
 
     public GuiBuild(GameInputListener gameInputListener) {
             // Create and set up the window.
@@ -75,7 +74,6 @@ public class GuiBuild {
                     KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
             titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
-
                     createInstructionScreen();
                 }
             });
@@ -143,7 +141,7 @@ public class GuiBuild {
         userInputTextField.setForeground(Color.WHITE);
         userInputTextField.setFont(normalFont);
         userInputTextField.setCaretColor(Color.WHITE);
-        userInputTextField.setHorizontalAlignment(JTextField.CENTER);  // Add this line
+        userInputTextField.setHorizontalAlignment(JTextField.CENTER);
 
         // Set margin around the text area
         int marginSize = 40;
@@ -161,7 +159,6 @@ public class GuiBuild {
             //System.out.println(Arrays.toString(words));
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
-
         });
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
@@ -175,10 +172,10 @@ public class GuiBuild {
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
 
         // Map JList
-        mapLabel = new JLabel("Map goes here");
-        mapLabel.setBackground(Color.lightGray);
-        mapLabel.setForeground(Color.BLACK);
-        navPanel.add(mapLabel, BorderLayout.CENTER);
+        mapTextArea = new JTextArea("Map goes here");
+        mapTextArea.setBackground(Color.lightGray);
+        mapTextArea.setForeground(Color.BLACK);
+        navPanel.add(mapTextArea, BorderLayout.CENTER);
 
         // Inventory label
         inventoryLabel = new JLabel("Inventory goes here");
@@ -311,6 +308,7 @@ public class GuiBuild {
 
         //Call displayGUimap
         displayGuiMap();
+        //updateGameText(userInputTextField.getText());
     }
 
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
@@ -387,20 +385,31 @@ public class GuiBuild {
         return path;
     }
 
-    public void updateGameText(DisplayText text) {
-        if (gameTextLabel != null) {
-            String displayWords = DisplayText.getDisplay();
-            gameTextLabel.setText(displayWords);
-            System.out.println(displayWords);
-        }
-    }
+
+        //public void updateGameText(String text) {
+        //        if (gameTextLabel != null) {
+        //            gameTextLabel.setText(text);
+        //            System.out.println(text);
+        //        }
+        //}
 
     public String displayGuiMap() {
         DisplayEngine displayEngine = new DisplayEngine();
         //Display MapUI FULL MAP in Gui
         String map = MapUI.getFullMap();
         System.out.println(map);
-        mapLabel.setText(map);
+        mapTextArea.setText(map);
         return map;
     }
+
+//    public String displayGuiMap(List<Room> rooms) {
+//        DisplayEngine displayEngine = new DisplayEngine();
+//        DisplayArt displayArt = new DisplayArt();
+          //String map = displayEngine.printMapAndArt(displayArt, heartsoarTower.getRooms());
+//        System.out.println(map);
+//        if (mapTextArea != null) {
+//            mapTextArea.setText(map);
+//        }
+//        return map;
+//    }
 }

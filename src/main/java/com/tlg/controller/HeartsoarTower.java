@@ -147,12 +147,15 @@ public class HeartsoarTower implements GameInputListener{
         yesNoInstructQueue.offer(input);
     }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
     private void launchGUI() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                GuiBuild frame = new GuiBuild(HeartsoarTower.this);
-                //frame.displayGuiMap(rooms);
+                GuiBuild frame = new GuiBuild(gameInputListener);
             }
         });
     }
