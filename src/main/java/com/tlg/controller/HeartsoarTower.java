@@ -19,8 +19,8 @@ import static com.tlg.controller.MoveCommand.moveCommands;
 import static com.tlg.controller.NewGame.newGame;
 import static com.tlg.controller.SpecificCommands.specificCommands;
 
-class HeartsoarTower implements GameInputListener{
-    private Factory factory = new Factory();
+public class HeartsoarTower implements GameInputListener{
+    public Factory factory = new Factory();
     private List<Room> rooms = factory.getRooms();
     private List<Item> items = factory.getItems();
     private List<Monster> monsters = factory.getMonsters();
@@ -86,7 +86,7 @@ class HeartsoarTower implements GameInputListener{
         //}
     }
 
-    private boolean processNonMovementCommand(String[] instruct) {
+    public boolean processNonMovementCommand(String[] instruct) {
         boolean actionTaken = false;
         if (scene.getAllSceneMonsters().size() != 0) {
             actionTaken = combatEngine.combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
@@ -152,7 +152,13 @@ class HeartsoarTower implements GameInputListener{
     }
 
     private void launchGUI() {
-        EventQueue.invokeLater(() -> new GuiBuild(HeartsoarTower.this));
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GuiBuild frame = new GuiBuild(HeartsoarTower.this);
+                //frame.displayGuiMap(rooms);
+            }
+        });
     }
 
     public static void main(String[] args) throws IOException {

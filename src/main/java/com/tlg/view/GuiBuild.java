@@ -1,26 +1,23 @@
 package com.tlg.view;
 
-import com.tlg.controller.AlwaysCommands;
 import com.tlg.controller.GameInputListener;
+import com.tlg.controller.HeartsoarTower;
+import com.tlg.model.Room;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
+import java.util.List;
 
 import static com.tlg.controller.AlwaysCommands.musicSettings;
+import static com.tlg.view.DisplayEngine.printMapAndArt;
 
 public class GuiBuild {
 
@@ -31,11 +28,13 @@ public class GuiBuild {
     private JTextArea instructionTextArea, introductionTextArea;
     private Container con;
     private JLabel titleNameLabel;
-    private JLabel graphicLabel;
+    private JLabel graphicLabel, mapLabel;
     private static JLabel gameTextLabel;
-    private JLabel mapLabel;
     private JLabel inventoryLabel;
     private JLabel introductionLabel;
+    //initialize the rooms
+    private List<Room> rooms;
+
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -44,6 +43,7 @@ public class GuiBuild {
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer;
     private GameInputListener gameInputListener;
+    private com.tlg.controller.HeartsoarTower heartsoarTower;
 
     public GuiBuild(GameInputListener gameInputListener) {
             // Create and set up the window.
@@ -174,7 +174,7 @@ public class GuiBuild {
         int navPanelWidth = 300; // Adjust this value as desired
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
 
-        // Map label
+        // Map JList
         mapLabel = new JLabel("Map goes here");
         mapLabel.setBackground(Color.lightGray);
         mapLabel.setForeground(Color.BLACK);
@@ -308,6 +308,9 @@ public class GuiBuild {
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
         //con.add(gameTextPanel, BorderLayout.CENTER);
+
+        //Call displayGUimap
+        displayGuiMap();
     }
 
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
@@ -392,19 +395,12 @@ public class GuiBuild {
         }
     }
 
-//    public void casperGif() {
-//        try {
-//            // add the image label
-//            ImageIcon casper = new ImageIcon(this.getClass().getResource(
-//                    "snoopy_dancing.gif"));
-//            imageLabel.setIcon(ii);
-//            contentPane.add(imageLabel, java.awt.BorderLayout.CENTER);
-//            // show it
-//            this.setLocationRelativeTo(null);
-//            this.setVisible(true);
-//        } catch (Exception exception) {
-//            exception.printStackTrace();
-//        }
-//    }
-
+    public String displayGuiMap() {
+        DisplayEngine displayEngine = new DisplayEngine();
+        //Display MapUI FULL MAP in Gui
+        String map = MapUI.getFullMap();
+        System.out.println(map);
+        mapLabel.setText(map);
+        return map;
+    }
 }

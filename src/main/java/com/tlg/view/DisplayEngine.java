@@ -39,4 +39,10 @@ public class DisplayEngine {
         }
         return String.join("\n", output);
     }
+
+    public String printMap(List<Room> rooms) {
+        String map = MapUI.getMap(rooms);
+        System.out.println(map);
+        return map;
+    }
 }
