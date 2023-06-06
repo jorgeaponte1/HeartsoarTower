@@ -9,7 +9,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import java.awt.event.ActionEvent;
@@ -41,7 +43,7 @@ public class GuiBuild {
     private Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
     private Font storyFont = new Font("Times New Roman", Font.PLAIN, 20);
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
-    private MusicPlayer musicPlayer;
+    private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
     private com.tlg.controller.HeartsoarTower heartsoarTower;
 
@@ -98,6 +100,7 @@ public class GuiBuild {
             musicButtonPanel.add(musicButton);
 
             this.gameInputListener = gameInputListener;
+            musicPlayer.play();
             frame.setVisible(true);
         }
 
@@ -158,7 +161,6 @@ public class GuiBuild {
             String input = userInputTextField.getText();
             input = input.replaceAll("\\W+", " ").toLowerCase().strip();
             String[] words = input.split("\\s+");  // split on one or more whitespace characters
-            //System.out.println(Arrays.toString(words));
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
 
@@ -200,9 +202,11 @@ public class GuiBuild {
         helpButton = new JButton("HELP");
         helpButton.setForeground(Color.RED);
         helpButton.setFont(normalFont);
-        ImageIcon imageIcon = new ImageIcon("/Users/stanjess24/Documents/Practical-Applications/Capstone-T1-HeartsoarTower/src/main/resources/Images/Help.png");
+        URL helpUrl = getClass().getClassLoader().getResource("Images/Help.png");
+        assert helpUrl != null;
+        ImageIcon helpImageIcon = new ImageIcon(helpUrl);
         helpButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, imageIcon)
+                JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, helpImageIcon)
         );
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -217,7 +221,6 @@ public class GuiBuild {
         upButton.addActionListener(e -> {
             String[] upCommand = {"go", "up"};
             gameInputListener.onInputReceived(upCommand);
-            //System.out.println(text[0]);
         });
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -231,7 +234,6 @@ public class GuiBuild {
         downButton.addActionListener(e -> {
             String[] downCommand = {"go", "down"};
             gameInputListener.onInputReceived(downCommand);
-            //System.out.println(text[0]);
         });
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -245,7 +247,6 @@ public class GuiBuild {
         rightButton.addActionListener(e -> {
             String[] rightCommand = {"go", "right"};
             gameInputListener.onInputReceived(rightCommand);
-            //System.out.println(text[0]);
         });
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -259,14 +260,12 @@ public class GuiBuild {
         leftButton.addActionListener(e -> {
             String[] leftCommand = {"go", "left"};
             gameInputListener.onInputReceived(leftCommand);
-            //System.out.println(text[0]);
         });
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         navBtnPanel.add(leftButton, gbc);
-
 
         // Music Panel
         musicButtonPanel = new JPanel();
@@ -275,9 +274,38 @@ public class GuiBuild {
 
         // Music Panel Label
         JLabel music = new JLabel();
-        // TODO ADD Speaker ICON instead of setText
-        music.setText("Volume");
+        // Speaker Image
+        URL speakerUrl = getClass().getClassLoader().getResource("Images/Speaker.png");
+        assert speakerUrl != null;
+        ImageIcon speakerIcon = new ImageIcon(speakerUrl);
+        Image speakerImage = speakerIcon.getImage(); // transform it
+        Image newSpeakerImg = speakerImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newSpeakerIcon = new ImageIcon(newSpeakerImg);  // assign to a new ImageIcon instance
+        // Mute Image
+        URL muteUrl = getClass().getClassLoader().getResource("Images/Speaker-Mute.png");
+        assert muteUrl != null;
+        ImageIcon muteIcon = new ImageIcon(muteUrl);
+        Image muteImage = muteIcon.getImage(); // transform it
+        Image newMuteImg = muteImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newMuteIcon = new ImageIcon(newMuteImg);  // assign to a new ImageIcon instance
+
+        JButton speakerButton = new JButton(newSpeakerIcon);
+        // Make SpeakerIcon be the button and remove the border of the button.
+        speakerButton.setBorderPainted(false);
+        speakerButton.setContentAreaFilled(false);
+        speakerButton.setFocusPainted(false);
+        speakerButton.setOpaque(false);
+        speakerButton.addActionListener(e -> {
+            if (musicPlayer.isPlaying()) {
+                speakerButton.setIcon(newMuteIcon);
+                musicPlayer.stop();
+            } else {
+                speakerButton.setIcon(newSpeakerIcon);
+                musicPlayer.play();
+            }
+        });
         music.setForeground(Color.WHITE);
+        musicButtonPanel.add(speakerButton);
         musicButtonPanel.add(music);
 
         // Volume Slider
@@ -290,10 +318,10 @@ public class GuiBuild {
         musicButtonPanel.add(slider);
 
         // Volume Slider Listener
-        final int[] Volume = {slider.getValue()};
+        final float[] Volume = {slider.getValue()};
         slider.addChangeListener(e -> {
-            Volume[0] = ((JSlider)e.getSource()).getValue();
-            System.out.println(Volume[0]);
+            Volume[0] = (float) (((JSlider)e.getSource()).getValue() / 100.00);
+            musicPlayer.setVolume(Volume[0]);
         });
 
         // Sub Panel for navBtnPanel and gameTextPanel inside UserInput Panel
