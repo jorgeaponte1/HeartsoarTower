@@ -38,12 +38,11 @@ public class GuiBuild {
     private JLabel inventoryLabel;
     private JLabel introductionLabel;
     HeartsoarTower heartsoarTower = new HeartsoarTower();
-//    private List<Item> items = heartsoarTower.getItems();
-//    private List<Room> rooms = heartsoarTower.getRooms();
     public com.tlg.model.Factory factory = new Factory();
     private List<Room> rooms = factory.getRooms();
     private List<Item> items = factory.getItems();
     Player player = new Player(rooms, items);
+    DisplayArt displayArt;
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -197,18 +196,6 @@ public class GuiBuild {
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
         userInputTextField.setMargin(margin);
 
-        // ActionListener for the userInputTextField
-        userInputTextField.addActionListener(e -> {
-            // String input will have the text from userInputTextField
-            String input = userInputTextField.getText();
-            input = input.replaceAll("\\W+", " ").toLowerCase().strip();
-            String[] words = input.split("\\s+");  // split on one or more whitespace characters
-            userInputTextField.setText("");
-            gameInputListener.onInputReceived(words);
-            gameTextArea.setText(displayText.getDisplay());
-            graphicTextArea.setText(displayArt.getDisplay());
-        });
-
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
         // Nav PANEL (right column)
@@ -246,12 +233,14 @@ public class GuiBuild {
 
         // ActionListener for the userInputTextField
         userInputTextField.addActionListener(e -> {
+            // String input will have the text from userInputTextField
             String input = userInputTextField.getText();
             input = input.replaceAll("\\W+", " ").toLowerCase().strip();
             String[] words = input.split("\\s+");  // split on one or more whitespace characters
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
             gameTextArea.setText(displayText.getDisplay());
+            graphicTextArea.setText(displayArt.getDisplay());
             inventoryTextField.setText(displayInput.getInventory());
         });
 
