@@ -44,7 +44,7 @@ public class HeartsoarTower implements GameInputListener{
     private Scene previousScene;
 
 
-    HeartsoarTower() throws IOException {
+    public HeartsoarTower() throws IOException {
         this.player = new Player(rooms, items);
         this.isRunning = true;
         this.musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
@@ -159,7 +159,11 @@ public class HeartsoarTower implements GameInputListener{
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                GuiBuild frame = new GuiBuild(HeartsoarTower.this);
+                try {
+                    GuiBuild frame = new GuiBuild(HeartsoarTower.this, player, rooms, items);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
