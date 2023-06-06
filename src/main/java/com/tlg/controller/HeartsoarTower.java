@@ -28,20 +28,20 @@ public class HeartsoarTower implements GameInputListener{
     private TreeMap<String, ArrayList<String>> NOUNS = factory.getNouns();
     private TextParser textParser = new TextParser(VERBS, NOUNS);
     private Player player;
-    private Scene scene;
+    Scene scene;
     private boolean isRunning;
     private List<Scene> scenes = factory.getScenes();
     private DisplayEngine displayEngine = new DisplayEngine();
-    private DisplayArt art = new DisplayArt();
+    DisplayArt art = new DisplayArt();
     private DisplayInput inputter;
-    private DisplayText text = new DisplayText();
+    DisplayText text = new DisplayText();
     private MusicPlayer musicPlayer;
     private String[] instruct;
     private BlockingQueue<String[]> instructQueue = new LinkedBlockingQueue<>();
     private BlockingQueue<String> yesNoInstructQueue = new LinkedBlockingQueue<>();
     private CombatEngine combatEngine;
     private boolean justEntered;
-    private GameInputListener gameInputListener;
+    private Scene previousScene;
 
 
     HeartsoarTower() throws IOException {
@@ -101,9 +101,9 @@ public class HeartsoarTower implements GameInputListener{
     }
 
     public void grabScene() {
-
         for (Scene scene : scenes) {
             if (scene.getRoom().equals(player.getLocation())) {
+                this.previousScene = this.scene;
                 this.scene = scene;
                 break;
             }
@@ -128,9 +128,9 @@ public class HeartsoarTower implements GameInputListener{
     @Override
     public void onInputReceived(String[] input) {
         //instructQueue.offer(textParser.validCombo(input));
-
-        if(!processNonMovementCommand(textParser.validCombo(input))) {
-            if (moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms)) {
+        String[] inputAfterParser = textParser.validCombo(input);
+        if(!processNonMovementCommand(inputAfterParser)) {
+            if (moveCommands(inputAfterParser, player, scene, displayEngine, art, text, inputter, rooms)) {
                 // Refactor grabScene to grab specific information to the GUI
                 grabScene();
             }
@@ -138,13 +138,17 @@ public class HeartsoarTower implements GameInputListener{
                 text.setDisplay("I do not know that command.  Please try again:    ");
             }
         }
-        this.instruct = input;
+        this.instruct = inputAfterParser;
     }
 
     // TODO: Continue working on this method.
     @Override
     public void onYesNoInputReceived(String input) {
         yesNoInstructQueue.offer(input);
+    }
+
+    public Scene getPreviousScene() {
+        return this.previousScene;
     }
 
     private void launchGUI() {

@@ -20,12 +20,12 @@ SpecificCommands {
 //            Check to see if the item is in the room:
             if (scene.getSceneItems().size() == 0) {
                 text.setDisplay("There is nothing to get.");
-                displayEngine.printScreen(art, text, input, rooms);
+                DisplayEngine.printScreen(art, text, input, rooms);
                 return true;
             }
             if (instruct[1] == null) {
                 text.setDisplay("I could not pick that up.");
-                displayEngine.printScreen(art, text, input, rooms);
+                DisplayEngine.printScreen(art, text, input, rooms);
                 return true;
             }
             for (Item item : scene.getSceneItems()) {
@@ -35,7 +35,7 @@ SpecificCommands {
                     art.setDisplay(item.getArt());
                     text.setDisplay("You picked up the " + item.getName() + " and added to your inventory.");
                     input.setDisplay();
-                    displayEngine.printScreen(art, text, input, rooms);
+                    DisplayEngine.printScreen(art, text, input, rooms);
 //                    Remove from the scene:
                     scene.removeItem(item);
                     return true;
@@ -43,14 +43,14 @@ SpecificCommands {
                 }
             }
             text.setDisplay("There is no " + instruct[1] + " here.");
-            displayEngine.printScreen(art, text, input, rooms);
+            DisplayEngine.printScreen(art, text, input, rooms);
             return true;
 
         } else if (instruct[0].equalsIgnoreCase("drop")) {
 //            Check to see if the item is in the inventory:
             if (player.getInventory().size() == 0) {
                 text.setDisplay("You have nothing to drop.");
-                displayEngine.printScreen(art, text, input, rooms);
+                DisplayEngine.printScreen(art, text, input, rooms);
                 return true;
             }
             for (Item item : player.getInventory()) {
@@ -58,7 +58,7 @@ SpecificCommands {
                     player.removeItemFromInventory(item);
                     scene.addItem(item);
                     text.setDisplay("You dropped the " + item.getName() + ".");
-                    displayEngine.printScreen(art, text, input, rooms);
+                    DisplayEngine.printScreen(art, text, input, rooms);
                     return true;
                 }
             }
@@ -70,12 +70,12 @@ SpecificCommands {
                 if (monster.getName().equalsIgnoreCase(instruct[1])) {
                     // print the dialogue returned by the monster's talk() method
                     text.setDisplay(monster.getName() + ": " + monster.talk());
-                    displayEngine.printScreen(art, text, input, rooms);
+                    DisplayEngine.printScreen(art, text, input, rooms);
                     return true;
                 }
             }
             text.setDisplay("There is no monster by that name here.");
-            displayEngine.printScreen(art, text, input, rooms);
+            DisplayEngine.printScreen(art, text, input, rooms);
             return true;
         }
         return false;

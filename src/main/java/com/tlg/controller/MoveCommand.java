@@ -1,5 +1,6 @@
 package com.tlg.controller;
 
+import com.tlg.model.Monster;
 import com.tlg.model.Player;
 import com.tlg.model.Room;
 import com.tlg.model.Scene;
@@ -14,22 +15,10 @@ import java.util.List;
 class MoveCommand {
     public static boolean moveCommands(String[] instruct, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput input, List<Room> rooms) {
         boolean actionTaken = false;
-        //        If the player wants to use the magical amulet to go to the previous room:
+//        If the player wants to use the magical amulet to go to the previous room:
         if (instruct[0].equalsIgnoreCase("use") && instruct[1].equalsIgnoreCase("amulet")) {
-            if (player.getPrevLocation() == null) {
-                player.setPrevLocation(player.getLocation());
-                player.setLocation(player.getLocation());
-                text.setDisplay("You use the amulet to redo the current room. " + player.getLocation().getDesc()[0]);
-                return true;
-            }
-            for (Room room : rooms) {
-                if (room.getName().equals(player.getPrevLocation().getName())) {
-                    player.setPrevLocation(player.getLocation());
-                    player.setLocation(room);
-                    text.setDisplay("You use the amulet to return to the previous room. " + player.getLocation().getDesc()[0]);
-                    return true;
-                }
-            }
+            actionTaken = useAmulet(player, rooms);
+            return actionTaken;
         }
         if (instruct[0].equalsIgnoreCase("go")) {
             HashMap<String, String> acceptableDirections = player.getLocation().getNeighborRooms();
@@ -50,13 +39,27 @@ class MoveCommand {
                     player.setLocation(nextRoom);
                     if (!room.isDiscovered()) {
                         room.setDiscovered(true);
-
-
                     }
                     return true;
                 }
             }
         }
         return actionTaken;
+    }
+
+    public static boolean useAmulet(Player player, List<Room> rooms) {
+        if (player.getPrevLocation() == null) {
+            player.setPrevLocation(player.getLocation());
+            player.setLocation(player.getLocation());
+            return true;
+        }
+        for (Room room : rooms) {
+            if (room.getName().equals(player.getPrevLocation().getName())) {
+                player.setPrevLocation(player.getLocation());
+                player.setLocation(room);
+                return true;
+            }
+        }
+        return true;
     }
 }
