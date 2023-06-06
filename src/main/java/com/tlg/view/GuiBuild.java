@@ -81,21 +81,21 @@ public class GuiBuild {
             });
 
 //            // Create button panel
-            musicButtonPanel = new JPanel();
-            musicButtonPanel.setBounds(300, 400, 200, 100);
-            musicButtonPanel.setBackground(Color.BLACK);
-
-            // Create the start button
-            musicButton = new JButton("music");
-            musicButton.setBackground(Color.YELLOW);
-            musicButton.setForeground(Color.RED);
-            musicButton.setFont(normalFont);
-            musicButton.addActionListener(e -> musicSettings(musicPlayer));
+//            musicButtonPanel = new JPanel();
+//            musicButtonPanel.setBounds(300, 400, 200, 100);
+//            musicButtonPanel.setBackground(Color.BLACK);
+//
+//            // Create the start button
+//            musicButton = new JButton("music");
+//            musicButton.setBackground(Color.YELLOW);
+//            musicButton.setForeground(Color.RED);
+//            musicButton.setFont(normalFont);
+//            musicButton.addActionListener(e -> musicSettings(musicPlayer));
 
             titleNamePanel.add(titleNameLabel); // Add the label to the panel
             con.add(titleNamePanel); // Add the title name panel to the content pane
-            con.add(musicButtonPanel);
-            musicButtonPanel.add(musicButton);
+            //con.add(musicButtonPanel);
+            //musicButtonPanel.add(musicButton);
 
             this.gameInputListener = gameInputListener;
             musicPlayer.play();
@@ -366,7 +366,7 @@ public class GuiBuild {
     public String createInstructionScreen() {
         // HIDE TITLE SCREEN
         titleNamePanel.setVisible(false);
-        musicButtonPanel.setVisible(false);
+        //musicButtonPanel.setVisible(false);
 
         // TEXT PANEL
         instructionPanel = new JPanel();
