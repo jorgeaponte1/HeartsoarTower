@@ -7,19 +7,27 @@ import com.tlg.view.DisplayInput;
 import com.tlg.view.DisplayText;
 
 import java.util.List;
-import java.util.Scanner;
 
 class CombatEngine {
 
-    public static boolean combatCommands(String[] instruct, Player player, Scene scene, DisplayArt art, DisplayText text, DisplayInput inputter, DisplayEngine displayEngine, List<Room> rooms, List<Item> items) {
+    private HeartsoarTower heartsoarTower;
+
+    public CombatEngine(HeartsoarTower heartsoarTower) {
+        this.heartsoarTower = heartsoarTower;
+    }
+
+    public boolean combatCommands(String[] instruct, Player player, Scene scene, DisplayArt art, DisplayText text, DisplayInput inputter, DisplayEngine displayEngine, List<Room> rooms, List<Item> items) {
         boolean actionTaken = false;
         if (instruct[0] == null && instruct[1] == null) {
             text.setDisplay("Invalid Command.");
-            displayEngine.printScreen(art, text, inputter, rooms);
+            DisplayEngine.printScreen(art, text, inputter, rooms);
             return true;
         }
+        //String[] input = instruct;
 //        Verify there's even a monster in the room:
-        if (scene.getSceneMonsters(0) == null) return actionTaken;
+        if (scene.getSceneMonsters(0) == null) {
+            return actionTaken;
+        }
 //        Every monster has some acceptable commands for defeating:
         Monster monster = scene.getSceneMonsters(0);
         List<String[]> successes = monster.getSuccesses();
@@ -37,7 +45,7 @@ class CombatEngine {
                     player.removeItemFromInventory(instruct[1]);
                 } else {
                     text.setDisplay("You don't have that item.");
-                    displayEngine.printScreen(art, text, inputter, rooms);
+                    DisplayEngine.printScreen(art, text, inputter, rooms);
                     return true;
                 }
             }
@@ -54,7 +62,6 @@ class CombatEngine {
                 }
                 scene.defeatMonster(scene.getSceneMonsters(0), text, inputter, rooms);
 //                Kill the monster by adding an extra white line 30 times until the monster has dissapeared:
-
             }
             if (instruct[0].equalsIgnoreCase("get") && instruct[1].equalsIgnoreCase("key")) {
                 for (Item item : scene.getSceneItems()) {
@@ -73,39 +80,40 @@ class CombatEngine {
         else if(!instruct[0].equalsIgnoreCase("look")){
             if (failures.contains(instruct[0]) || failures.contains(instruct[1])){
                 actionTaken = true;
-                text.setDisplay(monster.getSceneFailed());
-                displayEngine.printScreen(art, text, inputter, rooms);
-//            TODO: RETURN TO SAVE POINT
-                System.out.println("Press enter to continue...");
-                Scanner scanner = new Scanner(System.in);
-                scanner.nextLine();
-                System.out.println("Would you like to use your amulet? Y/N");
-                String userInput = scanner.nextLine();
-                while (!"Y".equalsIgnoreCase(userInput) && !"Yes".equalsIgnoreCase(userInput) &&
-                        !"N".equalsIgnoreCase(userInput) && !"No".equalsIgnoreCase(userInput)) {
-                    System.out.println("Invalid input. Please enter Y/Yes to confirm use of amulet, or N/No to reject use and Game Over.");
-                    userInput = scanner.nextLine();
+                if (player.getPrevLocation() == null) {
+                    player.setPrevLocation(player.getLocation());
+                    player.setLocation(player.getLocation());
+                    //heartsoarTower.grabScene();
+                    text.setDisplay(monster.getSceneFailed() + "\nYou use the amulet to redo the current room. \n" + player.getLocation().getDesc()[0]);
                 }
-                if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
-                    if (player.getPrevLocation() == null) {
-                        player.setPrevLocation(player.getLocation());
-                        player.setLocation(player.getLocation());
-                        text.setDisplay("You use the amulet to redo the current room. " + player.getLocation().getDesc()[0]);
-                    }
+                else {
                     for (Room room : rooms) {
                         if (room.getName().equals(player.getPrevLocation().getName())) {
-                            player.setPrevLocation(player.getLocation());
-                            player.setLocation(room);
-                            text.setDisplay("You use the amulet to return to the previous room. " + player.getLocation().getDesc()[0]);
+                            player.useAmulet();
+                            if (heartsoarTower.getPreviousScene() != null) {
+                                scene = heartsoarTower.getPreviousScene();
+                            }
+                            heartsoarTower.grabScene();
+                            heartsoarTower.text.setDisplay(monster.getSceneFailed() + "\nYou use the amulet to return to the previous room. \n" + player.getLocation().getDesc()[0]);
+                            if (scene.getAllSceneMonsters() != null && scene.getAllSceneMonsters().size() != 0) {
+                                String monsterPicture = scene.getAllSceneMonsters().get(0).getArt();
+                                art.setDisplay(monsterPicture);
+                            }
+                            else if (scene.getAllSceneMonsters() != null && scene.getSceneItems().size() != 0) {
+                                art.setDisplay(scene.getSceneItems().get(0).getArt());
+                            }
+                            else {
+                                art.setDisplay("");
+                            }
                         }
                     }
-                } else {
-                    AlwaysCommands.gameOver();
                 }
             }
         }
 
-        if (actionTaken) displayEngine.printScreen(art, text, inputter, rooms);
+        if (actionTaken) {
+            DisplayEngine.printScreen(art, text, inputter, rooms);
+        }
         return actionTaken;
     }
 }

@@ -22,6 +22,14 @@ public class MusicPlayer {
         }
     }
 
+    public boolean isPlaying() {
+        if (clip != null) {
+            return clip.isRunning();
+        } else {
+            return false;
+        }
+    }
+
     public void play() {
         if (clip != null && !clip.isRunning()) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);

@@ -1,5 +1,7 @@
 package com.tlg.view;
 
+import com.tlg.controller.HeartsoarTower;
+import com.tlg.model.Item;
 import com.tlg.model.Player;
 
 public class DisplayInput extends Display{
@@ -21,8 +23,13 @@ public class DisplayInput extends Display{
     public void setDisplay() {
 //        We will be displaying PlayerName: Current Location.  List of items.
         String location = player.getLocation().getName();
-        String inventory = player.getInventory().stream().map(e -> e.getName()).reduce("", (a, b) -> a + " " + b);
+        String inventory = player.getInventory().stream().map(Item::getName).reduce("", (a, b) -> a + " " + b);
         this.display = "Command  >                    " + player.getName() + ".\tLocation: " + location + ".\tInventory: " + inventory;
+    }
+
+    public String getInventory() {
+        String inventory = player.getInventory().stream().map(Item::getName).reduce("", (a, b) -> a + " " + b);
+        return "Inventory: " + inventory;
     }
 
 //    public String getPrevDisplay() {

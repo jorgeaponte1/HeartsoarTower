@@ -12,8 +12,7 @@ public class DisplayEngine {
     private DisplayArt artDisplay;
     private DisplayText textDisplay;
     private DisplayInput displayInput;
-    private static String lineBreak = "------------------------------------------------------------------------------------------------------------------------";
-
+    private static final String lineBreak = "------------------------------------------------------------------------------------------------------------------------";
 
 
     public static void printScreen(DisplayArt artDisplay, DisplayText textDisplay, DisplayInput inputDisplay, List<Room> rooms) {
@@ -40,9 +39,5 @@ public class DisplayEngine {
         }
         return String.join("\n", output);
     }
-
-
-
-
 
 }

@@ -22,17 +22,14 @@ public class AlwaysCommands {
 //            Functions that we need REGARDLESS of what room we are in or our inventory state:
         if (instruct[0] == null && instruct[1] == null) {
             text.setDisplay("Invalid Command.");
-            displayEngine.printScreen(art, text, inputter, rooms);
+            DisplayEngine.printScreen(art, text, inputter, rooms);
             return true;
         }
         if (instruct[0] != null) {
             if (instruct[0].equalsIgnoreCase("quit")) {
-                quitGame();
-            } else if (instruct[0].equalsIgnoreCase("help")) {
-                help();
-                displayEngine.printScreen(art, text, inputter, rooms);
-                return true;
-            } else if (instruct[0].equalsIgnoreCase("look")) {
+                gameOver();
+            }
+            else if (instruct[0].equalsIgnoreCase("look")) {
                 if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
                     System.out.println("Looking around...");
                     lookAround(player);
@@ -46,6 +43,7 @@ public class AlwaysCommands {
                 musicSettings(musicPlayer);
             }
         }
+        // TODO This command is not really called. Have to check if we can still use this. Add inventory to noun if so.
         if (instruct[1] != null) {
             if (instruct[1].equalsIgnoreCase("inventory")) {
                 StringBuilder inventory = new StringBuilder();
@@ -53,40 +51,26 @@ public class AlwaysCommands {
                     inventory.append(item.getName()).append(", ");
                 }
                 text.setDisplay("You have the following items in your inventory:" + inventory.toString());
-                displayEngine.printScreen(art, text, inputter, rooms);
+                DisplayEngine.printScreen(art, text, inputter, rooms);
             }
-        } else if (instruct[0].equalsIgnoreCase("look") && instruct[1].equalsIgnoreCase("sword")) {
-//            lookAtSword();
         }
-
-
-//        else {
-//            System.out.println("Invalid Command. Please try another way.");
-//        }
         return false;
     }
 
-    public static Object showHelp() {
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
-        String path = "/Ascii_art/Help2.txt";
-        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
-            if (is == null) {
-                throw new FileNotFoundException("Resource not found: " + path);
-            }
-            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private static void help() {
-        String path = "/Ascii_art/Help2.txt";
-        showPrompt(path);
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-    }
+//    public static Object showHelp() {
+//        System.out.println("\033[H\033[2J");
+//        System.out.flush();
+//        String path = "/Ascii_art/Help2.txt";
+//        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
+//            if (is == null) {
+//                throw new FileNotFoundException("Resource not found: " + path);
+//            }
+//            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public static void gameOver() {
         String path = "/Ascii_art/GameOver.txt";
@@ -113,12 +97,11 @@ public class AlwaysCommands {
         if (foundItem != null) {
             text.setDisplay(foundItem.getDescription());
             art.setDisplay(foundItem.getArt());
-            displayEngine.printScreen(art, text, inputter, rooms);
+            DisplayEngine.printScreen(art, text, inputter, rooms);
         } else {
             System.out.println("You don't see that item here.");
         }
     }
-
 
     private static void lookAround(Player player) {
         Room currentRoom = player.getLocation();
@@ -160,25 +143,6 @@ public class AlwaysCommands {
                 System.out.println("Invalid choice. Please try again.");
                 break;
         }
-    }
-
-    private static boolean quitGame() {
-        System.out.println("Would you like to quit the game? Y/N");
-        Scanner scanner = new Scanner(System.in);
-        String userInput = scanner.nextLine();
-        while (!"Y".equalsIgnoreCase(userInput) && !"Yes".equalsIgnoreCase(userInput) &&
-                !"N".equalsIgnoreCase(userInput) && !"No".equalsIgnoreCase(userInput)) {
-            System.out.println("Invalid input. Please enter Y/Yes to confirm quitting, or N/No to continue playing.");
-            userInput = scanner.nextLine();
-        }
-        if ("Y".equalsIgnoreCase(userInput) || "Yes".equalsIgnoreCase(userInput)) {
-            System.out.println("Quitting the game. Goodbye!");
-            gameOver();
-        } else {
-            System.out.println("Returning to the start..");
-            return true;
-        }
-        return true;
     }
 
     private static void showPrompt(String path) {
