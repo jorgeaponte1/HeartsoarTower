@@ -160,7 +160,7 @@ public class HeartsoarTower implements GameInputListener{
             @Override
             public void run() {
                 try {
-                    GuiBuild frame = new GuiBuild(HeartsoarTower.this, player, rooms, items);
+                    GuiBuild frame = new GuiBuild(HeartsoarTower.this, player, rooms, items, art);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

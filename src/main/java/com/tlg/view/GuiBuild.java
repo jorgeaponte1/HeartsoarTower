@@ -52,8 +52,8 @@ public class GuiBuild {
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
+    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt) throws IOException {
 
-    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items) throws IOException {
         // Create and set up the window.
         frame = new JFrame("Heartsoar Tower");
         frame.setSize(1650, 1080);
@@ -110,6 +110,7 @@ public class GuiBuild {
         //musicButtonPanel.add(musicButton);
 
         this.gameInputListener = gameInputListener;
+        this.displayArt = displayArt;
         this.rooms = rooms;
         this.items = items;
         this.player = player;
@@ -130,11 +131,23 @@ public class GuiBuild {
         graphicPanel.setBounds(0,0,750,800);
         graphicPanel.setBackground(Color.BLUE);
 
-        //graphic label
-        graphicLabel = new JLabel("game graphics");
-        graphicLabel.setForeground(Color.WHITE);
-        graphicLabel.setFont(normalFont);
-        graphicPanel.add(graphicLabel);
+
+        // Graphic JTextArea
+        JTextArea graphicTextArea = new JTextArea();
+        graphicTextArea.setBackground(Color.BLUE);
+        graphicTextArea.setForeground(Color.WHITE);
+        graphicTextArea.setFont(normalFont);
+        graphicTextArea.setEditable(false);  // Ensure that user cannot edit the content
+
+        String display = displayArt.getDisplay();
+        String[] artLines;
+        artLines = display.split("\n");
+        String[] output = new String[artLines.length];
+        for (int i = 0; i < artLines.length; i++) {
+            output[i] = " " + artLines[i];
+        }
+        graphicTextArea.setText(String.join("\n", output));
+        graphicPanel.add(graphicTextArea);
 
         // GameText panel
         gameTextPanel = new JPanel();
@@ -155,6 +168,7 @@ public class GuiBuild {
         gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
         gameTextArea.setEditable(false); // Make the JTextArea uneditable
         gameTextArea.setForeground(Color.MAGENTA);
+        //gameTextArea.setBackground(Color.CYAN);
         gameTextArea.setFont(normalFont);
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
@@ -183,8 +197,18 @@ public class GuiBuild {
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
         userInputTextField.setMargin(margin);
 
-        // Saved Variable that will have the text from userInputTextField
-        String[] text = new String[2];
+        // ActionListener for the userInputTextField
+        userInputTextField.addActionListener(e -> {
+            // String input will have the text from userInputTextField
+            String input = userInputTextField.getText();
+            input = input.replaceAll("\\W+", " ").toLowerCase().strip();
+            String[] words = input.split("\\s+");  // split on one or more whitespace characters
+            userInputTextField.setText("");
+            gameInputListener.onInputReceived(words);
+            gameTextArea.setText(displayText.getDisplay());
+            graphicTextArea.setText(displayArt.getDisplay());
+        });
+
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
         // Nav PANEL (right column)
@@ -201,7 +225,7 @@ public class GuiBuild {
         mapTextArea.setBackground(Color.lightGray);
         mapTextArea.setForeground(Color.BLACK);
         navPanel.add(mapTextArea, BorderLayout.CENTER);
-        String filePath = "/Users/stanjess24/Documents/Practical-Applications/Capstone-T1-HeartsoarTower/src/main/resources/Ascii_art/fullmap.txt";
+        String filePath = "/Ascii_art/fullmap.txt";
         readFileIntoJTextArea(filePath, mapTextArea);
 
         int mapTextAreaHeight = 300;
@@ -415,10 +439,11 @@ public class GuiBuild {
         instructionPanel = new JPanel();
         instructionPanel.setBackground(Color.WHITE);
         instructionPanel.setLayout(new GridBagLayout());
+        instructionPanel.setSize(100,100);
         //instructionPanel.setLayout(new BorderLayout());
 
         // TEXT AREA
-        introductionTextArea = new JTextArea();
+        introductionTextArea = new JTextArea(13,90);
         introductionTextArea.setBackground(Color.WHITE);
         introductionTextArea.setForeground(Color.BLACK);
         introductionTextArea.setFont(storyFont);
@@ -428,7 +453,7 @@ public class GuiBuild {
         instructionPanel.add(introductionTextArea);
         //instructionPanel.add(introductionTextArea, BorderLayout.CENTER);
 
-        int marginSize = 50;
+        int marginSize = 2;
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
         introductionTextArea.setMargin(margin);
 
@@ -459,7 +484,9 @@ public class GuiBuild {
     }
 
     public void readFileIntoJTextArea(String filePath, JTextArea textArea) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        //noinspection ConstantConditions
+        try (InputStream is = getClass().getResourceAsStream(filePath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -472,12 +499,12 @@ public class GuiBuild {
         }
     }
 
-        //public void updateGameText(String text) {
-        //        if (gameTextLabel != null) {
-        //            gameTextLabel.setText(text);
-        //            System.out.println(text);
-        //        }
-        //}
+    //public void updateGameText(String text) {
+    //        if (gameTextLabel != null) {
+    //            gameTextLabel.setText(text);
+    //            System.out.println(text);
+    //        }
+    //}
 
 //    public void displayGuiMap() {
 //        DisplayEngine displayEngine = new DisplayEngine();
