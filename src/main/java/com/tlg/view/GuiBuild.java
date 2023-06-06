@@ -2,8 +2,6 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
-import com.tlg.model.Factory;
-import com.tlg.model.Room;
 
 import javax.swing.*;
 import javax.swing.text.AttributeSet;
@@ -17,10 +15,8 @@ import java.nio.charset.StandardCharsets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.List;
 
 import static com.tlg.controller.AlwaysCommands.musicSettings;
-import static com.tlg.view.DisplayEngine.printMapAndArt;
 
 public class GuiBuild {
 
@@ -178,6 +174,9 @@ public class GuiBuild {
         mapTextArea.setBackground(Color.lightGray);
         mapTextArea.setForeground(Color.BLACK);
         navPanel.add(mapTextArea, BorderLayout.CENTER);
+        String filePath = "/Users/stanjess24/Documents/Practical-Applications/Capstone-T1-HeartsoarTower/src/main/resources/Ascii_art/fullmap.txt";
+        readFileIntoJTextArea(filePath, mapTextArea);
+
 
         // Inventory label
         inventoryLabel = new JLabel("Inventory goes here");
@@ -334,9 +333,6 @@ public class GuiBuild {
         con.add(navPanel, BorderLayout.EAST);
         //con.add(gameTextPanel, BorderLayout.CENTER);
 
-        //Call displayGUimap
-        displayGuiMap();
-        //updateGameText(userInputTextField.getText());
     }
 
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
@@ -413,6 +409,19 @@ public class GuiBuild {
         return path;
     }
 
+    public void readFileIntoJTextArea(String filePath, JTextArea textArea) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+            }
+            textArea.setText(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
         //public void updateGameText(String text) {
         //        if (gameTextLabel != null) {
@@ -421,14 +430,13 @@ public class GuiBuild {
         //        }
         //}
 
-    public String displayGuiMap() {
-        DisplayEngine displayEngine = new DisplayEngine();
-        //Display MapUI FULL MAP in Gui
-        String map = MapUI.getFullMap();
-        System.out.println(map);
-        mapTextArea.setText(map);
-        return map;
-    }
+//    public void displayGuiMap() {
+//        DisplayEngine displayEngine = new DisplayEngine();
+//        //Display MapUI FULL MAP in Gui
+//        String map = MapUI.getFullMap();
+//        System.out.println(map);
+//        mapTextArea.setText(map);
+//    }
 
 //    public String displayGuiMap(List<Room> rooms) {
 //        DisplayEngine displayEngine = new DisplayEngine();
