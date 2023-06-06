@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.tlg.controller.AlwaysCommands.musicSettings;
@@ -277,6 +278,9 @@ public class GuiBuild {
         upButton.addActionListener(e -> {
             String[] upCommand = {"go", "up"};
             gameInputListener.onInputReceived(upCommand);
+            gameTextArea.setText(displayText.getDisplay());
+            graphicTextArea.setText(displayArt.getDisplay());
+            inventoryTextField.setText(displayInput.getInventory());
         });
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -290,6 +294,9 @@ public class GuiBuild {
         downButton.addActionListener(e -> {
             String[] downCommand = {"go", "down"};
             gameInputListener.onInputReceived(downCommand);
+            gameTextArea.setText(displayText.getDisplay());
+            graphicTextArea.setText(displayArt.getDisplay());
+            inventoryTextField.setText(displayInput.getInventory());
         });
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -303,6 +310,9 @@ public class GuiBuild {
         rightButton.addActionListener(e -> {
             String[] rightCommand = {"go", "right"};
             gameInputListener.onInputReceived(rightCommand);
+            gameTextArea.setText(displayText.getDisplay());
+            graphicTextArea.setText(displayArt.getDisplay());
+            inventoryTextField.setText(displayInput.getInventory());
         });
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -316,6 +326,9 @@ public class GuiBuild {
         leftButton.addActionListener(e -> {
             String[] leftCommand = {"go", "left"};
             gameInputListener.onInputReceived(leftCommand);
+            gameTextArea.setText(displayText.getDisplay());
+            graphicTextArea.setText(displayArt.getDisplay());
+            inventoryTextField.setText(displayInput.getInventory());
         });
         gbc.gridx = 0;
         gbc.gridy = 1;
