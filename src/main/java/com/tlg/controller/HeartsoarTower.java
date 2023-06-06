@@ -155,7 +155,7 @@ public class HeartsoarTower implements GameInputListener{
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                GuiBuild frame = new GuiBuild(gameInputListener);
+                GuiBuild frame = new GuiBuild(HeartsoarTower.this);
             }
         });
     }
