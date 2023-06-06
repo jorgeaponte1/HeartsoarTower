@@ -151,6 +151,10 @@ public class HeartsoarTower implements GameInputListener{
         return this.previousScene;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     private void launchGUI() {
         EventQueue.invokeLater(new Runnable() {
             @Override
