@@ -278,15 +278,29 @@ public class GuiBuild {
                 JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, helpImageIcon)
         );
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         navBtnPanel.add(helpButton, gbc);
 
 // Nav Buttons
-        upButton = new JButton("Up");
+        upButton = new JButton();
         upButton.setForeground(Color.RED);
         upButton.setFont(normalFont);
+
+        URL upDirectionURL = getClass().getClassLoader().getResource("Images/up icon.png");
+        assert upDirectionURL != null;
+        ImageIcon upDirectionIcon = new ImageIcon(upDirectionURL);
+        Image upDirectionImage = upDirectionIcon.getImage(); // transform it
+        Image upDirectionImg = upDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newUpDirectionIcon = new ImageIcon(upDirectionImg);  // assign to a new ImageIcon instance
+
+        upButton.setBorderPainted(false);
+        upButton.setContentAreaFilled(false);
+        upButton.setFocusPainted(false);
+        upButton.setOpaque(false);
+
+        upButton.setIcon(newUpDirectionIcon);
         upButton.addActionListener(e -> {
             String[] upCommand = {"go", "up"};
             gameInputListener.onInputReceived(upCommand);
@@ -296,14 +310,28 @@ public class GuiBuild {
             locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         navBtnPanel.add(upButton, gbc);
 
-        downButton = new JButton("Down");
+        downButton = new JButton();
         downButton.setForeground(Color.RED);
         downButton.setFont(normalFont);
+
+        URL downDirectionURL = getClass().getClassLoader().getResource("Images/down icon.png");
+        assert downDirectionURL != null;
+        ImageIcon downDirectionIcon = new ImageIcon(downDirectionURL);
+        Image downDirectionImage = downDirectionIcon.getImage(); // transform it
+        Image downDirectionImg = downDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newDownDirectionIcon = new ImageIcon(downDirectionImg);  // assign to a new ImageIcon instance
+
+        downButton.setBorderPainted(false);
+        downButton.setContentAreaFilled(false);
+        downButton.setFocusPainted(false);
+        downButton.setOpaque(false);
+
+        downButton.setIcon(newDownDirectionIcon);
         downButton.addActionListener(e -> {
             String[] downCommand = {"go", "down"};
             gameInputListener.onInputReceived(downCommand);
@@ -318,9 +346,23 @@ public class GuiBuild {
         gbc.gridheight = 1;
         navBtnPanel.add(downButton, gbc);
 
-        rightButton = new JButton("Right");
+        rightButton = new JButton();
         rightButton.setForeground(Color.RED);
         rightButton.setFont(normalFont);
+
+        URL rightDirectionURL = getClass().getClassLoader().getResource("Images/right icon.png");
+        assert rightDirectionURL != null;
+        ImageIcon rightDirectionIcon = new ImageIcon(rightDirectionURL);
+        Image rightDirectionImage = rightDirectionIcon.getImage(); // transform it
+        Image rightDirectionImg = rightDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newRightDirectionIcon = new ImageIcon(rightDirectionImg);  // assign to a new ImageIcon instance
+
+        rightButton.setBorderPainted(false);
+        rightButton.setContentAreaFilled(false);
+        rightButton.setFocusPainted(false);
+        rightButton.setOpaque(false);
+
+        rightButton.setIcon(newRightDirectionIcon);
         rightButton.addActionListener(e -> {
             String[] rightCommand = {"go", "right"};
             gameInputListener.onInputReceived(rightCommand);
@@ -335,9 +377,23 @@ public class GuiBuild {
         gbc.gridheight = 1;
         navBtnPanel.add(rightButton, gbc);
 
-        leftButton = new JButton("Left");
+        leftButton = new JButton();
         leftButton.setForeground(Color.RED);
         leftButton.setFont(normalFont);
+
+        URL leftDirectionURL = getClass().getClassLoader().getResource("Images/left icon.png");
+        assert leftDirectionURL != null;
+        ImageIcon leftDirectionIcon = new ImageIcon(leftDirectionURL);
+        Image leftDirectionImage = leftDirectionIcon.getImage(); // transform it
+        Image leftDirectionImg = leftDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newLeftDirectionIcon = new ImageIcon(leftDirectionImg);  // assign to a new ImageIcon instance
+
+        leftButton.setBorderPainted(false);
+        leftButton.setContentAreaFilled(false);
+        leftButton.setFocusPainted(false);
+        leftButton.setOpaque(false);
+
+        leftButton.setIcon(newLeftDirectionIcon);
         leftButton.addActionListener(e -> {
             String[] leftCommand = {"go", "left"};
             gameInputListener.onInputReceived(leftCommand);
