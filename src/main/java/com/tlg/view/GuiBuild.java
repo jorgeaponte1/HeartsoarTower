@@ -129,13 +129,14 @@ public class GuiBuild {
         // Graphic PANEL
         graphicPanel = new JPanel();
         graphicPanel.setBounds(0,0,750,800);
-        graphicPanel.setBackground(Color.BLUE);
+        graphicPanel.setBackground(new Color(26,83,92));
 
 
         // Graphic JTextArea
         JTextArea graphicTextArea = new JTextArea();
-        graphicTextArea.setBackground(Color.BLUE);
-        graphicTextArea.setForeground(Color.WHITE);
+        //1A535C
+        graphicTextArea.setBackground(new Color(247,255,247));
+        graphicTextArea.setForeground(Color.BLACK);
         graphicTextArea.setFont(normalFont);
         graphicTextArea.setEditable(false);  // Ensure that user cannot edit the content
 
@@ -167,9 +168,10 @@ public class GuiBuild {
         gameTextArea.setLineWrap(true); // Set line-wrap to true
         gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
         gameTextArea.setEditable(false); // Make the JTextArea uneditable
-        gameTextArea.setForeground(Color.MAGENTA);
-        //gameTextArea.setBackground(Color.CYAN);
+        gameTextArea.setBackground(new Color(247,255,247));
+        gameTextArea.setForeground(Color.BLACK);
         gameTextArea.setFont(normalFont);
+        gameTextArea.setMargin(new Insets(0,40,0,0));
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
 
@@ -202,7 +204,7 @@ public class GuiBuild {
         // Nav PANEL (right column)
         navPanel = new JPanel();
         navPanel.setLayout(new BorderLayout());
-        navPanel.setBackground(Color.GREEN);
+        navPanel.setBackground(new Color(78,205,196));
 
         // Set preferred width for the navPanel
         int navPanelWidth = 300; // Adjust this value as desired
@@ -210,7 +212,7 @@ public class GuiBuild {
 
         // Map Text area
         mapTextArea = new JTextArea("Map goes here");
-        mapTextArea.setBackground(Color.lightGray);
+        mapTextArea.setBackground(new Color(78,205,196));
         mapTextArea.setForeground(Color.BLACK);
         navPanel.add(mapTextArea, BorderLayout.CENTER);
         String filePath = "/Ascii_art/fullmap.txt";
@@ -221,7 +223,7 @@ public class GuiBuild {
 
         // Inventory Text field
         inventoryTextField = new JTextField();
-        inventoryTextField.setBackground(Color.lightGray);
+        inventoryTextField.setBackground(new Color(78,205,196));
         inventoryTextField.setForeground(Color.BLACK);
         DisplayInput displayInput = new DisplayInput(player);
         inventoryTextField.setText(displayInput.getInventory());
@@ -248,7 +250,7 @@ public class GuiBuild {
         // NavBtn Panel
         navBtnPanel = new JPanel();
         navBtnPanel.setLayout(new GridBagLayout());
-        navBtnPanel.setBackground(Color.PINK);
+        navBtnPanel.setBackground(new Color(247,255,247));
 
 // Create GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
@@ -339,7 +341,7 @@ public class GuiBuild {
         // Music Panel
         musicButtonPanel = new JPanel();
         musicButtonPanel.setBounds(300, 400, 200, 100);
-        musicButtonPanel.setBackground(Color.BLACK);
+        musicButtonPanel.setBackground(new Color(247,255,247));
 
         // Music Panel Label
         JLabel music = new JLabel();
