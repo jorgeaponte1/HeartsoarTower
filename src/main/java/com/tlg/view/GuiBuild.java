@@ -7,6 +7,7 @@ import com.tlg.model.Item;
 import com.tlg.model.Player;
 import com.tlg.model.Room;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -14,13 +15,11 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,9 +46,9 @@ public class GuiBuild {
     DisplayArt displayArt;
 
 
-    private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
+    private Font titleFont = new Font("Helvetica", Font.PLAIN, 60);
     private Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
-    private Font storyFont = new Font("Times New Roman", Font.PLAIN, 20);
+    private Font storyFont = new Font("Helvetica", Font.PLAIN, 30);
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
@@ -57,7 +56,9 @@ public class GuiBuild {
 
         // Create and set up the window.
         frame = new JFrame("Heartsoar Tower");
-        frame.setSize(1650, 1080);
+        // Set the Frame to the Max Size of a User's Screen. So Image is reflected in accordance.
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize(screenSize.width, screenSize.height);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
@@ -68,21 +69,20 @@ public class GuiBuild {
         con = frame.getContentPane();
         frame.setTitle("HEARTSOAR TOWER");
 
-        // Create a panel for the title name
-        titleNamePanel = new JPanel();
-        // DO NOT need to set Bounds on BorderLayout Manager
-        //titleNamePanel.setBounds(100, 100, 600, 150);
-        titleNamePanel.setBackground(Color.BLACK);
+        // Image of Castle
+        String imgResourcePath = "/Images/Castle.png";
+        //noinspection ConstantConditions
+        Image backgroundImage = ImageIO.read(getClass().getResource(imgResourcePath));
+        Image scaledImage = backgroundImage.getScaledInstance(frame.getWidth(), frame.getHeight(), Image.SCALE_DEFAULT);
 
-        // Set the layout manager of the titleNamePanel to center the components
-        //titleNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        titleNamePanel.setLayout(new GridBagLayout());
-        //titleNamePanel.setLayout(new BorderLayout());
-
-        // Create the title name label
-        titleNameLabel = new JLabel("HEARTSORE TOWER");
+        JLabel titleNameLabel = new JLabel("<html><center>HEARTSORE TOWER</center></html>", new ImageIcon(scaledImage), JLabel.CENTER);
+        titleNameLabel.setVerticalTextPosition(JLabel.CENTER);
+        titleNameLabel.setHorizontalTextPosition(JLabel.CENTER);
         titleNameLabel.setForeground(Color.WHITE); // Text color
         titleNameLabel.setFont(titleFont);
+
+        // Create the title name label
+        titleNamePanel = new JPanel(new BorderLayout());
 
         titleNamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
@@ -92,23 +92,17 @@ public class GuiBuild {
             }
         });
 
-//        // Create button panel
-//        musicButtonPanel = new JPanel();
-//        musicButtonPanel.setBounds(300, 400, 200, 100);
-//        musicButtonPanel.setBackground(Color.BLACK);
-//
-//        // Create the start button
-//        musicButton = new JButton("music");
-//        musicButton.setBackground(Color.YELLOW);
-//        musicButton.setForeground(Color.RED);
-//        musicButton.setFont(normalFont);
-//        musicButton.addActionListener(e -> musicSettings(musicPlayer));
+        // Add component resize listener to resize Image everytime Frame is resized.
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Image scaledImage = backgroundImage.getScaledInstance(frame.getWidth(), frame.getHeight(), Image.SCALE_DEFAULT);
+                titleNameLabel.setIcon(new ImageIcon(scaledImage));
+            }
+        });
 
-        titleNamePanel.add(titleNameLabel);
-        //titleNamePanel.add(titleNameLabel, BorderLayout.CENTER); // Add the label to the panel
+        titleNamePanel.add(titleNameLabel, BorderLayout.CENTER); // Add the label to the panel
         con.add(titleNamePanel, BorderLayout.CENTER); // Add the title name panel to the content pane
-        //con.add(musicButtonPanel);
-        //musicButtonPanel.add(musicButton);
 
         this.gameInputListener = gameInputListener;
         this.displayArt = displayArt;
@@ -130,7 +124,6 @@ public class GuiBuild {
         graphicPanel = new JPanel();
         graphicPanel.setBounds(0,0,750,800);
         graphicPanel.setBackground(new Color(26,83,92));
-
 
         // Graphic JTextArea
         JTextArea graphicTextArea = new JTextArea();
@@ -264,10 +257,13 @@ public class GuiBuild {
         helpButton.setForeground(Color.RED);
         helpButton.setFont(normalFont);
         URL helpUrl = getClass().getClassLoader().getResource("Images/Help.png");
-        assert helpUrl != null;
-        ImageIcon helpImageIcon = new ImageIcon(helpUrl);
+        //noinspection ConstantConditions
+        ImageIcon helpIcon = new ImageIcon(helpUrl);
+        Image helpImage = helpIcon.getImage(); // transform it
+        Image helpImg = helpImage.getScaledInstance(800, 800,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        ImageIcon newHelpIcon = new ImageIcon(helpImg);  // assign to a new ImageIcon instance
         helpButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, helpImageIcon)
+                JOptionPane.showMessageDialog(null, null, "Help Scroll", JOptionPane.PLAIN_MESSAGE, newHelpIcon)
         );
         // Add helpButton to the south of the new panel
         inventoryHelpPanel.add(helpButton, BorderLayout.SOUTH);
@@ -280,7 +276,7 @@ public class GuiBuild {
         upButton.setFont(normalFont);
 
         URL upDirectionURL = getClass().getClassLoader().getResource("Images/up icon.png");
-        assert upDirectionURL != null;
+        //noinspection ConstantConditions
         ImageIcon upDirectionIcon = new ImageIcon(upDirectionURL);
         Image upDirectionImage = upDirectionIcon.getImage(); // transform it
         Image upDirectionImg = upDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
@@ -312,7 +308,7 @@ public class GuiBuild {
         downButton.setFont(normalFont);
 
         URL downDirectionURL = getClass().getClassLoader().getResource("Images/down icon.png");
-        assert downDirectionURL != null;
+        //noinspection ConstantConditions
         ImageIcon downDirectionIcon = new ImageIcon(downDirectionURL);
         Image downDirectionImage = downDirectionIcon.getImage(); // transform it
         Image downDirectionImg = downDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
@@ -344,7 +340,7 @@ public class GuiBuild {
         rightButton.setFont(normalFont);
 
         URL rightDirectionURL = getClass().getClassLoader().getResource("Images/right icon.png");
-        assert rightDirectionURL != null;
+        //noinspection ConstantConditions
         ImageIcon rightDirectionIcon = new ImageIcon(rightDirectionURL);
         Image rightDirectionImage = rightDirectionIcon.getImage(); // transform it
         Image rightDirectionImg = rightDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
@@ -376,7 +372,7 @@ public class GuiBuild {
         leftButton.setFont(normalFont);
 
         URL leftDirectionURL = getClass().getClassLoader().getResource("Images/left icon.png");
-        assert leftDirectionURL != null;
+        //noinspection ConstantConditions
         ImageIcon leftDirectionIcon = new ImageIcon(leftDirectionURL);
         Image leftDirectionImage = leftDirectionIcon.getImage(); // transform it
         Image leftDirectionImg = leftDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
@@ -411,18 +407,18 @@ public class GuiBuild {
         // Music Panel Label
         JLabel music = new JLabel();
         // Speaker Image
-        URL speakerUrl = getClass().getClassLoader().getResource("Images/Speaker.png");
-        assert speakerUrl != null;
+        URL speakerUrl = getClass().getClassLoader().getResource("Images/speakeron.png");
+        //noinspection ConstantConditions
         ImageIcon speakerIcon = new ImageIcon(speakerUrl);
         Image speakerImage = speakerIcon.getImage(); // transform it
-        Image newSpeakerImg = speakerImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image newSpeakerImg = speakerImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newSpeakerIcon = new ImageIcon(newSpeakerImg);  // assign to a new ImageIcon instance
         // Mute Image
-        URL muteUrl = getClass().getClassLoader().getResource("Images/Speaker-Mute.png");
-        assert muteUrl != null;
+        URL muteUrl = getClass().getClassLoader().getResource("Images/speakeroff.png");
+        //noinspection ConstantConditions
         ImageIcon muteIcon = new ImageIcon(muteUrl);
         Image muteImage = muteIcon.getImage(); // transform it
-        Image newMuteImg = muteImage.getScaledInstance(25, 25,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image newMuteImg = muteImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newMuteIcon = new ImageIcon(newMuteImg);  // assign to a new ImageIcon instance
 
         JButton speakerButton = new JButton(newSpeakerIcon);
@@ -482,7 +478,6 @@ public class GuiBuild {
         gameInputListener.onYesNoInputReceived(input);
     }
 
-
     class JTextFieldLimit extends PlainDocument {
         private int limit;
         JTextFieldLimit(int limit) {
@@ -505,21 +500,19 @@ public class GuiBuild {
 
         // TEXT PANEL
         instructionPanel = new JPanel();
-        instructionPanel.setBackground(Color.WHITE);
+        instructionPanel.setBackground(new Color(26,83,92));
         instructionPanel.setLayout(new GridBagLayout());
         instructionPanel.setSize(100,100);
-        //instructionPanel.setLayout(new BorderLayout());
 
         // TEXT AREA
-        introductionTextArea = new JTextArea(13,90);
-        introductionTextArea.setBackground(Color.WHITE);
-        introductionTextArea.setForeground(Color.BLACK);
+        introductionTextArea = new JTextArea(20,90);
+        introductionTextArea.setBackground(new Color(26,83,92));
+        introductionTextArea.setForeground(Color.WHITE);
         introductionTextArea.setFont(storyFont);
         introductionTextArea.setLineWrap(true);
         introductionTextArea.setWrapStyleWord(true);
         introductionTextArea.setEditable(false);
         instructionPanel.add(introductionTextArea);
-        //instructionPanel.add(introductionTextArea, BorderLayout.CENTER);
 
         int marginSize = 2;
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
