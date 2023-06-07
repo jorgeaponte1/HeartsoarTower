@@ -29,11 +29,11 @@ public class GuiBuild {
 
     private JFrame frame;
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
-    choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel;
-    private JTextField userInputTextField, inventoryTextField;
+    choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel, locationPanel;
+    private JTextField userInputTextField, inventoryTextField, locationTextField;
     private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
     private Container con;
-    private JLabel titleNameLabel;
+    private JLabel titleNameLabel, locationLabel;
     private JLabel graphicLabel;
     private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
@@ -245,12 +245,22 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
             inventoryTextField.setText(displayInput.getInventory());
+            locationLabel.setText(player.getLocation().getName());
         });
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
         navBtnPanel.setLayout(new GridBagLayout());
         navBtnPanel.setBackground(new Color(247,255,247));
+
+        // Location Panel
+        locationPanel = new JPanel();
+        locationPanel.setBackground(new Color(26,83,92));
+        locationPanel.setForeground(new Color(247,255,247));
+        locationLabel = new JLabel();
+        locationLabel.setText(player.getLocation().getName());
+        locationLabel.setForeground(new Color(247,255,247));
+        locationPanel.add(locationLabel);
 
 // Create GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
@@ -283,6 +293,7 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
             inventoryTextField.setText(displayInput.getInventory());
+            locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -299,6 +310,7 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
             inventoryTextField.setText(displayInput.getInventory());
+            locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -315,6 +327,7 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
             inventoryTextField.setText(displayInput.getInventory());
+            locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -331,6 +344,7 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
             inventoryTextField.setText(displayInput.getInventory());
+            locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -403,6 +417,7 @@ public class GuiBuild {
         navPanel.add(musicButtonPanel, BorderLayout.NORTH);
 
         // Add panels to the container using BorderLayout
+        con.add(locationPanel, BorderLayout.NORTH);
         con.add(graphicPanel, BorderLayout.CENTER);
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
