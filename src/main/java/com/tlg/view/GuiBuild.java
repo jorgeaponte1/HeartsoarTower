@@ -9,6 +9,7 @@ import com.tlg.model.Room;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -29,7 +30,7 @@ public class GuiBuild {
 
     private JFrame frame;
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
-    choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel, locationPanel;
+    choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel, locationPanel, inventoryHelpPanel;
     private JTextField userInputTextField, inventoryTextField, locationTextField;
     private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
     private Container con;
@@ -40,9 +41,9 @@ public class GuiBuild {
     private JLabel introductionLabel;
     HeartsoarTower heartsoarTower = new HeartsoarTower();
     public com.tlg.model.Factory factory = new Factory();
-    private List<Room> rooms = factory.getRooms();
-    private List<Item> items = factory.getItems();
-    Player player = new Player(rooms, items);
+    private List<Room> rooms;
+    private List<Item> items;
+    Player player;
     DisplayArt displayArt;
 
 
@@ -121,7 +122,6 @@ public class GuiBuild {
     public void createGameScreen() {
         // HIDE TITLE SCREEN
         instructionPanel.setVisible(false);
-        // musicButtonPanel.setVisible(false);
 
         // Set up the layout using BorderLayout
         con.setLayout(new BorderLayout());
@@ -157,13 +157,6 @@ public class GuiBuild {
         gameTextPanel.setBackground(Color.CYAN);
         gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 120));
 
-        // GameText label
-//        gameTextLabel = new JLabel("");
-//        gameTextLabel.setForeground(Color.MAGENTA);
-//        gameTextLabel.setFont(normalFont);
-//        DisplayText displayText = new DisplayText();
-//        gameTextLabel.setText(displayText.getDisplay());
-
         JTextArea gameTextArea = new JTextArea();
         gameTextArea.setLineWrap(true); // Set line-wrap to true
         gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
@@ -174,10 +167,6 @@ public class GuiBuild {
         gameTextArea.setMargin(new Insets(0,40,0,0));
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
-
-        //JScrollPane scrollPane = new JScrollPane(gameTextArea);
-        //gameTextPanel.add(scrollPane, BorderLayout.CENTER);
-        //gameTextPanel.add(gameTextLabel);
         gameTextPanel.add(gameTextArea, BorderLayout.CENTER);
 
         // UserInput TEXT PANEL
@@ -198,7 +187,6 @@ public class GuiBuild {
         int marginSize = 40;
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
         userInputTextField.setMargin(margin);
-
         userInputPanel.add(userInputTextField, BorderLayout.CENTER);
 
         // Nav PANEL (right column)
@@ -221,18 +209,22 @@ public class GuiBuild {
         int mapTextAreaHeight = 300;
         mapTextArea.setPreferredSize(new Dimension(mapTextArea.getPreferredSize().width, mapTextAreaHeight));
 
+        // Create a new panel with BorderLayout
+        inventoryHelpPanel = new JPanel(new BorderLayout());
+
         // Inventory Text field
-        inventoryTextField = new JTextField();
-        inventoryTextField.setBackground(new Color(78,205,196));
-        inventoryTextField.setForeground(Color.BLACK);
+        inventoryLabel = new JLabel();
+        inventoryLabel.setBackground(new Color(78,205,196));
+        inventoryLabel.setForeground(Color.BLACK);
         DisplayInput displayInput = new DisplayInput(player);
-        inventoryTextField.setText(displayInput.getInventory());
+        inventoryLabel.setText(displayInput.getInventory());
+        inventoryLabel.setBorder(new EmptyBorder(0,20,0,0));
 
         //preferred size of the inventoryTextField
-        Dimension textFieldSize = new Dimension(300, 250);
-        inventoryTextField.setPreferredSize(textFieldSize);
-        navPanel.add(inventoryTextField, BorderLayout.SOUTH);
-
+        Dimension textFieldSize = new Dimension(100, 50);
+        inventoryLabel.setPreferredSize(textFieldSize);
+        // Add inventoryTextField to the center of the new panel
+        inventoryHelpPanel.add(inventoryLabel, BorderLayout.CENTER);
 
         // ActionListener for the userInputTextField
         userInputTextField.addActionListener(e -> {
@@ -244,7 +236,7 @@ public class GuiBuild {
             gameInputListener.onInputReceived(words);
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
-            inventoryTextField.setText(displayInput.getInventory());
+            inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
 
@@ -277,13 +269,12 @@ public class GuiBuild {
         helpButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(null, null, "Help", JOptionPane.PLAIN_MESSAGE, helpImageIcon)
         );
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
-        navBtnPanel.add(helpButton, gbc);
+        // Add helpButton to the south of the new panel
+        inventoryHelpPanel.add(helpButton, BorderLayout.SOUTH);
+        navPanel.add(inventoryHelpPanel, BorderLayout.SOUTH);
 
 // Nav Buttons
+        // Up Button
         upButton = new JButton();
         upButton.setForeground(Color.RED);
         upButton.setFont(normalFont);
@@ -292,7 +283,7 @@ public class GuiBuild {
         assert upDirectionURL != null;
         ImageIcon upDirectionIcon = new ImageIcon(upDirectionURL);
         Image upDirectionImage = upDirectionIcon.getImage(); // transform it
-        Image upDirectionImg = upDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image upDirectionImg = upDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newUpDirectionIcon = new ImageIcon(upDirectionImg);  // assign to a new ImageIcon instance
 
         upButton.setBorderPainted(false);
@@ -306,7 +297,7 @@ public class GuiBuild {
             gameInputListener.onInputReceived(upCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
-            inventoryTextField.setText(displayInput.getInventory());
+            inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 1;
@@ -315,6 +306,7 @@ public class GuiBuild {
         gbc.gridheight = 1;
         navBtnPanel.add(upButton, gbc);
 
+        // Down Button
         downButton = new JButton();
         downButton.setForeground(Color.RED);
         downButton.setFont(normalFont);
@@ -323,7 +315,7 @@ public class GuiBuild {
         assert downDirectionURL != null;
         ImageIcon downDirectionIcon = new ImageIcon(downDirectionURL);
         Image downDirectionImage = downDirectionIcon.getImage(); // transform it
-        Image downDirectionImg = downDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image downDirectionImg = downDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newDownDirectionIcon = new ImageIcon(downDirectionImg);  // assign to a new ImageIcon instance
 
         downButton.setBorderPainted(false);
@@ -337,7 +329,7 @@ public class GuiBuild {
             gameInputListener.onInputReceived(downCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
-            inventoryTextField.setText(displayInput.getInventory());
+            inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 1;
@@ -346,6 +338,7 @@ public class GuiBuild {
         gbc.gridheight = 1;
         navBtnPanel.add(downButton, gbc);
 
+        // Right Button
         rightButton = new JButton();
         rightButton.setForeground(Color.RED);
         rightButton.setFont(normalFont);
@@ -354,7 +347,7 @@ public class GuiBuild {
         assert rightDirectionURL != null;
         ImageIcon rightDirectionIcon = new ImageIcon(rightDirectionURL);
         Image rightDirectionImage = rightDirectionIcon.getImage(); // transform it
-        Image rightDirectionImg = rightDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image rightDirectionImg = rightDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newRightDirectionIcon = new ImageIcon(rightDirectionImg);  // assign to a new ImageIcon instance
 
         rightButton.setBorderPainted(false);
@@ -368,7 +361,7 @@ public class GuiBuild {
             gameInputListener.onInputReceived(rightCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
-            inventoryTextField.setText(displayInput.getInventory());
+            inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 2;
@@ -377,6 +370,7 @@ public class GuiBuild {
         gbc.gridheight = 1;
         navBtnPanel.add(rightButton, gbc);
 
+        // Left Button
         leftButton = new JButton();
         leftButton.setForeground(Color.RED);
         leftButton.setFont(normalFont);
@@ -385,7 +379,7 @@ public class GuiBuild {
         assert leftDirectionURL != null;
         ImageIcon leftDirectionIcon = new ImageIcon(leftDirectionURL);
         Image leftDirectionImage = leftDirectionIcon.getImage(); // transform it
-        Image leftDirectionImg = leftDirectionImage.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image leftDirectionImg = leftDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newLeftDirectionIcon = new ImageIcon(leftDirectionImg);  // assign to a new ImageIcon instance
 
         leftButton.setBorderPainted(false);
@@ -399,7 +393,8 @@ public class GuiBuild {
             gameInputListener.onInputReceived(leftCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicTextArea.setText(displayArt.getDisplay());
-            inventoryTextField.setText(displayInput.getInventory());
+            inventoryLabel.setText(displayInput.getInventory());
+            //inventoryTextField.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 0;
@@ -477,8 +472,6 @@ public class GuiBuild {
         con.add(graphicPanel, BorderLayout.CENTER);
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
-        //con.add(gameTextPanel, BorderLayout.CENTER);
-
     }
 
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
