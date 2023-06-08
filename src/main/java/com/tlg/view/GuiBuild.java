@@ -30,7 +30,7 @@ public class GuiBuild {
     private JTextField userInputTextField, inventoryTextField, locationTextField;
     private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
     private Container con;
-    private JLabel titleNameLabel, locationLabel;
+    private JLabel titleNameLabel, locationLabel, mapLabel;
     private JLabel graphicLabel;
     private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
@@ -194,16 +194,17 @@ public class GuiBuild {
         int navPanelWidth = 300; // Adjust this value as desired
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
 
-        // Map Text area
-        mapTextArea = new JTextArea("Map goes here");
-        mapTextArea.setBackground(new Color(78,205,196));
-        mapTextArea.setForeground(Color.BLACK);
-        navPanel.add(mapTextArea, BorderLayout.CENTER);
-        String filePath = "/Ascii_art/fullmap.txt";
-        readFileIntoJTextArea(filePath, mapTextArea);
 
-        int mapTextAreaHeight = 300;
-        mapTextArea.setPreferredSize(new Dimension(mapTextArea.getPreferredSize().width, mapTextAreaHeight));
+        // Map Image
+        String imgResourcePath = "/Images/map.png";
+        ImageIcon mapImageIcon = new ImageIcon(getClass().getResource(imgResourcePath));
+
+        // Map Label
+        mapLabel = new JLabel(imgResourcePath, mapImageIcon, JLabel.CENTER);
+        mapLabel.setBackground(new Color(78, 205, 196));
+        mapLabel.setForeground(Color.BLACK);
+        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 300));
+        navPanel.add(mapLabel, BorderLayout.NORTH);
 
         // Create a new panel with BorderLayout
         inventoryHelpPanel = new JPanel(new BorderLayout());
@@ -483,6 +484,7 @@ public class GuiBuild {
 
         // Sub Panel for musicButtonPanel inside navPanel
         navPanel.add(musicButtonPanel, BorderLayout.NORTH);
+        navPanel.add(mapLabel, BorderLayout.CENTER);
 
         // Add panels to the container using BorderLayout
         con.add(locationPanel, BorderLayout.NORTH);
