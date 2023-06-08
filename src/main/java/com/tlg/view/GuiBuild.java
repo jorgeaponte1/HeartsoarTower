@@ -2,11 +2,9 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
-import com.tlg.model.Factory;
-import com.tlg.model.Item;
-import com.tlg.model.Player;
-import com.tlg.model.Room;
+import com.tlg.model.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -45,6 +43,7 @@ public class GuiBuild {
     private List<Item> items;
     Player player;
     DisplayArt displayArt;
+    private Room currentRoom;
 
 
     private Font titleFont = new Font("Times New Roman", Font.PLAIN, 60);
@@ -132,23 +131,27 @@ public class GuiBuild {
         graphicPanel.setBackground(new Color(26,83,92));
 
 
-        // Graphic JTextArea
-        JTextArea graphicTextArea = new JTextArea();
-        //1A535C
-        graphicTextArea.setBackground(new Color(247,255,247));
-        graphicTextArea.setForeground(Color.BLACK);
-        graphicTextArea.setFont(normalFont);
-        graphicTextArea.setEditable(false);  // Ensure that user cannot edit the content
-
-        String display = displayArt.getDisplay();
-        String[] artLines;
-        artLines = display.split("\n");
-        String[] output = new String[artLines.length];
-        for (int i = 0; i < artLines.length; i++) {
-            output[i] = " " + artLines[i];
+        Image backgroundImage = null;
+        try {
+            backgroundImage =
+                    ImageIO.read(getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic()));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        graphicTextArea.setText(String.join("\n", output));
-        graphicPanel.add(graphicTextArea);
+        Image scaledImage = backgroundImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                Image.SCALE_DEFAULT);
+        //graphicLabel = new JLabel("", new ImageIcon(scaledImage), JLabel.CENTER);
+        graphicLabel = new JLabel();
+
+
+        URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+        ImageIcon graphicIcon = new ImageIcon(imageUrl);
+        Image graphicImage = graphicIcon.getImage(); // transform it
+        Image graphicImg = graphicImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                java.awt.Image.SCALE_SMOOTH); // scale
+        // it smoothly
+        graphicLabel.setIcon(graphicIcon);
+        graphicPanel.add(graphicLabel);
 
         // GameText panel
         gameTextPanel = new JPanel();
@@ -157,6 +160,7 @@ public class GuiBuild {
         gameTextPanel.setBackground(Color.CYAN);
         gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 120));
 
+        // TODO UNDO this comment if it does not work
         JTextArea gameTextArea = new JTextArea();
         gameTextArea.setLineWrap(true); // Set line-wrap to true
         gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
@@ -235,7 +239,10 @@ public class GuiBuild {
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
             gameTextArea.setText(displayText.getDisplay());
-            graphicTextArea.setText(displayArt.getDisplay());
+            URL imageUrls =
+                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            ImageIcon graphicIcons = new ImageIcon(imageUrls);
+            graphicLabel.setIcon(new ImageIcon(scaledImage));
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
@@ -296,7 +303,11 @@ public class GuiBuild {
             String[] upCommand = {"go", "up"};
             gameInputListener.onInputReceived(upCommand);
             gameTextArea.setText(displayText.getDisplay());
-            graphicTextArea.setText(displayArt.getDisplay());
+            graphicLabel.setIcon(graphicIcon);
+            URL imageUrls =
+                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            ImageIcon graphicIcons = new ImageIcon(imageUrls);
+            graphicLabel.setIcon(graphicIcons);
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
@@ -328,7 +339,11 @@ public class GuiBuild {
             String[] downCommand = {"go", "down"};
             gameInputListener.onInputReceived(downCommand);
             gameTextArea.setText(displayText.getDisplay());
-            graphicTextArea.setText(displayArt.getDisplay());
+            graphicLabel.setIcon(graphicIcon);
+            URL imageUrls =
+                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            ImageIcon graphicIcons = new ImageIcon(imageUrls);
+            graphicLabel.setIcon(graphicIcons);
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
@@ -360,7 +375,11 @@ public class GuiBuild {
             String[] rightCommand = {"go", "right"};
             gameInputListener.onInputReceived(rightCommand);
             gameTextArea.setText(displayText.getDisplay());
-            graphicTextArea.setText(displayArt.getDisplay());
+            graphicLabel.setIcon(graphicIcon);
+            URL imageUrls =
+                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            ImageIcon graphicIcons = new ImageIcon(imageUrls);
+            graphicLabel.setIcon(graphicIcons);
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
@@ -392,9 +411,12 @@ public class GuiBuild {
             String[] leftCommand = {"go", "left"};
             gameInputListener.onInputReceived(leftCommand);
             gameTextArea.setText(displayText.getDisplay());
-            graphicTextArea.setText(displayArt.getDisplay());
+            graphicLabel.setIcon(graphicIcon);
             inventoryLabel.setText(displayInput.getInventory());
-            //inventoryTextField.setText(displayInput.getInventory());
+            URL imageUrls =
+                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            ImageIcon graphicIcons = new ImageIcon(imageUrls);
+            graphicLabel.setIcon(graphicIcons);
             locationLabel.setText(player.getLocation().getName());
         });
         gbc.gridx = 0;

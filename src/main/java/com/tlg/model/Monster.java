@@ -15,9 +15,12 @@ public class Monster {
     private String art;
     private String item;
 
+    private String graphic;
 
 
-    public Monster(String name, List<String[]> successes, List<String> failures, List<String> description, String sceneFailed, List<String> dialogue, String art, String item) {
+
+    public Monster(String name, List<String[]> successes, List<String> failures, List<String> description,
+                   String sceneFailed, List<String> dialogue, String art, String graphic, String item) {
         this.name = name;
         this.successes = successes;
         this.failures = failures;
@@ -25,6 +28,7 @@ public class Monster {
         this.sceneFailed = sceneFailed;
         this.dialogue = dialogue;
         this.art = art;
+        this.graphic = graphic;
         this.item = item;
 
 
@@ -51,6 +55,7 @@ public class Monster {
     public List<String[]> getSuccesses() {
         return successes;
     }
+
     public String progressDescription(){
         String result = description.remove(0);
         return result;
@@ -58,7 +63,6 @@ public class Monster {
     public String getSceneFailed() {
         return sceneFailed;
     }
-
     public String getArt() {
         return art;
     }
@@ -70,6 +74,7 @@ public class Monster {
     public String getItem() {
         return item;
     }
+
     public void addItem(String item) {
         this.item = item;
     }
@@ -77,5 +82,9 @@ public class Monster {
         String result = item;
         item = null;
         return result;
+    }
+
+    public String getGraphic() {
+        return graphic;
     }
 }

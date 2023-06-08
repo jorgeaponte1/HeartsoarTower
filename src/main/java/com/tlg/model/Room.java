@@ -15,13 +15,16 @@ public class Room {
     private String monster;
     private final HashMap<String, String> neighborRooms;
     private boolean isDiscovered;
+    private String graphic;
 
-    public Room(String name, String[] desc, List<String> nouns, String monster, HashMap<String, String> neighborRooms) {
+    public Room(String name, String[] desc, List<String> nouns, String monster,
+                 String graphic, HashMap<String,String> neighborRooms) {
         this.name = name;
         this.desc = desc;
         this.nouns = nouns;
         this.monster = monster;
         this.neighborRooms = neighborRooms;
+        this.graphic = graphic;
         this.isDiscovered = false;
     }
 
@@ -47,6 +50,10 @@ public class Room {
 
     public boolean isDiscovered() {
         return isDiscovered;
+    }
+
+    public String getGraphic() {
+        return graphic;
     }
 
     public void setNouns(List<String> nouns) {

@@ -13,6 +13,7 @@
       "pocket"
     ],
     "monster": "Ghost",
+    "graphic" : "Images/casper1.gif",
     "neighborRooms": {
       "right": "Foyer"
     }
@@ -31,6 +32,7 @@
       "entrance"
     ],
     "monster": null,
+    "graphic" : "Images/goldenkey.png",
     "neighborRooms": {
       "left"  : "Entrance",
       "right" : "Kitchen",
@@ -46,6 +48,7 @@
       "TBD"
     ],
     "monster": "Goblin",
+    "graphic" : "Images/goblin.png",
     "neighborRooms": {
       "left": "Foyer"
     }
@@ -59,6 +62,7 @@
       "TBD"
     ],
     "monster": "Succubus",
+    "graphic" : "Images/succubus.png",
     "neighborRooms": {
       "down" : "Foyer",
       "up"   : "Den"
@@ -73,6 +77,7 @@
       "TBD"
     ],
     "monster": "Dire Bear",
+    "graphic" : "Images/bear.png",
     "neighborRooms": {
       "down" : "Plaisure",
       "up"   : "Parlor"
@@ -87,6 +92,7 @@
       "TBD"
     ],
     "monster": "Werewolf",
+    "graphic" : "Images/werewolf.png",
     "neighborRooms": {
       "down" : "Den",
       "up"   : "Ballroom",
@@ -115,6 +121,7 @@
       "TBD"
     ],
     "monster": "Zombie",
+    "graphic" : "Images/zombie.png",
     "neighborRooms": {
       "down" : "Parlor",
       "up"   : "Conservatory"
@@ -129,6 +136,7 @@
       "TBD"
     ],
     "monster": "Alien",
+    "graphic" : "Images/unhappyAlien.png",
     "neighborRooms": {
       "down" : "Ballroom",
       "up"   : "Bedroom"
@@ -143,6 +151,7 @@
       "TBD"
     ],
     "monster": "Prince",
+    "graphic" : "Images/prince.png",
     "neighborRooms": {
       "down" : "Conservatory"
     }
