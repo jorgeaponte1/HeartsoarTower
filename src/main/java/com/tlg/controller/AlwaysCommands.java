@@ -27,7 +27,10 @@ public class AlwaysCommands {
         }
         if (instruct[0] != null) {
             if (instruct[0].equalsIgnoreCase("quit")) {
+                text.setDisplay("You want to leave us. So soon?");
                 gameOver();
+                player.setGameOver(true);
+                return true;
             }
             else if (instruct[0].equalsIgnoreCase("look")) {
                 if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
@@ -75,7 +78,7 @@ public class AlwaysCommands {
     public static void gameOver() {
         String path = "/Ascii_art/GameOver.txt";
         showPrompt(path);
-        System.exit(0);
+        //System.exit(0);
     }
 
     private static void lookAtItem(String itemName, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, List<Room> rooms) {
