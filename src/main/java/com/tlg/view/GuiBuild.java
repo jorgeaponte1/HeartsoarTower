@@ -2,25 +2,27 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
-import com.tlg.model.*;
+import com.tlg.model.Factory;
+import com.tlg.model.Item;
+import com.tlg.model.Player;
+import com.tlg.model.Room;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-
-import java.util.Arrays;
 import java.util.List;
-
-import static com.tlg.controller.AlwaysCommands.musicSettings;
 
 public class GuiBuild {
 
@@ -30,7 +32,7 @@ public class GuiBuild {
     private JTextField userInputTextField, inventoryTextField, locationTextField;
     private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
     private Container con;
-    private JLabel titleNameLabel, locationLabel;
+    private JLabel titleNameLabel, locationLabel, mapLabel;
     private JLabel graphicLabel;
     private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
@@ -41,6 +43,8 @@ public class GuiBuild {
     private List<Item> items;
     Player player;
     DisplayArt displayArt;
+    DisplayText displayText;
+    DisplayInput displayInput;
     private Room currentRoom;
 
 
@@ -188,22 +192,32 @@ public class GuiBuild {
         // Nav PANEL (right column)
         navPanel = new JPanel();
         navPanel.setLayout(new BorderLayout());
-        navPanel.setBackground(new Color(78,205,196));
+        navPanel.setBackground(new Color(26,83,92));
 
         // Set preferred width for the navPanel
-        int navPanelWidth = 300; // Adjust this value as desired
+        int navPanelWidth = 500; // Adjust this value as desired
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
 
-        // Map Text area
-        mapTextArea = new JTextArea("Map goes here");
-        mapTextArea.setBackground(new Color(78,205,196));
-        mapTextArea.setForeground(Color.BLACK);
-        navPanel.add(mapTextArea, BorderLayout.CENTER);
-        String filePath = "/Ascii_art/fullmap.txt";
-        readFileIntoJTextArea(filePath, mapTextArea);
 
-        int mapTextAreaHeight = 300;
-        mapTextArea.setPreferredSize(new Dimension(mapTextArea.getPreferredSize().width, mapTextAreaHeight));
+        // Map Image
+        String imgResourcePath = "/Images/map.png";
+        ImageIcon mapImageIcon = new ImageIcon(getClass().getResource(imgResourcePath));
+
+        // Scale down the image
+        Image mapImage = mapImageIcon.getImage();
+        int newWidth = mapImageIcon.getIconWidth() / 2; // Adjust the divisor to change the scaling factor
+        int newHeight = mapImageIcon.getIconHeight() / 2; // Adjust the divisor to change the scaling factor
+        scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+        // Create a new ImageIcon with the scaled image
+        ImageIcon scaledMapImageIcon = new ImageIcon(scaledImage);
+
+        // Map Label
+        mapLabel = new JLabel(imgResourcePath, scaledMapImageIcon, JLabel.CENTER);
+        mapLabel.setBackground(new Color(78, 205, 196));
+        mapLabel.setForeground(Color.BLACK);
+        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 300));
+        navPanel.add(mapLabel, BorderLayout.NORTH);
 
         // Create a new panel with BorderLayout
         inventoryHelpPanel = new JPanel(new BorderLayout());
@@ -240,6 +254,7 @@ public class GuiBuild {
             graphicLabel.setIcon(new ImageIcon(graphicImages));
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
+            mapLabel.setIcon(player.getLocation().getMapImage());
         });
 
 
@@ -487,6 +502,7 @@ public class GuiBuild {
 
         // Sub Panel for musicButtonPanel inside navPanel
         navPanel.add(musicButtonPanel, BorderLayout.NORTH);
+        navPanel.add(mapLabel, BorderLayout.CENTER);
 
         // Add panels to the container using BorderLayout
         con.add(locationPanel, BorderLayout.NORTH);
@@ -494,7 +510,6 @@ public class GuiBuild {
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
     }
-
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
     public void onYesNoInputReceived() {
         // Here, you should wait for user input from the GUI,
@@ -584,30 +599,4 @@ public class GuiBuild {
             e.printStackTrace();
         }
     }
-
-    //public void updateGameText(String text) {
-    //        if (gameTextLabel != null) {
-    //            gameTextLabel.setText(text);
-    //            System.out.println(text);
-    //        }
-    //}
-
-//    public void displayGuiMap() {
-//        DisplayEngine displayEngine = new DisplayEngine();
-//        //Display MapUI FULL MAP in Gui
-//        String map = MapUI.getFullMap();
-//        System.out.println(map);
-//        mapTextArea.setText(map);
-//    }
-
-//    public String displayGuiMap(List<Room> rooms) {
-//        DisplayEngine displayEngine = new DisplayEngine();
-//        DisplayArt displayArt = new DisplayArt();
-          //String map = displayEngine.printMapAndArt(displayArt, heartsoarTower.getRooms());
-//        System.out.println(map);
-//        if (mapTextArea != null) {
-//            mapTextArea.setText(map);
-//        }
-//        return map;
-//    }
 }
