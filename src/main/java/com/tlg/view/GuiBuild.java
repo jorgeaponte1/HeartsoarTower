@@ -144,8 +144,7 @@ public class GuiBuild {
         ImageIcon graphicIcon = new ImageIcon(imageUrl);
         Image graphicImage = graphicIcon.getImage(); // transform it
         Image graphicImg = graphicImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                java.awt.Image.SCALE_SMOOTH); // scale
-        // it smoothly
+                java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         graphicLabel.setIcon(graphicIcon);
         graphicPanel.add(graphicLabel);
 
@@ -231,7 +230,7 @@ public class GuiBuild {
         inventoryLabel.setBorder(new EmptyBorder(0,20,0,0));
 
         //preferred size of the inventoryTextField
-        Dimension textFieldSize = new Dimension(100, 100);
+        Dimension textFieldSize = new Dimension(100, 50);
         inventoryLabel.setPreferredSize(textFieldSize);
         // Add inventoryTextField to the center of the new panel
         inventoryHelpPanel.add(inventoryLabel, BorderLayout.CENTER);
@@ -247,11 +246,16 @@ public class GuiBuild {
             gameTextArea.setText(displayText.getDisplay());
             URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            //scale graphic Icons
-            Image graphicImages = graphicIcons.getImage(); // transform it
-            graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                    java.awt.Image.SCALE_SMOOTH); // scale
-            graphicLabel.setIcon(new ImageIcon(graphicImages));
+            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+                //scale graphic Icons
+                Image graphicImages = graphicIcons.getImage(); // transform it
+                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                        java.awt.Image.SCALE_SMOOTH); // scale
+                graphicLabel.setIcon(new ImageIcon(graphicImages));
+            }
+            else {
+                graphicLabel.setIcon(graphicIcons);
+            }
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
             inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
@@ -320,10 +324,18 @@ public class GuiBuild {
             gameInputListener.onInputReceived(upCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicLabel.setIcon(graphicIcon);
-            URL imageUrls =
-                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            graphicLabel.setIcon(graphicIcons);
+            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+                //scale graphic Icons
+                Image graphicImages = graphicIcons.getImage(); // transform it
+                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                        java.awt.Image.SCALE_SMOOTH); // scale
+                graphicLabel.setIcon(new ImageIcon(graphicImages));
+            }
+            else {
+                graphicLabel.setIcon(graphicIcons);
+            }
             inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
             locationLabel.setText(player.getLocation().getName());
             endGame(player);
@@ -357,10 +369,18 @@ public class GuiBuild {
             gameInputListener.onInputReceived(downCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicLabel.setIcon(graphicIcon);
-            URL imageUrls =
-                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            graphicLabel.setIcon(graphicIcons);
+            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+                //scale graphic Icons
+                Image graphicImages = graphicIcons.getImage(); // transform it
+                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                        java.awt.Image.SCALE_SMOOTH); // scale
+                graphicLabel.setIcon(new ImageIcon(graphicImages));
+            }
+            else {
+                graphicLabel.setIcon(graphicIcons);
+            }
             locationLabel.setText(player.getLocation().getName());
             inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
             endGame(player);
@@ -394,10 +414,18 @@ public class GuiBuild {
             gameInputListener.onInputReceived(rightCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicLabel.setIcon(graphicIcon);
-            URL imageUrls =
-                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            graphicLabel.setIcon(graphicIcons);
+            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+                //scale graphic Icons
+                Image graphicImages = graphicIcons.getImage(); // transform it
+                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                        java.awt.Image.SCALE_SMOOTH); // scale
+                graphicLabel.setIcon(new ImageIcon(graphicImages));
+            }
+            else {
+                graphicLabel.setIcon(graphicIcons);
+            }
             locationLabel.setText(player.getLocation().getName());
             inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
             endGame(player);
@@ -431,10 +459,18 @@ public class GuiBuild {
             gameInputListener.onInputReceived(leftCommand);
             gameTextArea.setText(displayText.getDisplay());
             graphicLabel.setIcon(graphicIcon);
-            URL imageUrls =
-                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            graphicLabel.setIcon(graphicIcons);
+            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+                //scale graphic Icons
+                Image graphicImages = graphicIcons.getImage(); // transform it
+                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                        java.awt.Image.SCALE_SMOOTH); // scale
+                graphicLabel.setIcon(new ImageIcon(graphicImages));
+            }
+            else {
+                graphicLabel.setIcon(graphicIcons);
+            }
             locationLabel.setText(player.getLocation().getName());
             inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
             endGame(player);
@@ -552,44 +588,68 @@ public class GuiBuild {
         // Custom button text
         Object[] options = {"Start New Game", "Quit Game"};
 
-        int n = JOptionPane.showOptionDialog(frame,
-                "Game Over! Would you like to start a new game or quit?", // prompt
-                "Game Over", // title
-                JOptionPane.YES_NO_OPTION,
+        JOptionPane pane = new JOptionPane(
+                "Game Over! Would you like to start a new game or quit?",
                 JOptionPane.QUESTION_MESSAGE,
-                null, // do not use a custom Icon
-                options, // the titles of buttons
-                options[0]); // default button title
+                JOptionPane.YES_NO_OPTION,
+                null,
+                options,
+                options[0]);
 
-        if (n == JOptionPane.YES_OPTION) {
+        // Create JDialog and set attributes
+        JDialog dialog = pane.createDialog(frame, "Game Over");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.setVisible(true);
+
+        // Check which button was pressed
+        String selectedOption = (String) pane.getValue();
+
+        while (selectedOption == null) {
+            // Reopen the dialog when the X button or escape is pressed
+            dialog.setVisible(true);
+            selectedOption = (String) pane.getValue();
+        }
+
+        if (selectedOption.equals(options[0])) {
             // Here is where we would start the Game all over.
             // TODO Implement a Restart of the loop
             //startNewGame();
-        } else if (n == JOptionPane.NO_OPTION) {
+        } else if (selectedOption.equals(options[1])) {
             System.exit(0); // exit program
         }
-        // TODO Have it to where if a player cancels or presses the X button or a cancel button.
-        // TODO They would have the gameOver variable set to false to let them continue.
     }
 
     public void congratulations() {
         // Custom button text
         Object[] options = {"Start New Game", "Quit Game"};
 
-        int n = JOptionPane.showOptionDialog(frame,
-                "Congratulations! Would you like to start a new game or quit?", // prompt
-                "Congratulations", // title
-                JOptionPane.YES_NO_OPTION,
+        JOptionPane pane = new JOptionPane(
+                "Congratulations! Would you like to start a new game or quit?",
                 JOptionPane.QUESTION_MESSAGE,
-                null, // do not use a custom Icon
-                options, // the titles of buttons
-                options[0]); // default button title
+                JOptionPane.YES_NO_OPTION,
+                null,
+                options,
+                options[0]);
 
-        if (n == JOptionPane.YES_OPTION) {
+        // Create JDialog and set attributes
+        JDialog dialog = pane.createDialog(frame, "Congratulations");
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.setVisible(true);
+
+        // Check which button was pressed
+        String selectedOption = (String) pane.getValue();
+
+        while (selectedOption == null) {
+            // Reopen the dialog when the X button or escape is pressed
+            dialog.setVisible(true);
+            selectedOption = (String) pane.getValue();
+        }
+
+        if (selectedOption.equals(options[0])) {
             // Here is where we would start the Game all over.
             // TODO Implement a Restart of the loop
             //startNewGame();
-        } else if (n == JOptionPane.NO_OPTION) {
+        } else if (selectedOption.equals(options[1])) {
             System.exit(0); // exit program
         }
     }
