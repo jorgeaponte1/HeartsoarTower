@@ -39,12 +39,11 @@ public class GuiBuild {
     private List<Item> items;
     Player player;
     DisplayArt displayArt;
-
-
-    private final Font titleFont = new Font("Helvetica", Font.PLAIN, 60);
-    private final Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
-    private final Font storyFont = new Font("Helvetica", Font.PLAIN, 30);
-    private JButton helpButton, leftButton, rightButton, upButton, downButton;
+    private final Font titleFont = new Font("Ariel", Font.BOLD, 80);
+    private final Font normalFont = new Font("Serif", Font.PLAIN, 30);
+    private final Font invFont = new Font("Ariel", Font.PLAIN, 20);
+    private final Font storyFont = new Font("Ariel", Font.PLAIN, 30);
+    private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
 
@@ -122,7 +121,6 @@ public class GuiBuild {
         graphicPanel.setBackground(new Color(26, 83, 92));
 
         graphicLabel = new JLabel();
-
         URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
         ImageIcon graphicIcon = new ImageIcon(imageUrl);
         graphicLabel.setIcon(graphicIcon);
@@ -133,7 +131,7 @@ public class GuiBuild {
         // Added this line
         gameTextPanel.setLayout(new BorderLayout());
         gameTextPanel.setBackground(Color.CYAN);
-        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 120));
+        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 180));
 
         // GameText Area
         JTextArea gameTextArea = new JTextArea();
@@ -192,24 +190,29 @@ public class GuiBuild {
 
         // Map Label
         mapLabel = new JLabel(imgResourcePath, scaledMapImageIcon, JLabel.CENTER);
-        mapLabel.setBackground(new Color(78, 205, 196));
+        //mapLabel.setBackground(new Color(78, 205, 196));
         mapLabel.setForeground(Color.BLACK);
-        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 300));
+        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 550));
+        navPanel.add(mapLabel, BorderLayout.NORTH);
 
         // Create a new panel with BorderLayout
         inventoryHelpPanel = new JPanel(new BorderLayout());
 
         // Inventory Text field
         inventoryLabel = new JLabel();
-        inventoryLabel.setBackground(new Color(78, 205, 196));
-        inventoryLabel.setForeground(Color.BLACK);
+        inventoryLabel.setBackground(new Color(78,205,196));
+        inventoryLabel.setForeground(Color.WHITE);
+        inventoryLabel.setFont(invFont);
         DisplayInput displayInput = new DisplayInput(player);
         inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
         inventoryLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
 
         //preferred size of the inventoryTextField
-        Dimension textFieldSize = new Dimension(100, 50);
+        Dimension textFieldSize = new Dimension(100, 150);
         inventoryLabel.setPreferredSize(textFieldSize);
+        // Add inventoryTextField to the center of the new panel
+        inventoryHelpPanel.add(inventoryLabel, BorderLayout.CENTER);
+        inventoryHelpPanel.setBackground(new Color(26,83,92));
 
 
         // ActionListener for the userInputTextField
@@ -225,13 +228,16 @@ public class GuiBuild {
         // NavBtn Panel
         navBtnPanel = new JPanel();
         navBtnPanel.setLayout(new GridBagLayout());
-        navBtnPanel.setBackground(new Color(247, 255, 247));
+        navBtnPanel.setBackground(Color.BLACK);
+        navBtnPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 120));
 
         // Location Panel
         locationPanel = new JPanel();
-        locationPanel.setBackground(new Color(26, 83, 92));
-        locationPanel.setForeground(new Color(247, 255, 247));
+        locationPanel.setBackground(new Color(26,83,92));
+
+        // Location Label
         locationLabel = new JLabel();
+        locationLabel.setBackground(new Color(26,83,92));
         locationLabel.setText(player.getLocation().getName());
         locationLabel.setForeground(new Color(247, 255, 247));
         locationPanel.add(locationLabel);
@@ -362,7 +368,14 @@ public class GuiBuild {
         // Music Panel
         musicButtonPanel = new JPanel();
         musicButtonPanel.setBounds(300, 400, 200, 100);
-        musicButtonPanel.setBackground(new Color(247, 255, 247));
+        musicButtonPanel.setBackground(new Color(26,83,92));
+        musicButtonPanel.setForeground(Color.WHITE);
+        musicButtonPanel.setLayout(new GridBagLayout());
+
+        // Modify the height of the Bounds object
+        Rectangle bounds = musicButtonPanel.getBounds();
+        bounds.height = 150; // Set the desired height
+        musicButtonPanel.setBounds(bounds);
 
         // Music Panel Label
         JLabel music = new JLabel();
@@ -430,6 +443,7 @@ public class GuiBuild {
         slider.setPaintTrack(true);
         slider.setMajorTickSpacing(25);
         slider.setPaintLabels(true);
+        slider.setForeground(Color.WHITE);
 
         // Volume Slider Listener
         final float[] Volume = {slider.getValue()};
