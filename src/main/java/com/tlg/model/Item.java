@@ -6,6 +6,7 @@ public class Item {
     private String onUse;
     private boolean isStorable;
     private String art;
+    private String graphic;
 
 
     public Item(String name, String description, boolean isStorable, String onUse, String art) {
@@ -34,5 +35,9 @@ public class Item {
 
     public String getArt() {
         return art;
+    }
+
+    public String getGraphic() {
+        return graphic;
     }
 }

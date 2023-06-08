@@ -2,10 +2,7 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
-import com.tlg.model.Factory;
-import com.tlg.model.Item;
-import com.tlg.model.Player;
-import com.tlg.model.Room;
+import com.tlg.model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -48,9 +45,10 @@ public class GuiBuild {
     private Room currentRoom;
 
 
-    private Font titleFont = new Font("Helvetica", Font.PLAIN, 60);
-    private Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
-    private Font storyFont = new Font("Helvetica", Font.PLAIN, 30);
+    private Font titleFont = new Font("Ariel", Font.BOLD, 80);
+    private Font normalFont = new Font("Serif", Font.PLAIN, 30);
+    private Font invFont = new Font("Ariel", Font.PLAIN, 20);
+    private Font storyFont = new Font("Ariel", Font.PLAIN, 30);
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
@@ -134,12 +132,10 @@ public class GuiBuild {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Image scaledImage = backgroundImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                Image.SCALE_DEFAULT);
+        Image scaledImage = backgroundImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(), Image.SCALE_SMOOTH);
+
         //graphicLabel = new JLabel("", new ImageIcon(scaledImage), JLabel.CENTER);
         graphicLabel = new JLabel();
-
-
         URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
         ImageIcon graphicIcon = new ImageIcon(imageUrl);
         Image graphicImage = graphicIcon.getImage(); // transform it
@@ -153,7 +149,7 @@ public class GuiBuild {
         // Added this line
         gameTextPanel.setLayout(new BorderLayout());
         gameTextPanel.setBackground(Color.CYAN);
-        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 120));
+        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 180));
 
         // TODO UNDO this comment if it does not work
         JTextArea gameTextArea = new JTextArea();
@@ -213,9 +209,9 @@ public class GuiBuild {
 
         // Map Label
         mapLabel = new JLabel(imgResourcePath, scaledMapImageIcon, JLabel.CENTER);
-        mapLabel.setBackground(new Color(78, 205, 196));
+        //mapLabel.setBackground(new Color(78, 205, 196));
         mapLabel.setForeground(Color.BLACK);
-        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 300));
+        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 550));
         navPanel.add(mapLabel, BorderLayout.NORTH);
 
         // Create a new panel with BorderLayout
@@ -224,16 +220,19 @@ public class GuiBuild {
         // Inventory Text field
         inventoryLabel = new JLabel();
         inventoryLabel.setBackground(new Color(78,205,196));
-        inventoryLabel.setForeground(Color.BLACK);
+        inventoryLabel.setForeground(Color.WHITE);
+        inventoryLabel.setFont(invFont);
         DisplayInput displayInput = new DisplayInput(player);
         inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
         inventoryLabel.setBorder(new EmptyBorder(0,20,0,0));
 
         //preferred size of the inventoryTextField
-        Dimension textFieldSize = new Dimension(100, 50);
+        Dimension textFieldSize = new Dimension(100, 150);
         inventoryLabel.setPreferredSize(textFieldSize);
         // Add inventoryTextField to the center of the new panel
         inventoryHelpPanel.add(inventoryLabel, BorderLayout.CENTER);
+        inventoryHelpPanel.setBackground(new Color(26,83,92));
+
 
         // ActionListener for the userInputTextField
         userInputTextField.addActionListener(e -> {
@@ -267,13 +266,16 @@ public class GuiBuild {
         // NavBtn Panel
         navBtnPanel = new JPanel();
         navBtnPanel.setLayout(new GridBagLayout());
-        navBtnPanel.setBackground(new Color(247,255,247));
+        navBtnPanel.setBackground(Color.BLACK);
+        navBtnPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 120));
 
         // Location Panel
         locationPanel = new JPanel();
         locationPanel.setBackground(new Color(26,83,92));
-        locationPanel.setForeground(new Color(247,255,247));
+
+        // Location Label
         locationLabel = new JLabel();
+        locationLabel.setBackground(new Color(26,83,92));
         locationLabel.setText(player.getLocation().getName());
         locationLabel.setForeground(new Color(247,255,247));
         locationPanel.add(locationLabel);
@@ -484,7 +486,15 @@ public class GuiBuild {
         // Music Panel
         musicButtonPanel = new JPanel();
         musicButtonPanel.setBounds(300, 400, 200, 100);
-        musicButtonPanel.setBackground(new Color(247,255,247));
+        musicButtonPanel.setBackground(new Color(26,83,92));
+        musicButtonPanel.setForeground(Color.WHITE);
+        musicButtonPanel.setLayout(new GridBagLayout());
+
+        // Modify the height of the Bounds object
+        Rectangle bounds = musicButtonPanel.getBounds();
+        bounds.height = 150; // Set the desired height
+        musicButtonPanel.setBounds(bounds);
+
 
         // Music Panel Label
         JLabel music = new JLabel();
@@ -529,6 +539,7 @@ public class GuiBuild {
         slider.setPaintTrack(true);
         slider.setMajorTickSpacing(25);
         slider.setPaintLabels(true);
+        slider.setForeground(Color.WHITE);
         musicButtonPanel.add(slider);
 
         // Volume Slider Listener
@@ -543,8 +554,8 @@ public class GuiBuild {
         userInputPanel.add(navBtnPanel, BorderLayout.EAST);
 
         // Sub Panel for musicButtonPanel inside navPanel
-        navPanel.add(musicButtonPanel, BorderLayout.NORTH);
-        navPanel.add(mapLabel, BorderLayout.CENTER);
+        navPanel.add(musicButtonPanel, BorderLayout.CENTER);
+        navPanel.add(mapLabel, BorderLayout.NORTH);
 
         // Add panels to the container using BorderLayout
         con.add(locationPanel, BorderLayout.NORTH);
@@ -552,6 +563,23 @@ public class GuiBuild {
         con.add(userInputPanel, BorderLayout.SOUTH);
         con.add(navPanel, BorderLayout.EAST);
     }
+
+    private String fetchJSONData(String url) {
+        StringBuilder jsonData = new StringBuilder();
+        try {
+            URL jsonUrl = new URL(url);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(jsonUrl.openStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonData.append(line);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonData.toString();
+    }
+
     // TODO This method I need to Change to Create the Pop-Up of the Yes/No
     public void onYesNoInputReceived() {
         // Here, you should wait for user input from the GUI,
