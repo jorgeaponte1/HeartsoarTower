@@ -10,9 +10,12 @@ public class Player {
     private Room prevLocation;
     private List<Item> inventory = new ArrayList<>();
     private Map map;
+    private int amuletCharges;
+    private boolean gameOver;
+    private boolean wonGame;
 
 
-    public Player(List<Room> rooms,List<Item> items) {
+    public Player(List<Room> rooms, List<Item> items, int amuletCharges, boolean gameOver, boolean wonGame) {
 //        Set the location with the name Entrance
         for (Room room : rooms){
             if (room.getName().equals("Entrance")){
@@ -34,6 +37,9 @@ public class Player {
                 addItemToInventory(item);
             }
         }
+        this.amuletCharges = amuletCharges;
+        this.gameOver = gameOver;
+        this.wonGame = wonGame;
     }
 
     public Room getLocation() {
@@ -86,8 +92,32 @@ public class Player {
         return name;
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public boolean isWonGame() {
+        return wonGame;
+    }
+
+    public void setWonGame(boolean wonGame) {
+        this.wonGame = wonGame;
+    }
+
+    public int getAmuletCharges() {
+        return amuletCharges;
+    }
+
+    public void setAmuletCharges(int amuletCharges) {
+        this.amuletCharges = amuletCharges;
+    }
+
     public void useAmulet() {
-        if (prevLocation != null) {
+        if (prevLocation != null && getAmuletCharges() > 0) {
             location = prevLocation;
         }
     }

@@ -8,6 +8,8 @@ import com.tlg.view.DisplayText;
 
 import java.util.List;
 
+import static com.tlg.controller.AlwaysCommands.gameOver;
+
 class CombatEngine {
 
     private HeartsoarTower heartsoarTower;
@@ -39,7 +41,7 @@ class CombatEngine {
 
         if (successVerb.equalsIgnoreCase(instruct[0]) && successNoun.equalsIgnoreCase(instruct[1])){
 //            First determine if the player has the item:
-            if (instruct[0].equalsIgnoreCase("use")){
+            if (instruct[0].equalsIgnoreCase("use") && !instruct[1].equalsIgnoreCase("amulet")){
                 boolean hasItem = player.hasItem(instruct[1]);
                 if (hasItem){
                     player.removeItemFromInventory(instruct[1]);
@@ -60,7 +62,7 @@ class CombatEngine {
                         }
                     }
                 }
-                scene.defeatMonster(scene.getSceneMonsters(0), text, inputter, rooms);
+                scene.defeatMonster(scene.getSceneMonsters(0), text, inputter, rooms, player);
 //                Kill the monster by adding an extra white line 30 times until the monster has dissapeared:
             }
             if (instruct[0].equalsIgnoreCase("get") && instruct[1].equalsIgnoreCase("key")) {
@@ -81,29 +83,53 @@ class CombatEngine {
             if (failures.contains(instruct[0]) || failures.contains(instruct[1])){
                 actionTaken = true;
                 if (player.getPrevLocation() == null) {
-                    player.setPrevLocation(player.getLocation());
-                    player.setLocation(player.getLocation());
+                    int amuletCharges = player.getAmuletCharges();
+                    if (amuletCharges > 0) {
+                        amuletCharges--;
+                        player.setAmuletCharges(amuletCharges);
+                        player.setPrevLocation(player.getLocation());
+                        player.setLocation(player.getLocation());
+                        text.setDisplay(monster.getSceneFailed() + "\nYou use the amulet to redo the current room. \n" + player.getLocation().getDesc()[0]);
+                        if (amuletCharges == 0) {
+                            player.removeItemFromInventory("amulet");
+                        }
+                    }
+                    else {
+                        gameOver();
+                        player.setGameOver(true);
+                    }
                     //heartsoarTower.grabScene();
-                    text.setDisplay(monster.getSceneFailed() + "\nYou use the amulet to redo the current room. \n" + player.getLocation().getDesc()[0]);
                 }
                 else {
                     for (Room room : rooms) {
                         if (room.getName().equals(player.getPrevLocation().getName())) {
-                            player.useAmulet();
-                            if (heartsoarTower.getPreviousScene() != null) {
-                                scene = heartsoarTower.getPreviousScene();
-                            }
-                            heartsoarTower.grabScene();
-                            heartsoarTower.text.setDisplay(monster.getSceneFailed() + "\nYou use the amulet to return to the previous room. \n" + player.getLocation().getDesc()[0]);
-                            if (scene.getAllSceneMonsters() != null && scene.getAllSceneMonsters().size() != 0) {
-                                String monsterPicture = scene.getAllSceneMonsters().get(0).getArt();
-                                art.setDisplay(monsterPicture);
-                            }
-                            else if (scene.getAllSceneMonsters() != null && scene.getSceneItems().size() != 0) {
-                                art.setDisplay(scene.getSceneItems().get(0).getArt());
+                            int amuletCharges = player.getAmuletCharges();
+                            if (amuletCharges > 0) {
+                                amuletCharges--;
+                                player.setAmuletCharges(amuletCharges);
+                                player.useAmulet();
+                                if (amuletCharges == 0) {
+                                    player.removeItemFromInventory("amulet");
+                                }
+                                if (heartsoarTower.getPreviousScene() != null) {
+                                    scene = heartsoarTower.getPreviousScene();
+                                }
+                                heartsoarTower.grabScene();
+                                heartsoarTower.text.setDisplay(monster.getSceneFailed() + "\nYou use the amulet to return to the previous room. \n" + player.getLocation().getDesc()[0]);
+                                if (scene.getAllSceneMonsters() != null && scene.getAllSceneMonsters().size() != 0) {
+                                    String monsterPicture = scene.getAllSceneMonsters().get(0).getArt();
+                                    art.setDisplay(monsterPicture);
+                                }
+                                else if (scene.getAllSceneMonsters() != null && scene.getSceneItems().size() != 0) {
+                                    art.setDisplay(scene.getSceneItems().get(0).getArt());
+                                }
+                                else {
+                                    art.setDisplay("");
+                                }
                             }
                             else {
-                                art.setDisplay("");
+                                gameOver();
+                                player.setGameOver(true);
                             }
                         }
                     }
