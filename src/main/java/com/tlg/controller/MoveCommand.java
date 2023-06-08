@@ -1,6 +1,5 @@
 package com.tlg.controller;
 
-import com.tlg.model.Monster;
 import com.tlg.model.Player;
 import com.tlg.model.Room;
 import com.tlg.model.Scene;
@@ -66,8 +65,6 @@ class MoveCommand {
                 gameOver();
                 player.setGameOver(true);
             }
-//            player.setPrevLocation(player.getLocation());
-//            player.setLocation(player.getLocation());
             return true;
         }
         for (Room room : rooms) {
@@ -78,8 +75,6 @@ class MoveCommand {
                     player.setAmuletCharges(amuletCharges);
                     player.useAmulet();
                 }
-//                player.setPrevLocation(player.getLocation());
-//                player.setLocation(room);
                 return true;
             }
         }

@@ -8,8 +8,6 @@ import com.tlg.view.DisplayText;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.awt.SystemColor.text;
-
 public class Scene {
     private Room room;
     private String[] description = new String[3];

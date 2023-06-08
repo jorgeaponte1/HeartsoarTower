@@ -2,7 +2,9 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
-import com.tlg.model.*;
+import com.tlg.model.Item;
+import com.tlg.model.Player;
+import com.tlg.model.Room;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,43 +17,36 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.List;
 
 public class GuiBuild {
 
     private JFrame frame;
     private JPanel titleNamePanel, musicButtonPanel, gameTextPanel, userInputPanel, navPanel,
-    choiceTextPanel, helpPanel, instructionPanel, graphicPanel, navBtnPanel, locationPanel, inventoryHelpPanel;
-    private JTextField userInputTextField, inventoryTextField, locationTextField;
-    private JTextArea instructionTextArea, introductionTextArea, mapTextArea, gameTextArea;
+            instructionPanel, graphicPanel, navBtnPanel, locationPanel, inventoryHelpPanel;
+    private JTextField userInputTextField;
+    private JTextArea introductionTextArea;
     private Container con;
-    private JLabel titleNameLabel, locationLabel, mapLabel;
+    private JLabel locationLabel, mapLabel;
     private JLabel graphicLabel;
-    private static JLabel gameTextLabel;
     private JLabel inventoryLabel;
-    private JLabel introductionLabel;
     HeartsoarTower heartsoarTower = new HeartsoarTower();
-    public com.tlg.model.Factory factory = new Factory();
     private List<Room> rooms;
     private List<Item> items;
     Player player;
     DisplayArt displayArt;
-    DisplayText displayText;
-    DisplayInput displayInput;
-    private Room currentRoom;
-
-
-    private Font titleFont = new Font("Ariel", Font.BOLD, 80);
-    private Font normalFont = new Font("Serif", Font.PLAIN, 30);
-    private Font invFont = new Font("Ariel", Font.PLAIN, 20);
-    private Font storyFont = new Font("Ariel", Font.PLAIN, 30);
+    private final Font titleFont = new Font("Ariel", Font.BOLD, 80);
+    private final Font normalFont = new Font("Serif", Font.PLAIN, 30);
+    private final Font invFont = new Font("Ariel", Font.PLAIN, 20);
+    private final Font storyFont = new Font("Ariel", Font.PLAIN, 30);
     private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
+
     public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt) throws IOException {
 
         // Create and set up the window.
@@ -101,8 +96,8 @@ public class GuiBuild {
             }
         });
 
-        titleNamePanel.add(titleNameLabel, BorderLayout.CENTER); // Add the label to the panel
-        con.add(titleNamePanel, BorderLayout.CENTER); // Add the title name panel to the content pane
+        addChildren(titleNamePanel, List.of(titleNameLabel), List.of(BorderLayout.CENTER)); // Add the label to the panel
+        addChildren(con, List.of(titleNamePanel), List.of(BorderLayout.CENTER)); // Add the title name panel to the content pane
 
         this.gameInputListener = gameInputListener;
         this.displayArt = displayArt;
@@ -122,25 +117,12 @@ public class GuiBuild {
 
         // Graphic PANEL
         graphicPanel = new JPanel();
-        graphicPanel.setBounds(0,0,750,800);
-        graphicPanel.setBackground(new Color(26,83,92));
+        graphicPanel.setBounds(0, 0, 750, 800);
+        graphicPanel.setBackground(new Color(26, 83, 92));
 
-        Image backgroundImage = null;
-        try {
-            backgroundImage =
-                    ImageIO.read(getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Image scaledImage = backgroundImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(), Image.SCALE_SMOOTH);
-
-        //graphicLabel = new JLabel("", new ImageIcon(scaledImage), JLabel.CENTER);
         graphicLabel = new JLabel();
         URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
         ImageIcon graphicIcon = new ImageIcon(imageUrl);
-        Image graphicImage = graphicIcon.getImage(); // transform it
-        Image graphicImg = graphicImage.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         graphicLabel.setIcon(graphicIcon);
         graphicPanel.add(graphicLabel);
 
@@ -151,18 +133,18 @@ public class GuiBuild {
         gameTextPanel.setBackground(Color.CYAN);
         gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 180));
 
-        // TODO UNDO this comment if it does not work
+        // GameText Area
         JTextArea gameTextArea = new JTextArea();
         gameTextArea.setLineWrap(true); // Set line-wrap to true
         gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
         gameTextArea.setEditable(false); // Make the JTextArea uneditable
-        gameTextArea.setBackground(new Color(247,255,247));
+        gameTextArea.setBackground(new Color(247, 255, 247));
         gameTextArea.setForeground(Color.BLACK);
         gameTextArea.setFont(normalFont);
-        gameTextArea.setMargin(new Insets(0,40,0,0));
+        gameTextArea.setMargin(new Insets(0, 40, 0, 0));
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
-        gameTextPanel.add(gameTextArea, BorderLayout.CENTER);
+        addChildren(gameTextPanel,List.of(gameTextArea),List.of(BorderLayout.CENTER));
 
         // UserInput TEXT PANEL
         userInputPanel = new JPanel();
@@ -182,17 +164,16 @@ public class GuiBuild {
         int marginSize = 40;
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
         userInputTextField.setMargin(margin);
-        userInputPanel.add(userInputTextField, BorderLayout.CENTER);
+        addChildren(userInputPanel,List.of(userInputTextField),List.of(BorderLayout.CENTER));
 
         // Nav PANEL (right column)
         navPanel = new JPanel();
         navPanel.setLayout(new BorderLayout());
-        navPanel.setBackground(new Color(26,83,92));
+        navPanel.setBackground(new Color(26, 83, 92));
 
         // Set preferred width for the navPanel
         int navPanelWidth = 500; // Adjust this value as desired
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
-
 
         // Map Image
         String imgResourcePath = "/Images/map.png";
@@ -202,7 +183,7 @@ public class GuiBuild {
         Image mapImage = mapImageIcon.getImage();
         int newWidth = mapImageIcon.getIconWidth() / 2; // Adjust the divisor to change the scaling factor
         int newHeight = mapImageIcon.getIconHeight() / 2; // Adjust the divisor to change the scaling factor
-        scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        Image scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
         // Create a new ImageIcon with the scaled image
         ImageIcon scaledMapImageIcon = new ImageIcon(scaledImage);
@@ -224,7 +205,7 @@ public class GuiBuild {
         inventoryLabel.setFont(invFont);
         DisplayInput displayInput = new DisplayInput(player);
         inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
-        inventoryLabel.setBorder(new EmptyBorder(0,20,0,0));
+        inventoryLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
 
         //preferred size of the inventoryTextField
         Dimension textFieldSize = new Dimension(100, 150);
@@ -241,27 +222,8 @@ public class GuiBuild {
             input = input.replaceAll("\\W+", " ").toLowerCase().strip();
             String[] words = input.split("\\s+");  // split on one or more whitespace characters
             userInputTextField.setText("");
-            gameInputListener.onInputReceived(words);
-            gameTextArea.setText(displayText.getDisplay());
-            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
-            ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
-                //scale graphic Icons
-                Image graphicImages = graphicIcons.getImage(); // transform it
-                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                        java.awt.Image.SCALE_SMOOTH); // scale
-                graphicLabel.setIcon(new ImageIcon(graphicImages));
-            }
-            else {
-                graphicLabel.setIcon(graphicIcons);
-            }
-            inventoryLabel.setText(displayInput.getInventory());
-            locationLabel.setText(player.getLocation().getName());
-            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
-            endGame(player);
-            mapLabel.setIcon(player.getLocation().getMapImage());
+            updateGUI(gameTextArea, displayText, displayInput, words);
         });
-
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
@@ -277,7 +239,7 @@ public class GuiBuild {
         locationLabel = new JLabel();
         locationLabel.setBackground(new Color(26,83,92));
         locationLabel.setText(player.getLocation().getName());
-        locationLabel.setForeground(new Color(247,255,247));
+        locationLabel.setForeground(new Color(247, 255, 247));
         locationPanel.add(locationLabel);
 
 // Create GridBagConstraints
@@ -293,14 +255,14 @@ public class GuiBuild {
         //noinspection ConstantConditions
         ImageIcon helpIcon = new ImageIcon(helpUrl);
         Image helpImage = helpIcon.getImage(); // transform it
-        Image helpImg = helpImage.getScaledInstance(800, 800,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image helpImg = helpImage.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newHelpIcon = new ImageIcon(helpImg);  // assign to a new ImageIcon instance
         helpButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(null, null, "Help Scroll", JOptionPane.PLAIN_MESSAGE, newHelpIcon)
         );
-        // Add helpButton to the south of the new panel
-        inventoryHelpPanel.add(helpButton, BorderLayout.SOUTH);
-        navPanel.add(inventoryHelpPanel, BorderLayout.SOUTH);
+        // Add inventoryTextField to the center and add helpButton to the south of the new panel
+        addChildren(inventoryHelpPanel,List.of(inventoryLabel,helpButton), List.of(BorderLayout.CENTER,BorderLayout.SOUTH));
+
 
 // Nav Buttons
         // Up Button
@@ -312,35 +274,15 @@ public class GuiBuild {
         //noinspection ConstantConditions
         ImageIcon upDirectionIcon = new ImageIcon(upDirectionURL);
         Image upDirectionImage = upDirectionIcon.getImage(); // transform it
-        Image upDirectionImg = upDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image upDirectionImg = upDirectionImage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newUpDirectionIcon = new ImageIcon(upDirectionImg);  // assign to a new ImageIcon instance
 
-        upButton.setBorderPainted(false);
-        upButton.setContentAreaFilled(false);
-        upButton.setFocusPainted(false);
-        upButton.setOpaque(false);
+        hideButton(upButton);
 
         upButton.setIcon(newUpDirectionIcon);
         upButton.addActionListener(e -> {
             String[] upCommand = {"go", "up"};
-            gameInputListener.onInputReceived(upCommand);
-            gameTextArea.setText(displayText.getDisplay());
-            graphicLabel.setIcon(graphicIcon);
-            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
-            ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
-                //scale graphic Icons
-                Image graphicImages = graphicIcons.getImage(); // transform it
-                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                        java.awt.Image.SCALE_SMOOTH); // scale
-                graphicLabel.setIcon(new ImageIcon(graphicImages));
-            }
-            else {
-                graphicLabel.setIcon(graphicIcons);
-            }
-            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
-            locationLabel.setText(player.getLocation().getName());
-            endGame(player);
+            updateGUI(gameTextArea, displayText, displayInput, upCommand);
         });
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -357,35 +299,15 @@ public class GuiBuild {
         //noinspection ConstantConditions
         ImageIcon downDirectionIcon = new ImageIcon(downDirectionURL);
         Image downDirectionImage = downDirectionIcon.getImage(); // transform it
-        Image downDirectionImg = downDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image downDirectionImg = downDirectionImage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newDownDirectionIcon = new ImageIcon(downDirectionImg);  // assign to a new ImageIcon instance
 
-        downButton.setBorderPainted(false);
-        downButton.setContentAreaFilled(false);
-        downButton.setFocusPainted(false);
-        downButton.setOpaque(false);
+        hideButton(downButton);
 
         downButton.setIcon(newDownDirectionIcon);
         downButton.addActionListener(e -> {
             String[] downCommand = {"go", "down"};
-            gameInputListener.onInputReceived(downCommand);
-            gameTextArea.setText(displayText.getDisplay());
-            graphicLabel.setIcon(graphicIcon);
-            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
-            ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
-                //scale graphic Icons
-                Image graphicImages = graphicIcons.getImage(); // transform it
-                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                        java.awt.Image.SCALE_SMOOTH); // scale
-                graphicLabel.setIcon(new ImageIcon(graphicImages));
-            }
-            else {
-                graphicLabel.setIcon(graphicIcons);
-            }
-            locationLabel.setText(player.getLocation().getName());
-            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
-            endGame(player);
+            updateGUI(gameTextArea, displayText, displayInput, downCommand);
         });
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -402,35 +324,15 @@ public class GuiBuild {
         //noinspection ConstantConditions
         ImageIcon rightDirectionIcon = new ImageIcon(rightDirectionURL);
         Image rightDirectionImage = rightDirectionIcon.getImage(); // transform it
-        Image rightDirectionImg = rightDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image rightDirectionImg = rightDirectionImage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newRightDirectionIcon = new ImageIcon(rightDirectionImg);  // assign to a new ImageIcon instance
 
-        rightButton.setBorderPainted(false);
-        rightButton.setContentAreaFilled(false);
-        rightButton.setFocusPainted(false);
-        rightButton.setOpaque(false);
+        hideButton(rightButton);
 
         rightButton.setIcon(newRightDirectionIcon);
         rightButton.addActionListener(e -> {
             String[] rightCommand = {"go", "right"};
-            gameInputListener.onInputReceived(rightCommand);
-            gameTextArea.setText(displayText.getDisplay());
-            graphicLabel.setIcon(graphicIcon);
-            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
-            ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
-                //scale graphic Icons
-                Image graphicImages = graphicIcons.getImage(); // transform it
-                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                        java.awt.Image.SCALE_SMOOTH); // scale
-                graphicLabel.setIcon(new ImageIcon(graphicImages));
-            }
-            else {
-                graphicLabel.setIcon(graphicIcons);
-            }
-            locationLabel.setText(player.getLocation().getName());
-            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
-            endGame(player);
+            updateGUI(gameTextArea, displayText, displayInput, rightCommand);
         });
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -447,35 +349,15 @@ public class GuiBuild {
         //noinspection ConstantConditions
         ImageIcon leftDirectionIcon = new ImageIcon(leftDirectionURL);
         Image leftDirectionImage = leftDirectionIcon.getImage(); // transform it
-        Image leftDirectionImg = leftDirectionImage.getScaledInstance(60, 60,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image leftDirectionImg = leftDirectionImage.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newLeftDirectionIcon = new ImageIcon(leftDirectionImg);  // assign to a new ImageIcon instance
 
-        leftButton.setBorderPainted(false);
-        leftButton.setContentAreaFilled(false);
-        leftButton.setFocusPainted(false);
-        leftButton.setOpaque(false);
+        hideButton(leftButton);
 
         leftButton.setIcon(newLeftDirectionIcon);
         leftButton.addActionListener(e -> {
             String[] leftCommand = {"go", "left"};
-            gameInputListener.onInputReceived(leftCommand);
-            gameTextArea.setText(displayText.getDisplay());
-            graphicLabel.setIcon(graphicIcon);
-            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
-            ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
-                //scale graphic Icons
-                Image graphicImages = graphicIcons.getImage(); // transform it
-                graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                        java.awt.Image.SCALE_SMOOTH); // scale
-                graphicLabel.setIcon(new ImageIcon(graphicImages));
-            }
-            else {
-                graphicLabel.setIcon(graphicIcons);
-            }
-            locationLabel.setText(player.getLocation().getName());
-            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
-            endGame(player);
+            updateGUI(gameTextArea, displayText, displayInput, leftCommand);
         });
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -495,7 +377,6 @@ public class GuiBuild {
         bounds.height = 150; // Set the desired height
         musicButtonPanel.setBounds(bounds);
 
-
         // Music Panel Label
         JLabel music = new JLabel();
         // Speaker Image
@@ -503,22 +384,19 @@ public class GuiBuild {
         //noinspection ConstantConditions
         ImageIcon speakerIcon = new ImageIcon(speakerUrl);
         Image speakerImage = speakerIcon.getImage(); // transform it
-        Image newSpeakerImg = speakerImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image newSpeakerImg = speakerImage.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newSpeakerIcon = new ImageIcon(newSpeakerImg);  // assign to a new ImageIcon instance
         // Mute Image
         URL muteUrl = getClass().getClassLoader().getResource("Images/speakeroff.png");
         //noinspection ConstantConditions
         ImageIcon muteIcon = new ImageIcon(muteUrl);
         Image muteImage = muteIcon.getImage(); // transform it
-        Image newMuteImg = muteImage.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it smoothly
+        Image newMuteImg = muteImage.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newMuteIcon = new ImageIcon(newMuteImg);  // assign to a new ImageIcon instance
 
         JButton speakerButton = new JButton(newSpeakerIcon);
         // Make SpeakerIcon be the button and remove the border of the button.
-        speakerButton.setBorderPainted(false);
-        speakerButton.setContentAreaFilled(false);
-        speakerButton.setFocusPainted(false);
-        speakerButton.setOpaque(false);
+        hideButton(speakerButton);
         speakerButton.addActionListener(e -> {
             if (musicPlayer.isPlaying()) {
                 speakerButton.setIcon(newMuteIcon);
@@ -533,62 +411,77 @@ public class GuiBuild {
         musicButtonPanel.add(music);
 
         // Volume Slider
-        JSlider slider = new JSlider(0,100,50);
+        musicButtonPanel.add(buildVolumeSlider());
+
+        // Sub Panel for navBtnPanel and gameTextPanel inside UserInput Panel
+        addChildren(userInputPanel, List.of(gameTextPanel,navBtnPanel), List.of(BorderLayout.NORTH, BorderLayout.EAST));
+        addChildren(inventoryHelpPanel, List.of(helpButton), List.of(BorderLayout.SOUTH));
+
+        // Sub Panel for musicButtonPanel inside navPanel
+        addChildren(navPanel,List.of(musicButtonPanel, mapLabel, inventoryHelpPanel),List.of(BorderLayout.NORTH, BorderLayout.CENTER, BorderLayout.SOUTH));
+
+        // Add panels to the container using BorderLayout
+        addChildren(con,List.of(locationPanel,graphicPanel,userInputPanel,navPanel),
+                List.of(BorderLayout.NORTH, BorderLayout.CENTER, BorderLayout.SOUTH, BorderLayout.EAST));
+    }
+
+    private Container addChildren(Container parent, List<Component> children, List<Object> constraints) {
+        Iterator<Component> childIter = children.iterator();
+        Iterator<Object> constraintIter = constraints.iterator();
+        while (childIter.hasNext() && constraintIter.hasNext()) {
+            Component child = childIter.next();
+            Object constraint = constraintIter.next();
+            parent.add(child, constraint);
+        }
+        return parent;
+    }
+
+    private JSlider buildVolumeSlider() {
+        JSlider slider = new JSlider(0, 100, 50);
         slider.setPaintTicks(true);
         slider.setMinorTickSpacing(10);
         slider.setPaintTrack(true);
         slider.setMajorTickSpacing(25);
         slider.setPaintLabels(true);
         slider.setForeground(Color.WHITE);
-        musicButtonPanel.add(slider);
 
         // Volume Slider Listener
         final float[] Volume = {slider.getValue()};
         slider.addChangeListener(e -> {
-            Volume[0] = (float) (((JSlider)e.getSource()).getValue() / 100.00);
+            Volume[0] = (float) (((JSlider) e.getSource()).getValue() / 100.00);
             musicPlayer.setVolume(Volume[0]);
         });
-
-        // Sub Panel for navBtnPanel and gameTextPanel inside UserInput Panel
-        userInputPanel.add(gameTextPanel, BorderLayout.NORTH);
-        userInputPanel.add(navBtnPanel, BorderLayout.EAST);
-
-        // Sub Panel for musicButtonPanel inside navPanel
-        navPanel.add(musicButtonPanel, BorderLayout.CENTER);
-        navPanel.add(mapLabel, BorderLayout.NORTH);
-
-        // Add panels to the container using BorderLayout
-        con.add(locationPanel, BorderLayout.NORTH);
-        con.add(graphicPanel, BorderLayout.CENTER);
-        con.add(userInputPanel, BorderLayout.SOUTH);
-        con.add(navPanel, BorderLayout.EAST);
+        return slider;
     }
 
-    private String fetchJSONData(String url) {
-        StringBuilder jsonData = new StringBuilder();
-        try {
-            URL jsonUrl = new URL(url);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(jsonUrl.openStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonData.append(line);
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void hideButton(JButton button) {
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setOpaque(false);
+    }
+
+    private void updateGUI(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] upCommand) {
+        gameInputListener.onInputReceived(upCommand);
+        gameTextArea.setText(displayText.getDisplay());
+        URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+        ImageIcon graphicIcons = new ImageIcon(imageUrls);
+        if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+            //scale graphic Icons
+            Image graphicImages = graphicIcons.getImage(); // transform it
+            graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                    Image.SCALE_SMOOTH); // scale
+            graphicLabel.setIcon(new ImageIcon(graphicImages));
+        } else {
+            graphicLabel.setIcon(graphicIcons);
         }
-        return jsonData.toString();
+        inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
+        locationLabel.setText(player.getLocation().getName());
+        mapLabel.setIcon(player.getLocation().getMapImage());
+        endGame(player);
     }
 
-    // TODO This method I need to Change to Create the Pop-Up of the Yes/No
-    public void onYesNoInputReceived() {
-        // Here, you should wait for user input from the GUI,
-        // When the user inputs something, return it.
-        String input = "Yes";
-        gameInputListener.onYesNoInputReceived(input);
-    }
-
-    public void endGame(Player player) {
+    private void endGame(Player player) {
         if (player.isGameOver()) {
             gameOver();
         }
@@ -597,12 +490,14 @@ public class GuiBuild {
         }
     }
 
-    class JTextFieldLimit extends PlainDocument {
+    private class JTextFieldLimit extends PlainDocument {
         private int limit;
+
         JTextFieldLimit(int limit) {
             super();
             this.limit = limit;
         }
+
         public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
             if (str == null)
                 return;
@@ -612,7 +507,7 @@ public class GuiBuild {
         }
     }
 
-    public void gameOver() {
+    private void gameOver() {
         // Custom button text
         Object[] options = {"Start New Game", "Quit Game"};
 
@@ -639,15 +534,14 @@ public class GuiBuild {
         }
 
         if (selectedOption.equals(options[0])) {
-            // Here is where we would start the Game all over.
-            // TODO Implement a Restart of the loop
-            //startNewGame();
+            musicPlayer.stop();
+            heartsoarTower.gameLoop();
         } else if (selectedOption.equals(options[1])) {
             System.exit(0); // exit program
         }
     }
 
-    public void congratulations() {
+    private void congratulations() {
         // Custom button text
         Object[] options = {"Start New Game", "Quit Game"};
 
@@ -674,28 +568,28 @@ public class GuiBuild {
         }
 
         if (selectedOption.equals(options[0])) {
-            // Here is where we would start the Game all over.
-            // TODO Implement a Restart of the loop
+            musicPlayer.stop();
+            heartsoarTower.gameLoop();
             //startNewGame();
         } else if (selectedOption.equals(options[1])) {
             System.exit(0); // exit program
         }
     }
 
-    public String createInstructionScreen() {
+    private String createInstructionScreen() {
         // HIDE TITLE SCREEN
         titleNamePanel.setVisible(false);
         //musicButtonPanel.setVisible(false);
 
         // TEXT PANEL
         instructionPanel = new JPanel();
-        instructionPanel.setBackground(new Color(26,83,92));
+        instructionPanel.setBackground(new Color(26, 83, 92));
         instructionPanel.setLayout(new GridBagLayout());
-        instructionPanel.setSize(100,100);
+        instructionPanel.setSize(100, 100);
 
         // TEXT AREA
-        introductionTextArea = new JTextArea(20,90);
-        introductionTextArea.setBackground(new Color(26,83,92));
+        introductionTextArea = new JTextArea(20, 90);
+        introductionTextArea.setBackground(new Color(26, 83, 92));
         introductionTextArea.setForeground(Color.WHITE);
         introductionTextArea.setFont(storyFont);
         introductionTextArea.setLineWrap(true);
@@ -733,7 +627,7 @@ public class GuiBuild {
         return path;
     }
 
-    public void readFileIntoJTextArea(String filePath, JTextArea textArea) {
+    private void readFileIntoJTextArea(String filePath, JTextArea textArea) {
         //noinspection ConstantConditions
         try (InputStream is = getClass().getResourceAsStream(filePath);
              BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {

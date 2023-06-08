@@ -3,8 +3,6 @@ package com.tlg.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class DisplayText extends Display{
     private final static int MAX_LINES = 4;

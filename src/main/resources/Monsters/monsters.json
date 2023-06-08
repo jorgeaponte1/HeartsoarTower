@@ -158,7 +158,8 @@
       "slap",
       "bite",
       "scratch",
-      "trap"
+      "trap",
+      "go"
     ],
     "dialogue": [
       "The werewolf emits a deep growl, its voice reflecting a mix of primal ferocity and deep longing.",
@@ -188,7 +189,6 @@
       "swing",
       "leave",
       "sword"
-
     ],
     "dialogue": [
       "The goblin is so hyper it can barely concentrate.  He's still eyeing the island.  Did you move it yet?",
@@ -218,7 +218,6 @@
       "swing",
       "leave",
       "sword"
-
     ],
     "dialogue": [
       "Bloody tears run down the vampire's face.  He looks at the mirror with the blanket over it."
@@ -245,7 +244,6 @@
       "swing",
       "leave",
       "sword"
-
     ],
     "dialogue": [
       "\"Fren, fren, fren.  I need fren.\"  What the heck.... a Danish accent?",
@@ -304,7 +302,6 @@
       "swing",
       "leave",
       "sword"
-
     ],
     "dialogue": [
       "Prince Timore dialogue1",

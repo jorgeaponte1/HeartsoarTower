@@ -2,21 +2,17 @@ package com.tlg.controller;
 
 import com.tlg.model.*;
 import com.tlg.view.*;
-import com.tlg.view.GuiBuild;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static com.tlg.controller.AlwaysCommands.alwaysAvailableCommands;
-//import static com.tlg.controller.CombatEngine.combatCommands;
 import static com.tlg.controller.MoveCommand.moveCommands;
-import static com.tlg.controller.NewGame.newGame;
 import static com.tlg.controller.SpecificCommands.specificCommands;
 
 public class HeartsoarTower implements GameInputListener{
@@ -56,37 +52,10 @@ public class HeartsoarTower implements GameInputListener{
         this.combatEngine = new CombatEngine(this);
     }
 
-    void gameLoop() {
+    public void gameLoop() {
         grabScene();
         launchGUI();
-        //musicPlayer.play();
-//        TitleScreen.displayTitleScreen();
-//        newGame();
         justEntered = true;
-        //while (isRunning) {
-//            Just entered a room:
-//            if (justEntered) {
-//                grabScene();
-//            }
-//            justEntered = false;
-//            try {
-//                instruct = instructQueue.take();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            boolean actionTaken = false;
-//            actionTaken = processNonMovementCommand(instruct);
-//            if (!actionTaken) {
-//                actionTaken = moveCommands(instruct, player, scene, displayEngine, art, text, inputter, rooms);
-//                if (actionTaken) {
-//                    justEntered = true;
-//                }
-//            }
-//            if (!actionTaken) {
-//                text.setDisplay("I do not know that command.  Please try again:    ");
-//            }
-            //instruct = new String[]{"", ""};
-        //}
     }
 
     public boolean processNonMovementCommand(String[] instruct) {
@@ -144,12 +113,6 @@ public class HeartsoarTower implements GameInputListener{
         this.instruct = inputAfterParser;
     }
 
-    // TODO: Continue working on this method.
-    @Override
-    public void onYesNoInputReceived(String input) {
-        yesNoInstructQueue.offer(input);
-    }
-
     public Scene getPreviousScene() {
         return this.previousScene;
     }
@@ -159,14 +122,11 @@ public class HeartsoarTower implements GameInputListener{
     }
 
     private void launchGUI() {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    GuiBuild frame = new GuiBuild(HeartsoarTower.this, player, rooms, items, art);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                GuiBuild frame = new GuiBuild(HeartsoarTower.this, player, rooms, items, art);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
