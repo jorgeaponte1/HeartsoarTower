@@ -231,13 +231,17 @@ public class GuiBuild {
             userInputTextField.setText("");
             gameInputListener.onInputReceived(words);
             gameTextArea.setText(displayText.getDisplay());
-            URL imageUrls =
-                    getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            graphicLabel.setIcon(graphicIcons);
+            //scale graphic Icons
+            Image graphicImages = graphicIcons.getImage(); // transform it
+            graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                    java.awt.Image.SCALE_SMOOTH); // scale
+            graphicLabel.setIcon(new ImageIcon(graphicImages));
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
+
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
