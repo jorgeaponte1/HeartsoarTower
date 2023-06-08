@@ -4,6 +4,7 @@
     "description" : "A magical amulet that glows with a soft light.",
     "onUse" : "You are returned to an earlier moment.",
     "isStorable" : true,
+    "graphic" : "Images/amulet.png",
     "art" : "             v\n       \\             /\n\n          _________\n `       /         \\      '\n        /  \\     /  \\\n       /             \\\n_     /   _ _ . _ _   \\    _\n      \\               /\n       \\             /\n        \\  /     \\  /\n '       \\_________/      `\n\n\n       /             \\\n              ^"
   },
   {
@@ -11,6 +12,7 @@
     "description" : " A vaporous cloud that seems to phase in and out of existence at the front of you, but completely frozen mid-step towards you with both feet six inches off the cobble floor while in your peripheral.",
     "onUse" : "You give the zombie a friend and they finally not alone.",
     "isStorable" : true,
+    "graphic" : "Images/friendlyCasper.png",
     "art" : "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠹⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⣾⣿⣀⡀⠀⢀⠀⠀⢹⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠋⠀⣼⣿⣀⠀⢸⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⢀⣴⣾⠀⣠⠀⠀⡀⠘⠛⠋⠀⢸⣿\n⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣧⣾⡇⣠⡄⠀⢀⣿⣿\n⣿⣿⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠸⡿⠛⣿⣿⣿⣿⣧⠀⣼⣿⣿\n⣿⣿⣿⣿⣿⡷⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠀⡿⠋⠁⣸⣿⣿⣿\n⣿⣿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿\n⣿⣿⣶⣶⣶⣶⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⢀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿\n⣿⣿⠋⢁⣀⣀⣀⣤⣴⣶⣿⡇⠀⠀⠀⠀⣀⣴⡇⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⢀⣠⣴⣾⣿⣿⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
   },
   {
@@ -25,6 +27,7 @@
     "description" : " A Skeleton key with a sleek cylindrical shaft with a set of teeth at the end.",
     "onUse" : "As the key turns smoothly in the lock, the heavy wooden door creaks open, revealing a sight that instantly captivates the senses. Stepping into the room, you find yourself entering a realm of seduction and allure, as the air itself seems to pulsate with an intoxicating energy.",
     "isStorable" : true,
+    "graphic" : "Images/locked.png",
     "art" : "     8 8 8 8                     ,ooo.\n     8a8 8a8                    oP   ?b\n    d888a888zzzzzzzzzzzzzzzzzzzz8     8b\n     `\"\"^\"\"'                    ?o___oP'"
   },
   {
@@ -46,6 +49,7 @@
     "description" : " A huggable soft adorable toy bear that instantly brings comfort and joy.",
     "onUse" : "You reach out and gently placed the teddy bear in the trembling Prince Timore's hands. Its softness and warmth brought solace, comforting him and bringing him a sense of peace.",
     "isStorable" : true,
+    "graphic" : "Images/teddybear.png",
     "art" : "          ___   .--.\n    .--.-\"   \"-' .- |\n   / .-,`          .'\n   \\   `           \\\n    '.            ! \\\n      |     !  .--.  |\n      \\        '--'  /.____\n     /`-.     \\__,'.'      `\\\n  __/   \\`-.____.-' `\\      /\n  | `---`'-'._/-`     \\----'    _ \n  |,-'`  /             |    _.-' `\\\n .'     /              |--'`     / |\n/      /\\              `         | |\n|   .\\/  \\      .--. __          \\ |\n '-'      '._       /  `\\         /\n    jgs      `\\    '     |------'`\n               \\  |      |\n                \\        /\n                 '._  _.'\n                    ``"
   },
   {
@@ -53,6 +57,7 @@
     "description" : " He's still thankful and wants to help you.  Maybe if there's something you can't reach he can assist",
     "onUse" : "Good try",
     "isStorable" : true,
+    "graphic" : "Images/friendlyGoblin.png",
     "art" : "            ,      ,   \n           /(.-\"\"-.)\\\n        |\\ \\/      \\/ /|\n        | \\/ =.  .= \\/ |\n        \\( \\  o\\/o  / )/\n         \\_, '/  \\' ,_/\n          /   \\__/   \\\n          \\,___/\\___,/\n        ___\\ \\|uu|/ /___\n      /`    \\ .--. /    `\\\n jgs /       '----'       \\"
     },
   {
@@ -60,6 +65,7 @@
     "description": " It is a shiny sword, adorned with intricate carvings. ",
     "onUse": " You swing the sword and it makes a whooshing sound. ",
     "isStorable": true,
+    "graphic" : "Images/sword.png",
     "art": "        \\\n _      ||__________________\n(_|%|%|%|[__________________>\n        ||\n         \\"
   }
 
