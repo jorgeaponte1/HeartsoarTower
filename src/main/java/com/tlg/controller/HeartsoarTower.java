@@ -42,10 +42,13 @@ public class HeartsoarTower implements GameInputListener{
     private CombatEngine combatEngine;
     private boolean justEntered;
     private Scene previousScene;
+    private int amuletCharges = 3;
+    private boolean gameOver = false;
+    private boolean wonGame = false;
 
 
     public HeartsoarTower() throws IOException {
-        this.player = new Player(rooms, items);
+        this.player = new Player(rooms, items, amuletCharges, gameOver, wonGame);
         this.isRunning = true;
         this.musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
         this.inputter = new DisplayInput(player);

@@ -66,9 +66,13 @@ public class Scene {
     public  void addMonster(Monster e){
         sceneMonsters.add(e);
     }
-    public void defeatMonster(Monster e, DisplayText text, DisplayInput inputter, List<Room> rooms){
-        if(e.getName().equalsIgnoreCase("Prince")) winGame();
+    public void defeatMonster(Monster e, DisplayText text, DisplayInput inputter, List<Room> rooms, Player player){
         displayArt.defeatMonster(e, text, inputter, rooms);
+        if(e.getName().equalsIgnoreCase("Prince")) {
+            //player.setGameOver(true);
+            player.setWonGame(true);
+            winGame();
+        }
         sceneMonsters.remove(e);
     }
 
@@ -92,6 +96,6 @@ public class Scene {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.exit(0);
+            //System.exit(0);
         }
 }
