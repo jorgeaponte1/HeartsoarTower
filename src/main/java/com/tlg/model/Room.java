@@ -2,6 +2,9 @@ package com.tlg.model;
 
 import com.tlg.model.Item;
 
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,5 +74,48 @@ public class Room {
     public Item[] getItems() {
         return null;
     }
+
+    public Icon getMapImage() {
+        String imagePath = "/Images/";
+        switch (getName().toLowerCase()) {
+            case "entrance":
+                imagePath += "map_entrance.png";
+                break;
+            case "foyer":
+                imagePath += "map_foyer.png";
+                break;
+            case "kitchen":
+                imagePath += "map_kitchen.png";
+                break;
+            case "plaisure":
+                imagePath += "map_plaisure.png";
+                break;
+            case "den":
+                imagePath += "map_den.png";
+                break;
+            case "ballroom":
+                imagePath += "map_ballroom.png";
+                break;
+            case "conservatory":
+                imagePath += "map_conservatory.png";
+                break;
+            case "bedroom":
+                imagePath += "map_bedroom.png";
+                break;
+            default:
+                imagePath += "default_map.png"; // Default image if the room name doesn't match any of the above cases
+                break;
+        }
+        URL imageUrl = getClass().getResource(imagePath);
+
+        // Scale the image to the original scaled size
+        ImageIcon originalIcon = new ImageIcon(imageUrl);
+        int newWidth = originalIcon.getIconWidth() / 2; // Adjust the divisor to match the scaling factor used for the original image
+        int newHeight = originalIcon.getIconHeight() / 2; // Adjust the divisor to match the scaling factor used for the original image
+        Image scaledImage = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+        return new ImageIcon(scaledImage);
+    }
+
 }
 
