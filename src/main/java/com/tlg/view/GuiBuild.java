@@ -234,7 +234,7 @@ public class GuiBuild {
             URL imageUrls =
                     getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
             ImageIcon graphicIcons = new ImageIcon(imageUrls);
-            graphicLabel.setIcon(new ImageIcon(scaledImage));
+            graphicLabel.setIcon(graphicIcons);
             inventoryLabel.setText(displayInput.getInventory());
             locationLabel.setText(player.getLocation().getName());
         });
