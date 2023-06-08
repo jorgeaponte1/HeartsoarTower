@@ -1,7 +1,5 @@
 package com.tlg.view;
 
-import com.tlg.view.GuiBuild;
-
 import java.awt.image.BufferedImage;
 
 public class Tileset {

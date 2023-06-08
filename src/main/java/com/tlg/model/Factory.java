@@ -24,11 +24,6 @@ public class Factory {
     Gson gson = builder.create();
 
     //    Read from entire JSON folder
-//    final String basePath = "src/main/resources/";
-//    Path roomFolder = Paths.get(basePath+"Rooms");
-//    Path monsterFolder = Paths.get(basePath+"Monsters");
-//    Path itemFolder = Paths.get(basePath+"Items");
-//    Path sceneFolder = Paths.get(basePath + "Scenes");
     private static final String ROOMS_PATH = "Rooms/rooms.json";
     private static final String ITEMS_PATH = "Items/items.json";
     private static final String MONSTERS_PATH = "Monsters/monsters.json";
@@ -36,24 +31,7 @@ public class Factory {
     private static final String VERBS_PATH = "Words/Verbs.json";
     private static final String NOUNS_PATH = "Words/Nouns.json";
 
-//    public <E> void populate(List<E> listBuilder, Path folder, Object subject) throws IOException {
-//        try {
-//            DirectoryStream<Path> stream = Files.newDirectoryStream(folder);
-////            Find out what kind of subject we are working with:
-//            System.out.println(subject+"\n"+subject.getClass()+"\n"+subject.getClass().getSimpleName());
-//
-//
-//            for (Path el : stream) {
-//                JsonElement jsonElement = gson.fromJson(Files.newBufferedReader(el), JsonElement.class);
-//                subject appending = gson.fromJson(jsonElement, E.class);
-//                listBuilder.add(appending);
-//            }
-//            ;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
+    @SuppressWarnings("ConstantConditions")
     public void populateRooms() throws IOException {
         try(InputStream is = getClass().getClassLoader().getResourceAsStream(ROOMS_PATH);
             Reader rdr = new InputStreamReader(is);
@@ -63,6 +41,7 @@ public class Factory {
             e.printStackTrace();
         }
     }
+    @SuppressWarnings("ConstantConditions")
     public void populateMonsters() throws IOException {
         try(InputStream is = getClass().getClassLoader().getResourceAsStream(MONSTERS_PATH);
             Reader rdr = new InputStreamReader(is);
@@ -72,6 +51,7 @@ public class Factory {
             e.printStackTrace();
         }
     }
+    @SuppressWarnings("ConstantConditions")
     public void populateItems() throws IOException {
         try(InputStream is = getClass().getClassLoader().getResourceAsStream(ITEMS_PATH);
             Reader rdr = new InputStreamReader(is);
@@ -82,6 +62,7 @@ public class Factory {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void populateScenes() throws IOException {
         try(InputStream is = getClass().getClassLoader().getResourceAsStream(SCENES_PATH);
             Reader rdr = new InputStreamReader(is);
@@ -98,6 +79,7 @@ public class Factory {
 
 
 
+    @SuppressWarnings("ConstantConditions")
     public void populateVerbs() throws IOException {
         try(InputStream is = getClass().getClassLoader().getResourceAsStream(VERBS_PATH);
             Reader rdr = new InputStreamReader(is);
@@ -107,6 +89,7 @@ public class Factory {
             e.printStackTrace();
         }
     }
+    @SuppressWarnings("ConstantConditions")
     public void populateNouns() throws IOException {
         try(InputStream is = getClass().getClassLoader().getResourceAsStream(NOUNS_PATH);
             Reader rdr = new InputStreamReader(is);
@@ -117,73 +100,6 @@ public class Factory {
         }
     }
 
-//    public void populateMonsters() throws IOException {
-//        try {
-//            DirectoryStream<Path> monsterStream = Files.newDirectoryStream(monsterFolder);
-//            for (Path el : monsterStream) {
-//                JsonElement jsonElement = gson.fromJson(Files.newBufferedReader(el), JsonElement.class);
-//                Monster monster = gson.fromJson(jsonElement, Monster.class);
-//                monsters.add(monster);
-//            }
-//            ;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    public void populateItems() throws IOException {
-//        try {
-//            DirectoryStream<Path> itemStream = Files.newDirectoryStream(itemFolder);
-//            for (Path el : itemStream) {
-//                JsonElement jsonElement = gson.fromJson(Files.newBufferedReader(el), JsonElement.class);
-//                Item item = gson.fromJson(jsonElement, Item.class);
-//                items.add(item);
-//            }
-//            ;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
-//    private void populateVerbs() throws IOException {
-////        Make a list of verbs with their synonyms from the JSON file
-//        try {
-//            Path verbFile = Paths.get("src/main/resources/Words/Verbs.json");
-//            JsonElement jsonElement = gson.fromJson(Files.newBufferedReader(verbFile), JsonElement.class);
-//            VERBS = gson.fromJson(jsonElement, TreeMap.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    private void populateNouns() throws IOException {
-//        //        Make a list of verbs with their synonyms from the JSON file
-//        try {
-//            Path nounFile = Paths.get("src/main/resources/Words/Nouns.json");
-//            JsonElement jsonElement = gson.fromJson(Files.newBufferedReader(nounFile), JsonElement.class);
-//            NOUNS = gson.fromJson(jsonElement, TreeMap.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-//    public void populateScenes() throws IOException {
-//        try {
-//            DirectoryStream<Path> sceneStream = Files.newDirectoryStream(sceneFolder);
-//            for (Path el : sceneStream) {
-//                JsonElement jsonElement = gson.fromJson(Files.newBufferedReader(el), JsonElement.class);
-//                SceneBuilder sceneBuilder = gson.fromJson(jsonElement, SceneBuilder.class);
-//                Scene scene = new Scene(sceneBuilder, rooms, items, monsters);
-//                scenes.add(scene);
-//
-//
-//            }
-//            ;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public Factory() throws IOException {
         populateRooms();

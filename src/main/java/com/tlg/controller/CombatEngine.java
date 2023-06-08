@@ -28,6 +28,7 @@ class CombatEngine {
         //String[] input = instruct;
 //        Verify there's even a monster in the room:
         if (scene.getSceneMonsters(0) == null) {
+            //noinspection ConstantConditions
             return actionTaken;
         }
 //        Every monster has some acceptable commands for defeating:
