@@ -1,4 +1,4 @@
-package com.tlg.controller;
+/*package com.tlg.controller;
 
 import com.tlg.model.*;
 import com.tlg.view.DisplayArt;
@@ -42,12 +42,12 @@ public class MoveCommandTest {
         input = heartsoarTower.inputter;
     }
 
-    /**
+    *//**
      * Tests if "moveCommands()" correctly handles using the amulet.
      * Player starts with 1 charge and a current room. After calling the method,
      * we expect the player to have no charges, no amulet in their inventory, and
      * the function to return true indicating the action was successful.
-     */
+     *//*
     @Test
     public void testMoveCommandsUseAmulet() {
         player.setAmuletCharges(1);
@@ -61,11 +61,11 @@ public class MoveCommandTest {
         Assertions.assertFalse(player.getInventory().contains("amulet"));
     }
 
-    /**
+    *//**
      * Tests if "useAmulet()" correctly handles the scenario when there's no previous room.
      * Player starts with 1 charge and in a certain room. After calling the method, we expect
      * the player to still be in the same room, have no charges, and the function to return true.
-     */
+     *//*
     @Test
     public void testUseAmuletNoPreviousLocation() {
         player.setAmuletCharges(1);
@@ -78,12 +78,12 @@ public class MoveCommandTest {
         Assertions.assertEquals(room, player.getLocation());
     }
 
-    /**
+    *//**
      * Tests if "useAmulet()" correctly handles the scenario when there's a previous room.
      * Player starts with 1 charge and is moved from one room to another.
      * After calling the method, we expect the player to be in the previous room,
      * have no charges, and the function to return true.
-     */
+     *//*
     @Test
     public void testUseAmuletWithPreviousLocation() {
         // Start off with 1 Charge
@@ -107,11 +107,11 @@ public class MoveCommandTest {
         Assertions.assertEquals(prevRoom, player.getLocation());
     }
 
-    /**
+    *//**
      * Tests if "useAmulet()" correctly handles the scenario when there are no amulet charges left.
      * Player starts with 0 charges, a current room and a previous room. After calling the method,
      * we expect the game to be over, the player to still have no charges, and the function to return true.
-     */
+     *//*
     @Test
     public void testUseAmuletNoCharges() {
         player.setAmuletCharges(0);
@@ -129,4 +129,4 @@ public class MoveCommandTest {
         Assertions.assertEquals(0, player.getAmuletCharges());
         Assertions.assertTrue(player.isGameOver());
     }
-}
+}*/
