@@ -59,9 +59,13 @@ public class GuiBuild {
         int frameWidth = 1500;
         int frameHeight = 1400;
 
+
         // Set the Frame to the Max Size of a User's Screen. So Image is reflected in accordance.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(frameWidth, frameHeight);
+        int centerX = (screenSize.width - frame.getWidth()) / 2;
+        int centerY = (screenSize.height - frame.getHeight()) / 2;
+        frame.setLocation(centerX, centerY);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
