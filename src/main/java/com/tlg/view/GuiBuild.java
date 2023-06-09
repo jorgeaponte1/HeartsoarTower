@@ -54,10 +54,14 @@ public class GuiBuild {
 
         // Create and set up the window.
         frame = new JFrame("Heartsoar Tower");
+
+        //set frame width and height
+        int frameWidth = 1500;
+        int frameHeight = 1400;
+
         // Set the Frame to the Max Size of a User's Screen. So Image is reflected in accordance.
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(screenSize.width, screenSize.height);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setSize(frameWidth, frameHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
@@ -123,6 +127,9 @@ public class GuiBuild {
         graphicPanel.setBounds(0, 0, 750, 800);
         graphicPanel.setBackground(new Color(26, 83, 92));
 
+        int graphicPanelwidth = 900; // Adjust this value as desired
+        graphicPanel.setPreferredSize(new Dimension(graphicPanelwidth, graphicPanel.getPreferredSize().height));
+
         // Graphic Label
         graphicLabel = new JLabel();
         URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphicMonster());
@@ -182,8 +189,9 @@ public class GuiBuild {
         navPanel.setBackground(new Color(26, 83, 92));
 
         // Set preferred width for the navPanel
-        int navPanelWidth = 500; // Adjust this value as desired
-        navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
+//        int navPanelWidth = 500; // Adjust this value as desired
+        navPanel.setPreferredSize(new Dimension(frame.getWidth() - graphicPanelwidth,
+                navPanel.getPreferredSize().height));
 
         // Map Image default
         String imgResourcePath = "/Images/map.png";
@@ -192,8 +200,8 @@ public class GuiBuild {
 
         // Scale down the image
         Image mapImage = mapImageIcon.getImage();
-        int newWidth = mapImageIcon.getIconWidth() / 3;
-        int newHeight = mapImageIcon.getIconHeight() / 3;
+        int newWidth = mapImageIcon.getIconWidth() / 2;
+        int newHeight = mapImageIcon.getIconHeight() / 2;
         //smooth scaling
         Image scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
