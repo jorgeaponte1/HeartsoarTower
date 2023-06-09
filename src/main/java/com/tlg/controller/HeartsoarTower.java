@@ -153,6 +153,11 @@ public class HeartsoarTower implements GameInputListener{
         return player;
     }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+
     private void launchGUI() {
         EventQueue.invokeLater(() -> {
             try {

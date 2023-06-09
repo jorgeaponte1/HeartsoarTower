@@ -29,6 +29,16 @@ public class Room {
         this.isDiscovered = false;
     }
 
+    public Room() {
+        this.name = "Empty Room";
+        this.desc = new String[]{"Empty Room", "Empty Room", "Empty Room"};
+        this.nouns = null;
+        this.monster = null;
+        this.neighborRooms = null;
+        this.graphic = null;
+        this.isDiscovered = false;
+    }
+
     public String getName() {
         return name;
     }
