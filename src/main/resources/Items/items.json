@@ -28,7 +28,7 @@
     "description" : " A Skeleton key with a sleek cylindrical shaft with a set of teeth at the end.",
     "onUse" : "As the key turns smoothly in the lock, the heavy wooden door creaks open, revealing a sight that instantly captivates the senses. Stepping into the room, you find yourself entering a realm of seduction and allure, as the air itself seems to pulsate with an intoxicating energy.",
     "isStorable" : true,
-    "graphic" : "Images/goldenkey.png",
+    "graphic" : "Images/key.png",
     "art" : "     8 8 8 8                     ,ooo.\n     8a8 8a8                    oP   ?b\n    d888a888zzzzzzzzzzzzzzzzzzzz8     8b\n     `\"\"^\"\"'                    ?o___oP'"
   },
   {
@@ -50,7 +50,7 @@
     "description" : " A huggable soft adorable toy bear that instantly brings comfort and joy.",
     "onUse" : "You reach out and gently placed the teddy bear in the trembling Prince Timore's hands. Its softness and warmth brought solace, comforting him and bringing him a sense of peace.",
     "isStorable" : true,
-    "graphic" : "Images/teddybear.png",
+    "graphic" : "Images/teddy.png",
     "art" : "          ___   .--.\n    .--.-\"   \"-' .- |\n   / .-,`          .'\n   \\   `           \\\n    '.            ! \\\n      |     !  .--.  |\n      \\        '--'  /.____\n     /`-.     \\__,'.'      `\\\n  __/   \\`-.____.-' `\\      /\n  | `---`'-'._/-`     \\----'    _ \n  |,-'`  /             |    _.-' `\\\n .'     /              |--'`     / |\n/      /\\              `         | |\n|   .\\/  \\      .--. __          \\ |\n '-'      '._       /  `\\         /\n    jgs      `\\    '     |------'`\n               \\  |      |\n                \\        /\n                 '._  _.'\n                    ``"
   },
   {
@@ -69,5 +69,4 @@
     "graphic" : "Images/sword.png",
     "art": "        \\\n _      ||__________________\n(_|%|%|%|[__________________>\n        ||\n         \\"
   }
-
 ]

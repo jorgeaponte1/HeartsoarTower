@@ -85,6 +85,7 @@ public class AlwaysCommands {
             text.setDisplay(foundItem.getDescription());
             art.setDisplay(foundItem.getArt());
             // TODO Here we would need to instead showcase an image of the sword or whatever
+            String graphic = foundItem.getGraphic();
             DisplayEngine.printScreen(art, text, inputter, rooms);
         } else {
             System.out.println("You don't see that item here.");
