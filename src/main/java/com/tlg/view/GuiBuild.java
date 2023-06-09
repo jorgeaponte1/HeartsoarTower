@@ -34,7 +34,7 @@ public class GuiBuild {
     private JLabel locationLabel, mapLabel;
     private JLabel graphicLabel;
     private JLabel inventoryLabel;
-    HeartsoarTower heartsoarTower = new HeartsoarTower();
+    private HeartsoarTower heartsoarTower;
     private List<Room> rooms;
     private List<Item> items;
     Player player;
@@ -43,11 +43,13 @@ public class GuiBuild {
     private final Font normalFont = new Font("Serif", Font.PLAIN, 30);
     private final Font invFont = new Font("Ariel", Font.PLAIN, 20);
     private final Font storyFont = new Font("Ariel", Font.PLAIN, 30);
-    private JButton musicButton, helpButton, leftButton, rightButton, upButton, downButton;
+    private JButton helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
 
-    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt) throws IOException {
+    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt, HeartsoarTower heartsoarTower) throws IOException {
+
+        this.heartsoarTower = heartsoarTower;
 
         // Create and set up the window.
         frame = new JFrame("Heartsoar Tower");
@@ -122,6 +124,7 @@ public class GuiBuild {
 
         graphicLabel = new JLabel();
         URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+        //noinspection ConstantConditions
         ImageIcon graphicIcon = new ImageIcon(imageUrl);
         graphicLabel.setIcon(graphicIcon);
         graphicPanel.add(graphicLabel);
@@ -131,7 +134,7 @@ public class GuiBuild {
         // Added this line
         gameTextPanel.setLayout(new BorderLayout());
         gameTextPanel.setBackground(Color.CYAN);
-        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 180));
+        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 140));
 
         // GameText Area
         JTextArea gameTextArea = new JTextArea();
@@ -141,7 +144,7 @@ public class GuiBuild {
         gameTextArea.setBackground(new Color(247, 255, 247));
         gameTextArea.setForeground(Color.BLACK);
         gameTextArea.setFont(normalFont);
-        gameTextArea.setMargin(new Insets(0, 40, 0, 0));
+        gameTextArea.setMargin(new Insets(-50, 40, 0, 0));
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
         addChildren(gameTextPanel,List.of(gameTextArea),List.of(BorderLayout.CENTER));
@@ -152,7 +155,7 @@ public class GuiBuild {
         userInputPanel.setBackground(Color.YELLOW);
 
         // UserInput TEXT AREA (bottom left)
-        userInputTextField = new JTextField("This is the main game text area");
+        userInputTextField = new JTextField();
         userInputTextField.setDocument(new JTextFieldLimit(25));
         userInputTextField.setBackground(Color.black);
         userInputTextField.setForeground(Color.WHITE);
@@ -177,6 +180,7 @@ public class GuiBuild {
 
         // Map Image
         String imgResourcePath = "/Images/map.png";
+        //noinspection ConstantConditions
         ImageIcon mapImageIcon = new ImageIcon(getClass().getResource(imgResourcePath));
 
         // Scale down the image
@@ -245,7 +249,7 @@ public class GuiBuild {
 // Create GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(2, 2, 2, 2);
 
 // HELP BUTTON
         helpButton = new JButton("HELP");
@@ -436,6 +440,12 @@ public class GuiBuild {
         return parent;
     }
 
+    public void dispose() {
+        if (frame != null) {
+            frame.dispose();
+        }
+    }
+
     private JSlider buildVolumeSlider() {
         JSlider slider = new JSlider(0, 100, 50);
         slider.setPaintTicks(true);
@@ -444,6 +454,7 @@ public class GuiBuild {
         slider.setMajorTickSpacing(25);
         slider.setPaintLabels(true);
         slider.setForeground(Color.WHITE);
+        slider.setOpaque(false);
 
         // Volume Slider Listener
         final float[] Volume = {slider.getValue()};
@@ -465,6 +476,7 @@ public class GuiBuild {
         gameInputListener.onInputReceived(upCommand);
         gameTextArea.setText(displayText.getDisplay());
         URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+        //noinspection ConstantConditions
         ImageIcon graphicIcons = new ImageIcon(imageUrls);
         if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
             //scale graphic Icons
@@ -483,10 +495,18 @@ public class GuiBuild {
 
     private void endGame(Player player) {
         if (player.isGameOver()) {
-            gameOver();
+            try {
+                gameOver();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (player.isWonGame()) {
-            congratulations();
+            try {
+                congratulations();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -507,7 +527,7 @@ public class GuiBuild {
         }
     }
 
-    private void gameOver() {
+    private void gameOver() throws IOException {
         // Custom button text
         Object[] options = {"Start New Game", "Quit Game"};
 
@@ -535,13 +555,14 @@ public class GuiBuild {
 
         if (selectedOption.equals(options[0])) {
             musicPlayer.stop();
+            heartsoarTower.resetGame();
             heartsoarTower.gameLoop();
         } else if (selectedOption.equals(options[1])) {
             System.exit(0); // exit program
         }
     }
 
-    private void congratulations() {
+    private void congratulations() throws IOException {
         // Custom button text
         Object[] options = {"Start New Game", "Quit Game"};
 
@@ -569,8 +590,8 @@ public class GuiBuild {
 
         if (selectedOption.equals(options[0])) {
             musicPlayer.stop();
+            heartsoarTower.resetGame();
             heartsoarTower.gameLoop();
-            //startNewGame();
         } else if (selectedOption.equals(options[1])) {
             System.exit(0); // exit program
         }
@@ -625,21 +646,5 @@ public class GuiBuild {
         });
 
         return path;
-    }
-
-    private void readFileIntoJTextArea(String filePath, JTextArea textArea) {
-        //noinspection ConstantConditions
-        try (InputStream is = getClass().getResourceAsStream(filePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-            }
-            textArea.setText(sb.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

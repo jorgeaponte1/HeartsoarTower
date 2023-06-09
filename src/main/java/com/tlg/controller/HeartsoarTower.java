@@ -16,17 +16,17 @@ import static com.tlg.controller.MoveCommand.moveCommands;
 import static com.tlg.controller.SpecificCommands.specificCommands;
 
 public class HeartsoarTower implements GameInputListener{
-    public Factory factory = new Factory();
-    private List<Room> rooms = factory.getRooms();
-    private List<Item> items = factory.getItems();
-    private List<Monster> monsters = factory.getMonsters();
-    private TreeMap<String, ArrayList<String>> VERBS = factory.getVerbs();
-    private TreeMap<String, ArrayList<String>> NOUNS = factory.getNouns();
-    private TextParser textParser = new TextParser(VERBS, NOUNS);
+    public Factory factory;
+    private List<Room> rooms;
+    private List<Item> items;
+    private List<Monster> monsters;
+    private TreeMap<String, ArrayList<String>> VERBS;
+    private TreeMap<String, ArrayList<String>> NOUNS;
+    private TextParser textParser;
     private Player player;
     Scene scene;
     private boolean isRunning;
-    private List<Scene> scenes = factory.getScenes();
+    private List<Scene> scenes;
     private DisplayEngine displayEngine = new DisplayEngine();
     DisplayArt art = new DisplayArt();
     private DisplayInput inputter;
@@ -41,18 +41,50 @@ public class HeartsoarTower implements GameInputListener{
     private int amuletCharges = 3;
     private boolean gameOver = false;
     private boolean wonGame = false;
+    private GuiBuild currentGui;
 
 
     public HeartsoarTower() throws IOException {
+        this.factory = new Factory();
+        this.rooms = factory.getRooms();
+        this.items = factory.getItems();
+        this.monsters = factory.getMonsters();
+        this.VERBS = factory.getVerbs();
+        this.NOUNS = factory.getNouns();
+        this.textParser = new TextParser(VERBS, NOUNS);
+        this.scenes = factory.getScenes();
         this.player = new Player(rooms, items, amuletCharges, gameOver, wonGame);
         this.isRunning = true;
         this.musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
         this.inputter = new DisplayInput(player);
         this.instruct = new String[]{"", ""};
         this.combatEngine = new CombatEngine(this);
+        this.currentGui = null;
+    }
+
+    public void resetGame() throws IOException {
+        this.factory = new Factory();
+        this.rooms = factory.getRooms();
+        this.items = factory.getItems();
+        this.monsters = factory.getMonsters();
+        this.VERBS = factory.getVerbs();
+        this.NOUNS = factory.getNouns();
+        this.textParser = new TextParser(VERBS, NOUNS);
+        this.scenes = factory.getScenes();
+        this.amuletCharges = 3;
+        this.gameOver = false;
+        this.wonGame = false;
+        this.player = new Player(rooms, items, amuletCharges, gameOver, wonGame);
+        this.scene = null;
+        this.isRunning = true;
+        this.justEntered = true;
+        this.previousScene = null;
     }
 
     public void gameLoop() {
+        if (currentGui != null) {
+            currentGui.dispose();
+        }
         grabScene();
         launchGUI();
         justEntered = true;
@@ -124,7 +156,7 @@ public class HeartsoarTower implements GameInputListener{
     private void launchGUI() {
         EventQueue.invokeLater(() -> {
             try {
-                GuiBuild frame = new GuiBuild(HeartsoarTower.this, player, rooms, items, art);
+                currentGui = new GuiBuild(HeartsoarTower.this, player, rooms, items, art, HeartsoarTower.this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
