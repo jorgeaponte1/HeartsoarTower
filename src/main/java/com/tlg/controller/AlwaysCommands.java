@@ -53,7 +53,7 @@ public class AlwaysCommands {
                 for (Item item : player.getInventory()) {
                     inventory.append(item.getName()).append(", ");
                 }
-                text.setDisplay("You have the following items in your inventory:" + inventory.toString());
+                text.setDisplay("You have the following items in your inventory:" + inventory);
                 DisplayEngine.printScreen(art, text, inputter, rooms);
             }
         }
@@ -63,7 +63,6 @@ public class AlwaysCommands {
     public static void gameOver() {
         String path = "/Ascii_art/GameOver.txt";
         showPrompt(path);
-        //System.exit(0);
     }
 
     private static void lookAtItem(String itemName, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, List<Room> rooms) {
