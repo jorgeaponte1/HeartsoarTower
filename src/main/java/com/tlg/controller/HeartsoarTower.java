@@ -29,7 +29,7 @@ public class HeartsoarTower implements GameInputListener{
     private List<Scene> scenes;
     private DisplayEngine displayEngine = new DisplayEngine();
     DisplayArt art = new DisplayArt();
-    private DisplayInput inputter;
+    DisplayInput inputter;
     DisplayText text = new DisplayText();
     private MusicPlayer musicPlayer;
     private String[] instruct;

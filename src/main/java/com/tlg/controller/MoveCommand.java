@@ -75,6 +75,10 @@ class MoveCommand {
                     player.setAmuletCharges(amuletCharges);
                     player.useAmulet();
                 }
+                else {
+                    gameOver();
+                    player.setGameOver(true);
+                }
                 return true;
             }
         }
