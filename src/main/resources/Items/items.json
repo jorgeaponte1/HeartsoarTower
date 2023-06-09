@@ -28,7 +28,7 @@
     "description" : " A Skeleton key with a sleek cylindrical shaft with a set of teeth at the end.",
     "onUse" : "As the key turns smoothly in the lock, the heavy wooden door creaks open, revealing a sight that instantly captivates the senses. Stepping into the room, you find yourself entering a realm of seduction and allure, as the air itself seems to pulsate with an intoxicating energy.",
     "isStorable" : true,
-    "graphic" : "Images/locked.png",
+    "graphic" : "Images/goldenkey.png",
     "art" : "     8 8 8 8                     ,ooo.\n     8a8 8a8                    oP   ?b\n    d888a888zzzzzzzzzzzzzzzzzzzz8     8b\n     `\"\"^\"\"'                    ?o___oP'"
   },
   {
@@ -54,7 +54,7 @@
     "art" : "          ___   .--.\n    .--.-\"   \"-' .- |\n   / .-,`          .'\n   \\   `           \\\n    '.            ! \\\n      |     !  .--.  |\n      \\        '--'  /.____\n     /`-.     \\__,'.'      `\\\n  __/   \\`-.____.-' `\\      /\n  | `---`'-'._/-`     \\----'    _ \n  |,-'`  /             |    _.-' `\\\n .'     /              |--'`     / |\n/      /\\              `         | |\n|   .\\/  \\      .--. __          \\ |\n '-'      '._       /  `\\         /\n    jgs      `\\    '     |------'`\n               \\  |      |\n                \\        /\n                 '._  _.'\n                    ``"
   },
   {
-    "name" : "Goblin",
+    "name" : "goblin",
     "description" : " He's still thankful and wants to help you.  Maybe if there's something you can't reach he can assist",
     "onUse" : "Good try",
     "isStorable" : true,

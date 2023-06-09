@@ -2,9 +2,7 @@ package com.tlg.view;
 
 import com.tlg.controller.GameInputListener;
 import com.tlg.controller.HeartsoarTower;
-import com.tlg.model.Item;
-import com.tlg.model.Player;
-import com.tlg.model.Room;
+import com.tlg.model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,6 +20,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GuiBuild {
 
@@ -46,8 +45,9 @@ public class GuiBuild {
     private JButton helpButton, leftButton, rightButton, upButton, downButton;
     private MusicPlayer musicPlayer = new MusicPlayer("Music/medievalrpg-music.wav");
     private GameInputListener gameInputListener;
+    private List<Scene> scenes;
 
-    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt, HeartsoarTower heartsoarTower) throws IOException {
+    public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt, HeartsoarTower heartsoarTower, List<Scene> scenes) throws IOException {
 
         this.heartsoarTower = heartsoarTower;
 
@@ -106,6 +106,7 @@ public class GuiBuild {
         this.rooms = rooms;
         this.items = items;
         this.player = player;
+        this.scenes = scenes;
         musicPlayer.play();
         frame.setVisible(true);
     }
@@ -123,7 +124,7 @@ public class GuiBuild {
         graphicPanel.setBackground(new Color(26, 83, 92));
 
         graphicLabel = new JLabel();
-        URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
+        URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphicMonster());
         //noinspection ConstantConditions
         ImageIcon graphicIcon = new ImageIcon(imageUrl);
         graphicLabel.setIcon(graphicIcon);
@@ -208,7 +209,7 @@ public class GuiBuild {
         inventoryLabel.setForeground(Color.WHITE);
         inventoryLabel.setFont(invFont);
         DisplayInput displayInput = new DisplayInput(player);
-        inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
+        inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "<br>Items located here: " + "</HTML");
         inventoryLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
 
         //preferred size of the inventoryTextField
@@ -475,22 +476,58 @@ public class GuiBuild {
     private void updateGUI(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] upCommand) {
         gameInputListener.onInputReceived(upCommand);
         gameTextArea.setText(displayText.getDisplay());
-        URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphic());
-        //noinspection ConstantConditions
-        ImageIcon graphicIcons = new ImageIcon(imageUrls);
-        if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
-            //scale graphic Icons
-            Image graphicImages = graphicIcons.getImage(); // transform it
-            graphicImages = graphicImages.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
-                    Image.SCALE_SMOOTH); // scale
-            graphicLabel.setIcon(new ImageIcon(graphicImages));
-        } else {
-            graphicLabel.setIcon(graphicIcons);
-        }
-        inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "</HTML");
+        setImageIcon();
+        setInventoryLabelText(displayInput);
         locationLabel.setText(player.getLocation().getName());
         mapLabel.setIcon(player.getLocation().getMapImage());
         endGame(player);
+    }
+
+    private void setInventoryLabelText(DisplayInput displayInput) {
+        List<Scene> currentScene = scenes.stream().filter(scene -> scene.getRoom().equals(player.getLocation()))
+                .collect(Collectors.toList());
+        if (!currentScene.isEmpty() && !currentScene.get(0).getSceneItems().isEmpty()) {
+            List<String> itemsLocatedHere = currentScene.get(0).getSceneItems().stream().map(Item::getName).collect(Collectors.toList());
+            String itemsString = String.join(", ", itemsLocatedHere);
+            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "<br>Items located here: " + itemsString + "</HTML");
+        }
+        else {
+            inventoryLabel.setText("<HTML>" + displayInput.getInventory() + "<br>" + displayInput.getAmuletCharges() + "<br>Items located here: " + "</HTML");
+        }
+    }
+
+    private void setImageIcon() {
+        if (player.getLocation().isMonsterDefeated()){
+            List<Scene> currentScene = scenes.stream().filter(scene -> scene.getRoom().equals(player.getLocation()))
+                    .collect(Collectors.toList());
+            if (!currentScene.isEmpty() && !currentScene.get(0).getSceneItems().isEmpty()) {
+                if (currentScene.get(0).getSceneItems().get(0).getGraphic() != null) {
+                    URL itemImageUrls = getClass().getClassLoader().getResource(currentScene.get(0).getSceneItems().get(0).getGraphic());
+                    setGraphicLabelImageIcon(itemImageUrls);
+                }
+            }
+            else {
+                URL itemImageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphicRoom());
+                setGraphicLabelImageIcon(itemImageUrls);
+            }
+        }
+        else {
+            URL imageUrls = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphicMonster());
+            setGraphicLabelImageIcon(imageUrls);
+        }
+    }
+
+    private void setGraphicLabelImageIcon(URL itemImageUrls) {
+        ImageIcon graphicIconsForItem = new ImageIcon(itemImageUrls);
+        if (!player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+            //scale graphic Icons
+            Image graphicImagesForItem = graphicIconsForItem.getImage(); // transform it
+            graphicImagesForItem = graphicImagesForItem.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                    Image.SCALE_SMOOTH); // scale
+            graphicLabel.setIcon(new ImageIcon(graphicImagesForItem));
+        } else {
+            graphicLabel.setIcon(graphicIconsForItem);
+        }
     }
 
     private void endGame(Player player) {

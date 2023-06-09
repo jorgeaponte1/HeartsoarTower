@@ -89,11 +89,5 @@ public class Scene {
                     "   \\ \\/ // .'`\\ \\[  | | |  [ \\ [ \\ [  ]/ .'`\\ \\[ `.-. |     \n" +
                     "   _|  |_| \\__. | | \\_/ |,  \\ \\/\\ \\/ / | \\__. | | | | |  _  \n" +
                     "  |______|'.__.'  '.__.'_/   \\__/\\__/   '.__.' [___||__](_) \n");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //System.exit(0);
         }
 }

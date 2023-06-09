@@ -60,6 +60,7 @@ class CombatEngine {
                     for (Item item : items) {
                         if (item.getName().equalsIgnoreCase(addItem)) {
                             scene.addItem(item);
+                            player.getLocation().setMonsterDefeated(true);
                         }
                     }
                 }
