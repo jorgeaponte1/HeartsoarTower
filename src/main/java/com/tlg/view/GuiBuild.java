@@ -7,14 +7,9 @@ import com.tlg.model.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
+import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -36,9 +31,9 @@ public class GuiBuild {
     private HeartsoarTower heartsoarTower;
     private List<Room> rooms;
     private List<Item> items;
-    Player player;
-    DisplayArt displayArt;
-    private final Font titleFont = new Font("Ariel", Font.BOLD, 80);
+    private Player player;
+    private DisplayArt displayArt;
+    private final Font titleFont = new Font("Helvetica", Font.BOLD, 80);
     private final Font normalFont = new Font("Serif", Font.PLAIN, 30);
     private final Font invFont = new Font("Ariel", Font.PLAIN, 20);
     private final Font storyFont = new Font("Ariel", Font.PLAIN, 30);
@@ -50,6 +45,12 @@ public class GuiBuild {
     public GuiBuild(GameInputListener gameInputListener, Player player, List<Room> rooms, List<Item> items, DisplayArt displayArt, HeartsoarTower heartsoarTower, List<Scene> scenes) throws IOException {
 
         this.heartsoarTower = heartsoarTower;
+        this.gameInputListener = gameInputListener;
+        this.displayArt = displayArt;
+        this.rooms = rooms;
+        this.items = items;
+        this.player = player;
+        this.scenes = scenes;
 
         // Create and set up the window.
         frame = new JFrame("Heartsoar Tower");
@@ -60,12 +61,12 @@ public class GuiBuild {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
-        // Test
 
         // Get the content pane of the frame
         con = frame.getContentPane();
         frame.setTitle("HEARTSOAR TOWER");
 
+        //Cover Image
         // Image of Castle
         String imgResourcePath = "/Images/Castle.png";
         //noinspection ConstantConditions
@@ -77,17 +78,13 @@ public class GuiBuild {
         titleNameLabel.setHorizontalTextPosition(JLabel.CENTER);
         titleNameLabel.setForeground(Color.WHITE); // Text color
         titleNameLabel.setFont(titleFont);
-
-        // Create the title name label
         titleNamePanel = new JPanel(new BorderLayout());
 
-        titleNamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
-        titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                createInstructionScreen();
-            }
-        });
+        addChildren(titleNamePanel, List.of(titleNameLabel), List.of(BorderLayout.CENTER)); // Add the label to the panel
+        addChildren(con, List.of(titleNamePanel), List.of(BorderLayout.CENTER)); // Add the title name panel to the content pane
+
+        // Transition call to introduction screen
+        titleTransition(titleNameLabel);
 
         // Add component resize listener to resize Image everytime Frame is resized.
         frame.addComponentListener(new ComponentAdapter() {
@@ -98,17 +95,20 @@ public class GuiBuild {
             }
         });
 
-        addChildren(titleNamePanel, List.of(titleNameLabel), List.of(BorderLayout.CENTER)); // Add the label to the panel
-        addChildren(con, List.of(titleNamePanel), List.of(BorderLayout.CENTER)); // Add the title name panel to the content pane
-
-        this.gameInputListener = gameInputListener;
-        this.displayArt = displayArt;
-        this.rooms = rooms;
-        this.items = items;
-        this.player = player;
-        this.scenes = scenes;
         musicPlayer.play();
         frame.setVisible(true);
+    }
+
+    private void titleTransition(JLabel titleNameLabel) {
+        // Add a mouse listener to the title name label
+        // When Enter is pressed, the title screen will disappear and the introduction screen will appear
+        titleNamePanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "EnterPressed");
+        titleNamePanel.getActionMap().put("EnterPressed", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                createInstructionScreen();
+            }
+        });
     }
 
     public void createGameScreen() {
@@ -123,6 +123,7 @@ public class GuiBuild {
         graphicPanel.setBounds(0, 0, 750, 800);
         graphicPanel.setBackground(new Color(26, 83, 92));
 
+        // Graphic Label
         graphicLabel = new JLabel();
         URL imageUrl = getClass().getClassLoader().getResource(rooms.get(rooms.indexOf(player.getLocation())).getGraphicMonster());
         //noinspection ConstantConditions
@@ -132,22 +133,23 @@ public class GuiBuild {
 
         // GameText panel
         gameTextPanel = new JPanel();
-        // Added this line
         gameTextPanel.setLayout(new BorderLayout());
         gameTextPanel.setBackground(Color.CYAN);
         gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 140));
 
         // GameText Area
         JTextArea gameTextArea = new JTextArea();
-        gameTextArea.setLineWrap(true); // Set line-wrap to true
-        gameTextArea.setWrapStyleWord(true); // Set word-wrap to true
-        gameTextArea.setEditable(false); // Make the JTextArea uneditable
+        gameTextArea.setLineWrap(true);
+        gameTextArea.setWrapStyleWord(true);
+        gameTextArea.setEditable(false);
         gameTextArea.setBackground(new Color(247, 255, 247));
         gameTextArea.setForeground(Color.BLACK);
         gameTextArea.setFont(normalFont);
         gameTextArea.setMargin(new Insets(-50, 40, 0, 0));
+        // Set the text of the gameTextArea to the display text
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
+        // Add the gameTextArea to the gameTextPanel
         addChildren(gameTextPanel,List.of(gameTextArea),List.of(BorderLayout.CENTER));
 
         // UserInput TEXT PANEL
@@ -179,15 +181,16 @@ public class GuiBuild {
         int navPanelWidth = 500; // Adjust this value as desired
         navPanel.setPreferredSize(new Dimension(navPanelWidth, navPanel.getPreferredSize().height));
 
-        // Map Image
+        // Map Image default
         String imgResourcePath = "/Images/map.png";
         //noinspection ConstantConditions
         ImageIcon mapImageIcon = new ImageIcon(getClass().getResource(imgResourcePath));
 
         // Scale down the image
         Image mapImage = mapImageIcon.getImage();
-        int newWidth = mapImageIcon.getIconWidth() / 2; // Adjust the divisor to change the scaling factor
-        int newHeight = mapImageIcon.getIconHeight() / 2; // Adjust the divisor to change the scaling factor
+        int newWidth = mapImageIcon.getIconWidth() / 2;
+        int newHeight = mapImageIcon.getIconHeight() / 2;
+        //smooth scaling
         Image scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
         // Create a new ImageIcon with the scaled image
@@ -195,7 +198,6 @@ public class GuiBuild {
 
         // Map Label
         mapLabel = new JLabel(imgResourcePath, scaledMapImageIcon, JLabel.CENTER);
-        //mapLabel.setBackground(new Color(78, 205, 196));
         mapLabel.setForeground(Color.BLACK);
         mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 550));
         navPanel.add(mapLabel, BorderLayout.NORTH);
@@ -220,15 +222,6 @@ public class GuiBuild {
         inventoryHelpPanel.setBackground(new Color(26,83,92));
 
 
-        // ActionListener for the userInputTextField
-        userInputTextField.addActionListener(e -> {
-            // String input will have the text from userInputTextField
-            String input = userInputTextField.getText();
-            input = input.replaceAll("\\W+", " ").toLowerCase().strip();
-            String[] words = input.split("\\s+");  // split on one or more whitespace characters
-            userInputTextField.setText("");
-            updateGUI(gameTextArea, displayText, displayInput, words);
-        });
 
         // NavBtn Panel
         navBtnPanel = new JPanel();
@@ -428,6 +421,21 @@ public class GuiBuild {
         // Add panels to the container using BorderLayout
         addChildren(con,List.of(locationPanel,graphicPanel,userInputPanel,navPanel),
                 List.of(BorderLayout.NORTH, BorderLayout.CENTER, BorderLayout.SOUTH, BorderLayout.EAST));
+
+        //Call the ActionListener for the userInputTextField
+        actionListenerInput(gameTextArea, displayText, displayInput);
+    }
+
+    private void actionListenerInput(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput) {
+        // ActionListener for the userInputTextField
+        userInputTextField.addActionListener(e -> {
+            // String input will have the text from userInputTextField
+            String input = userInputTextField.getText();
+            input = input.replaceAll("\\W+", " ").toLowerCase().strip();
+            String[] words = input.split("\\s+");  // split on one or more whitespace characters
+            userInputTextField.setText("");
+            updateGUI(gameTextArea, displayText, displayInput, words);
+        });
     }
 
     private Container addChildren(Container parent, List<Component> children, List<Object> constraints) {
