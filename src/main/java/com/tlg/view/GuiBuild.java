@@ -35,7 +35,7 @@ public class GuiBuild {
     private Player player;
     private DisplayArt displayArt;
     private final Font titleFont = new Font("Helvetica", Font.BOLD, 80);
-    private final Font normalFont = new Font("Serif", Font.PLAIN, 30);
+    private final Font normalFont = new Font("Times New Roman", Font.PLAIN, 25);
     private final Font invFont = new Font("Ariel", Font.PLAIN, 20);
     private final Font storyFont = new Font("Ariel", Font.PLAIN, 30);
     private JButton helpButton, leftButton, rightButton, upButton, downButton;
@@ -134,7 +134,7 @@ public class GuiBuild {
         gameTextPanel = new JPanel();
         gameTextPanel.setLayout(new BorderLayout());
         gameTextPanel.setBackground(Color.CYAN);
-        gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, 140));
+
 
         // GameText Area
         JTextArea gameTextArea = new JTextArea();
@@ -144,12 +144,16 @@ public class GuiBuild {
         gameTextArea.setBackground(new Color(247, 255, 247));
         gameTextArea.setForeground(Color.BLACK);
         gameTextArea.setFont(normalFont);
-        gameTextArea.setMargin(new Insets(-50, 40, 0, 0));
+        gameTextArea.setMargin(new Insets(0, 40, 0, 0));
         // Set the text of the gameTextArea to the display text
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
         // Add the gameTextArea to the gameTextPanel
         addChildren(gameTextPanel,List.of(gameTextArea),List.of(BorderLayout.CENTER));
+
+        // Set preferred size of the gameTextPanel to allow for 10 lines of text
+        //int panelHeight = gameTextArea.getFontMetrics(gameTextArea.getFont()).getHeight() * 5;
+        //gameTextPanel.setPreferredSize(new Dimension(gameTextPanel.getPreferredSize().width, panelHeight));
 
         // UserInput TEXT PANEL
         userInputPanel = new JPanel();
@@ -187,8 +191,8 @@ public class GuiBuild {
 
         // Scale down the image
         Image mapImage = mapImageIcon.getImage();
-        int newWidth = mapImageIcon.getIconWidth() / 2;
-        int newHeight = mapImageIcon.getIconHeight() / 2;
+        int newWidth = mapImageIcon.getIconWidth() / 3;
+        int newHeight = mapImageIcon.getIconHeight() / 3;
         //smooth scaling
         Image scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
@@ -198,7 +202,7 @@ public class GuiBuild {
         // Map Label
         mapLabel = new JLabel(imgResourcePath, scaledMapImageIcon, JLabel.CENTER);
         mapLabel.setForeground(Color.BLACK);
-        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 550));
+        mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 480));
         navPanel.add(mapLabel, BorderLayout.NORTH);
 
         // Create a new panel with BorderLayout

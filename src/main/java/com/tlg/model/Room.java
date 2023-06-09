@@ -119,8 +119,10 @@ public class Room {
         // Scale the image to the original scaled size
         //noinspection ConstantConditions
         ImageIcon originalIcon = new ImageIcon(imageUrl);
-        int newWidth = originalIcon.getIconWidth() / 2; // Adjust the divisor to match the scaling factor used for the original image
-        int newHeight = originalIcon.getIconHeight() / 2; // Adjust the divisor to match the scaling factor used for the original image
+        int newWidth = originalIcon.getIconWidth() / 3; // Adjust the divisor to match the scaling factor used for
+        // the original image
+        int newHeight = originalIcon.getIconHeight() / 3; // Adjust the divisor to match the scaling factor used for
+        // the original image
         Image scaledImage = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
         return new ImageIcon(scaledImage);
