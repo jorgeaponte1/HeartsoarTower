@@ -15,7 +15,7 @@ public class Scene {
     private List<Monster> sceneMonsters = new ArrayList<>();
     private DisplayArt displayArt = new DisplayArt();
 
-    Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters) {
+    public Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters) {
 //        Associate the room with the correct room:
         for (Room r : rooms){
             if (r.getName().equalsIgnoreCase(sceneBuilder.getRoom())) {
