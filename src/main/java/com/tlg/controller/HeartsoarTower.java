@@ -161,7 +161,7 @@ public class HeartsoarTower implements GameInputListener{
     private void launchGUI() {
         EventQueue.invokeLater(() -> {
             try {
-                currentGui = new GuiBuild(HeartsoarTower.this, player, rooms, items, art, HeartsoarTower.this);
+                currentGui = new GuiBuild(HeartsoarTower.this, player, rooms, items, art, HeartsoarTower.this, scenes);
             } catch (IOException e) {
                 e.printStackTrace();
             }

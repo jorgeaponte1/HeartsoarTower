@@ -16,17 +16,21 @@ public class Room {
     private String monster;
     private final HashMap<String, String> neighborRooms;
     private boolean isDiscovered;
-    private String graphic;
+    private String graphicMonster;
+    private String graphicRoom;
+    private boolean monsterDefeated;
 
     public Room(String name, String[] desc, List<String> nouns, String monster,
-                 String graphic, HashMap<String,String> neighborRooms) {
+                 String graphicMonster, String graphicRoom,  HashMap<String,String> neighborRooms, boolean monsterDefeated) {
         this.name = name;
         this.desc = desc;
         this.nouns = nouns;
         this.monster = monster;
+        this.graphicMonster = graphicMonster;
         this.neighborRooms = neighborRooms;
-        this.graphic = graphic;
+        this.graphicRoom = graphicRoom;
         this.isDiscovered = false;
+        this.monsterDefeated = false;
     }
 
     public Room() {
@@ -34,8 +38,9 @@ public class Room {
         this.desc = new String[]{"Empty Room", "Empty Room", "Empty Room"};
         this.nouns = null;
         this.monster = null;
+        this.graphicMonster = null;
         this.neighborRooms = null;
-        this.graphic = null;
+        this.graphicRoom = null;
         this.isDiscovered = false;
     }
 
@@ -55,6 +60,14 @@ public class Room {
         return monster;
     }
 
+    public boolean isMonsterDefeated() {
+        return monsterDefeated;
+    }
+
+    public void setMonsterDefeated(boolean monsterDefeated) {
+        this.monsterDefeated = monsterDefeated;
+    }
+
     public HashMap<String, String> getNeighborRooms() {
         return neighborRooms;
     }
@@ -63,8 +76,12 @@ public class Room {
         return isDiscovered;
     }
 
-    public String getGraphic() {
-        return graphic;
+    public String getGraphicMonster() {
+        return graphicMonster;
+    }
+
+    public String getGraphicRoom() {
+        return graphicRoom;
     }
 
     public void setNouns(List<String> nouns) {

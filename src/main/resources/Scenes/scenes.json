@@ -27,7 +27,7 @@
       "Ugh.  The kitchen again.  Really starting to smell in here.  Glad I was sent to slay and not to clean.  The only way out is to the left."
     ],
     "items"    : [],
-    "monsters" : ["goblin"]
+    "monsters" : ["Goblin"]
   },
   {
     "room"     : "plaisure",
