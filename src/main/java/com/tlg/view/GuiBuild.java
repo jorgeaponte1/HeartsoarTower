@@ -481,8 +481,8 @@ public class GuiBuild {
         button.setOpaque(false);
     }
 
-    private void updateGUI(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] upCommand) {
-        gameInputListener.onInputReceived(upCommand);
+    private void updateGUI(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] command) {
+        gameInputListener.onInputReceived(command);
         gameTextArea.setText(displayText.getDisplay());
         setImageIcon();
         setInventoryLabelText(displayInput);

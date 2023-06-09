@@ -35,7 +35,7 @@
     ],
     "monster": "key",
     "graphicMonster" : "Images/locked.png",
-    "graphicRoom" : "Images/goldenkey.png",
+    "graphicRoom" : "Images/key.png",
     "neighborRooms": {
       "left"  : "Entrance",
       "right" : "Kitchen",
