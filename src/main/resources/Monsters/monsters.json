@@ -311,7 +311,7 @@
       "Prince Timore dialogue5"
     ],
     "description": [
-      "You give Prince Timore the teddy bear.  Somehow trigger the end screen"
+      "You give Prince Timore the teddy bear. He feels safe and understands life is a lesson one must go through to realize who they are themselves."
     ],
     "sceneFailed": "Prince Timore leaps from the window.  He's dead.  Wow you screwed up",
     "art" : "\n                j     ╔\n           ╗,,,╦╢▓╦╥╥╬╣N,  ╓`\n            ╣╣╣╢╣╣╫▓╣╣╣╢╣╢╢╝\n         ,▄▄▌╢╣╣▒▒▒▒▒▒╢╢╢╢▒,\n       ▄█████████████████████,\n     ▄██████████████████████████▄\n     ▀███████████████████████████▌\n      █████████▀▓████▀░███████████\n      ▀██▓▀▒▄▀▀░▒░▄Φ▀▀Ñ▒░█████████\n     ▒╢▒▀▌░▐█▌▒▌∞▄░]█ì▒▐▄█▀▀████▀`\n      ╙▒▒░W▒▒▒╩▒░░▄▒▀▒░▀░▒╢╢▐█▀\n         ▒░░▒░░░░░▒░░░░░░▄▄▀\"\n           ╙▒░▒╨╢╜░░░░▒╜\"\n            â▓▓▓▄@╗╬▓M\n          ,▓▓@▄▓▀▀▀╓@██µ\n         ╒█▓▀╣╣▓▓▓╣╢╣ █▓▄\n        ,▓▓`╟╢╢╢╢▓▓▓╣L █▓▄\n        ▓▓▌ ███╣██▓███  ▓▓µ\n       ,░╙  ▒▒▀▒▒▓▒▒▒▒  └░░\n       ╙▒   ▓▓▓▓▓▓▓▓▓▓▌   ╜\n            ▓▓▓▓▓▀▓▓▓▓▌\n            ▐▓▓▓   ▓▓▓Γ\n             ██▌    ██\n             ▐█▌    ██\n             ▐█▌    ██\n\n",

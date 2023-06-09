@@ -14,10 +14,7 @@ public class Monster {
     private List<String> dialogue;
     private String art;
     private String item;
-
     private String graphic;
-
-
 
     public Monster(String name, List<String[]> successes, List<String> failures, List<String> description,
                    String sceneFailed, List<String> dialogue, String art, String graphic, String item) {
@@ -30,17 +27,11 @@ public class Monster {
         this.art = art;
         this.graphic = graphic;
         this.item = item;
-
-
-
     }
-
 
     public String getName() {
         return name;
     }
-
-
 
     public String talk() {
         Random random = new Random();
@@ -57,12 +48,13 @@ public class Monster {
     }
 
     public String progressDescription(){
-        String result = description.remove(0);
-        return result;
+        return description.remove(0);
     }
+
     public String getSceneFailed() {
         return sceneFailed;
     }
+
     public String getArt() {
         return art;
     }
@@ -78,6 +70,7 @@ public class Monster {
     public void addItem(String item) {
         this.item = item;
     }
+
     public String deleteItem() {
         String result = item;
         item = null;

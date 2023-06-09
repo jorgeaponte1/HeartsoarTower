@@ -1,7 +1,5 @@
 package com.tlg.model;
 
-import com.tlg.model.Item;
-
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -109,6 +107,7 @@ public class Room {
         URL imageUrl = getClass().getResource(imagePath);
 
         // Scale the image to the original scaled size
+        //noinspection ConstantConditions
         ImageIcon originalIcon = new ImageIcon(imageUrl);
         int newWidth = originalIcon.getIconWidth() / 2; // Adjust the divisor to match the scaling factor used for the original image
         int newHeight = originalIcon.getIconHeight() / 2; // Adjust the divisor to match the scaling factor used for the original image
@@ -116,6 +115,4 @@ public class Room {
 
         return new ImageIcon(scaledImage);
     }
-
 }
-
