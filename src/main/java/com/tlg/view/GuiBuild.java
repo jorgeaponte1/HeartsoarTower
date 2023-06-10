@@ -13,6 +13,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -458,6 +459,7 @@ public class GuiBuild {
             String input = userInputTextField.getText();
             input = input.replaceAll("\\W+", " ").toLowerCase().strip();
             String[] words = input.split("\\s+");  // split on one or more whitespace characters
+            System.out.println(Arrays.toString(words));
             userInputTextField.setText("");
             updateGUI(gameTextArea, displayText, displayInput, words);
         });
@@ -509,7 +511,7 @@ public class GuiBuild {
     private void updateGUI(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] command) {
         gameInputListener.onInputReceived(command);
         gameTextArea.setText(displayText.getDisplay());
-        setImageIcon();
+        setImageIcon(command);
         setInventoryLabelText(displayInput);
         locationLabel.setText(player.getLocation().getName());
         mapLabel.setIcon(player.getLocation().getMapImage());
@@ -529,8 +531,26 @@ public class GuiBuild {
         }
     }
 
-    private void setImageIcon() {
-        if (player.getLocation().isMonsterDefeated()){
+    private void setImageIcon(String[] command) {
+        if (command[0].equalsIgnoreCase("look") && !command[1].equalsIgnoreCase("around")) {
+            Item foundItem = null;
+            for (Item item: player.getInventory()) {
+                if (item.getName().equalsIgnoreCase(command[1])) {
+                    foundItem = item;
+                    break;
+                }
+            }
+            if (foundItem != null) {
+                URL itemImageUrls = getClass().getClassLoader().getResource(foundItem.getGraphic());
+                //noinspection ConstantConditions
+                ImageIcon graphicIconsForItem = new ImageIcon(itemImageUrls);
+                Image graphicImagesForItem = graphicIconsForItem.getImage(); // transform it
+                graphicImagesForItem = graphicImagesForItem.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                        Image.SCALE_SMOOTH); // scale
+                graphicLabel.setIcon(new ImageIcon(graphicImagesForItem));
+            }
+        }
+        else if (player.getLocation().isMonsterDefeated()){
             List<Scene> currentScene = scenes.stream().filter(scene -> scene.getRoom().equals(player.getLocation()))
                     .collect(Collectors.toList());
             if (!currentScene.isEmpty() && !currentScene.get(0).getSceneItems().isEmpty()) {
@@ -558,7 +578,14 @@ public class GuiBuild {
             graphicImagesForItem = graphicImagesForItem.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
                     Image.SCALE_SMOOTH); // scale
             graphicLabel.setIcon(new ImageIcon(graphicImagesForItem));
-        } else {
+        } else if (player.getLocation().isMonsterDefeated() && player.getLocation().getName().equalsIgnoreCase("Entrance")) {
+            //scale graphic Icons
+            Image graphicImagesForItem = graphicIconsForItem.getImage(); // transform it
+            graphicImagesForItem = graphicImagesForItem.getScaledInstance(graphicPanel.getWidth(), graphicPanel.getHeight(),
+                    Image.SCALE_SMOOTH); // scale
+            graphicLabel.setIcon(new ImageIcon(graphicImagesForItem));
+        }
+        else {
             graphicLabel.setIcon(graphicIconsForItem);
         }
     }
