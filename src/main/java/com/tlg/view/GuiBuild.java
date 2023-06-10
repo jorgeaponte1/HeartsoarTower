@@ -58,7 +58,7 @@ public class GuiBuild {
 
         //set frame width and height
         int frameWidth = 1500;
-        int frameHeight = 1400;
+        int frameHeight = 1200;
 
 
         // Set the Frame to the Max Size of a User's Screen. So Image is reflected in accordance.
@@ -214,8 +214,8 @@ public class GuiBuild {
 
         // Scale down the image
         Image mapImage = mapImageIcon.getImage();
-        int newWidth = mapImageIcon.getIconWidth() / 2;
-        int newHeight = mapImageIcon.getIconHeight() / 2;
+        int newWidth = mapImageIcon.getIconWidth() / 3;
+        int newHeight = mapImageIcon.getIconHeight() / 3;
         //smooth scaling
         Image scaledImage = mapImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
@@ -223,7 +223,7 @@ public class GuiBuild {
         ImageIcon scaledMapImageIcon = new ImageIcon(scaledImage);
 
         // Map Label
-        mapLabel = new JLabel(imgResourcePath, scaledMapImageIcon, JLabel.CENTER);
+        mapLabel = new JLabel(scaledMapImageIcon, JLabel.CENTER);
         mapLabel.setForeground(Color.BLACK);
         mapLabel.setPreferredSize(new Dimension(mapLabel.getPreferredSize().width, 480));
         navPanel.add(mapLabel, BorderLayout.NORTH);
@@ -706,7 +706,7 @@ public class GuiBuild {
         instructionPanel.setSize(100, 100);
 
         // TEXT AREA
-        introductionTextArea = new JTextArea(20, 90);
+        introductionTextArea = new JTextArea(20, 50);
         introductionTextArea.setBackground(new Color(26, 83, 92));
         introductionTextArea.setForeground(Color.WHITE);
         introductionTextArea.setFont(storyFont);
