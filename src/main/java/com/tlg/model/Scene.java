@@ -8,8 +8,6 @@ import com.tlg.view.DisplayText;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.awt.SystemColor.text;
-
 public class Scene {
     private Room room;
     private String[] description = new String[3];
@@ -17,7 +15,7 @@ public class Scene {
     private List<Monster> sceneMonsters = new ArrayList<>();
     private DisplayArt displayArt = new DisplayArt();
 
-    Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters) {
+    public Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters) {
 //        Associate the room with the correct room:
         for (Room r : rooms){
             if (r.getName().equalsIgnoreCase(sceneBuilder.getRoom())) {
@@ -66,9 +64,13 @@ public class Scene {
     public  void addMonster(Monster e){
         sceneMonsters.add(e);
     }
-    public void defeatMonster(Monster e, DisplayText text, DisplayInput inputter, List<Room> rooms){
-        if(e.getName().equalsIgnoreCase("Prince")) winGame();
+    public void defeatMonster(Monster e, DisplayText text, DisplayInput inputter, List<Room> rooms, Player player){
         displayArt.defeatMonster(e, text, inputter, rooms);
+        if(e.getName().equalsIgnoreCase("Prince")) {
+            //player.setGameOver(true);
+            player.setWonGame(true);
+            winGame();
+        }
         sceneMonsters.remove(e);
     }
 
@@ -87,11 +89,5 @@ public class Scene {
                     "   \\ \\/ // .'`\\ \\[  | | |  [ \\ [ \\ [  ]/ .'`\\ \\[ `.-. |     \n" +
                     "   _|  |_| \\__. | | \\_/ |,  \\ \\/\\ \\/ / | \\__. | | | | |  _  \n" +
                     "  |______|'.__.'  '.__.'_/   \\__/\\__/   '.__.' [___||__](_) \n");
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.exit(0);
         }
 }

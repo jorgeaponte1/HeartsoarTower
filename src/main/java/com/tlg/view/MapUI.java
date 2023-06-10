@@ -63,6 +63,7 @@ public class MapUI {
                     "|                                |\n" +
                     "|                                |\n";
     static String plaisure =
+                    "|         +-----+-----+          |\n" +
                     "|         |     |     |          |\n" +
                     "|         |  X  |     |          |\n" +
                     "|         |  X  |     |          |\n";
@@ -120,6 +121,8 @@ public class MapUI {
 
     public static String getMap(List<Room> rooms) {
         StringBuilder sb = new StringBuilder();
+        String mapString = sb.toString().trim();
+
         if (rooms.get(9).isDiscovered()) {
             sb.append(bedroom);
         } else {

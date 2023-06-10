@@ -27,12 +27,16 @@ public class AlwaysCommands {
         }
         if (instruct[0] != null) {
             if (instruct[0].equalsIgnoreCase("quit")) {
+                text.setDisplay("You want to leave us. So soon?");
                 gameOver();
+                player.setGameOver(true);
+                return true;
             }
             else if (instruct[0].equalsIgnoreCase("look")) {
-                if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
+                if (instruct[1].equalsIgnoreCase("around")) {
+//                if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
                     System.out.println("Looking around...");
-                    lookAround(player);
+                    lookAround(player, text);
                     return true;
                 } else {
 
@@ -50,32 +54,16 @@ public class AlwaysCommands {
                 for (Item item : player.getInventory()) {
                     inventory.append(item.getName()).append(", ");
                 }
-                text.setDisplay("You have the following items in your inventory:" + inventory.toString());
+                text.setDisplay("You have the following items in your inventory:" + inventory);
                 DisplayEngine.printScreen(art, text, inputter, rooms);
             }
         }
         return false;
     }
 
-//    public static Object showHelp() {
-//        System.out.println("\033[H\033[2J");
-//        System.out.flush();
-//        String path = "/Ascii_art/Help2.txt";
-//        try (InputStream is = AlwaysCommands.class.getResourceAsStream(path)) {
-//            if (is == null) {
-//                throw new FileNotFoundException("Resource not found: " + path);
-//            }
-//            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-
     public static void gameOver() {
         String path = "/Ascii_art/GameOver.txt";
         showPrompt(path);
-        System.exit(0);
     }
 
     private static void lookAtItem(String itemName, Player player, Scene scene, DisplayEngine displayEngine, DisplayArt art, DisplayText text, DisplayInput inputter, List<Room> rooms) {
@@ -97,17 +85,19 @@ public class AlwaysCommands {
         if (foundItem != null) {
             text.setDisplay(foundItem.getDescription());
             art.setDisplay(foundItem.getArt());
+            // TODO Here we would need to instead showcase an image of the sword or whatever
+            String graphic = foundItem.getGraphic();
             DisplayEngine.printScreen(art, text, inputter, rooms);
         } else {
             System.out.println("You don't see that item here.");
         }
     }
 
-    private static void lookAround(Player player) {
+    private static void lookAround(Player player, DisplayText text) {
         Room currentRoom = player.getLocation();
         String[] roomDescriptionArray = currentRoom.getDesc();
         String roomDescription = String.join(" ", roomDescriptionArray);
-        System.out.println(roomDescription);
+        text.setDisplay(roomDescription);
     }
 
     public static void musicSettings(MusicPlayer musicPlayer) {

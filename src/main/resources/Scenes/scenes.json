@@ -22,12 +22,12 @@
   {
     "room"     : "kitchen",
     "description"     : [
-      "You enter a once beautiful kitchen, full of what seems to be magical cooking appliances unbeknownst to you.  Wires connect a metal box spitting out blackened bread, and a type of wood stove expels heat from its open furnace at a remarkable heat despite there being no wood.  The top of the stove has four discs burning as bright and red and angry as an armorsmith’s furnace.  Fire leaps from a pot on top of one those burning disc just as a horrific repeating squeal comes a tiny circle on the wall.  Seemingly unphased by the obvious chaos around and possible inevitable conflagration, a goblin leaps from chair to table to wall and spots you but seems to not care.  In between several leaps it belches and throws its shoulders against the kitchen island that has been upturned and sits squarely against the pantry door.  What do you do?",
+      "You enter a once beautiful kitchen, full of what seems to be magical cooking appliances unbeknownst to you.  Wires connect a metal box spitting out blackened bread, and a type of wood stove expels heat from its open furnace at a remarkable heat despite there being no wood.  The top of the stove has four discs burning as bright and red and angry as an armorsmith's furnace.  Fire leaps from a pot on top of one those burning disc just as a horrific repeating squeal comes a tiny circle on the wall.  Seemingly unphased by the obvious chaos around and possible inevitable conflagration, a goblin leaps from chair to table to wall and spots you but seems to not care.  In between several leaps it belches and throws its shoulders against the kitchen island that has been upturned and sits squarely against the pantry door.  What do you do?",
       "The goblin asks to come with you.  The kitchen looks like its been trashed.  The only way out is to the left.",
       "Ugh.  The kitchen again.  Really starting to smell in here.  Glad I was sent to slay and not to clean.  The only way out is to the left."
     ],
     "items"    : [],
-    "monsters" : ["goblin"]
+    "monsters" : ["Goblin"]
   },
   {
     "room"     : "plaisure",

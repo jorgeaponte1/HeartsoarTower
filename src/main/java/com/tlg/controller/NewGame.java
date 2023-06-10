@@ -35,6 +35,4 @@ public class NewGame {
         System.out.println("\nPress Enter to start your journey...");
         scanner.nextLine();
     }
-
-
 }
