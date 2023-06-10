@@ -14,7 +14,7 @@
     ],
     "monster": "Ghost",
     "graphicMonster" : "Images/casper1.gif",
-    "graphicRoom" : "Images/castle.png",
+    "graphicRoom" : "Images/Castle.png",
     "neighborRooms": {
       "right": "Foyer"
     },
