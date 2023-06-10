@@ -33,9 +33,10 @@ public class AlwaysCommands {
                 return true;
             }
             else if (instruct[0].equalsIgnoreCase("look")) {
-                if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
+                if (instruct[1].equalsIgnoreCase("around")) {
+//                if (instruct[1] == null || instruct[1].equalsIgnoreCase("around")) {
                     System.out.println("Looking around...");
-                    lookAround(player);
+                    lookAround(player, text);
                     return true;
                 } else {
 
@@ -92,11 +93,11 @@ public class AlwaysCommands {
         }
     }
 
-    private static void lookAround(Player player) {
+    private static void lookAround(Player player, DisplayText text) {
         Room currentRoom = player.getLocation();
         String[] roomDescriptionArray = currentRoom.getDesc();
         String roomDescription = String.join(" ", roomDescriptionArray);
-        System.out.println(roomDescription);
+        text.setDisplay(roomDescription);
     }
 
     public static void musicSettings(MusicPlayer musicPlayer) {
