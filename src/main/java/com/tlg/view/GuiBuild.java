@@ -70,6 +70,15 @@ public class GuiBuild {
         frame.getContentPane().setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
 
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(0); // Close the frame when Esc key is pressed
+                }
+            }
+        });
+
         // Get the content pane of the frame
         con = frame.getContentPane();
         frame.setTitle("HEARTSOAR TOWER");
