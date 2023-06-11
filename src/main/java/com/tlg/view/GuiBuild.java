@@ -113,6 +113,8 @@ public class GuiBuild {
             }
         });
 
+
+
         musicPlayer.play();
         frame.setVisible(true);
     }
@@ -483,8 +485,14 @@ public class GuiBuild {
         addChildren(con,List.of(locationPanel,graphicPanel,userInputPanel,navPanel),
                 List.of(BorderLayout.NORTH, BorderLayout.CENTER, BorderLayout.SOUTH, BorderLayout.EAST));
 
+//        String[] command = {"left", "right", "up", "down"};
+//        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, command, KeyEvent.VK_LEFT);
+//        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, command, KeyEvent.VK_RIGHT);
+
+
         //Call the ActionListener for the userInputTextField
         actionListenerInput(gameTextArea, displayText, displayInput);
+
     }
 
     private void ArrowKeyMovementListener(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] command, int keyEvent) {
