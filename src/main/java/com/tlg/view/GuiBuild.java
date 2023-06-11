@@ -191,6 +191,14 @@ public class GuiBuild {
         userInputTextField.setCaretColor(Color.WHITE);
         userInputTextField.setHorizontalAlignment(JTextField.CENTER);
 
+        userInputTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                frame.requestFocusInWindow();
+            }
+        });
+
         // Set margin around the text area
         int marginSize = 40;
         Insets margin = new Insets(marginSize, marginSize, marginSize, marginSize);
@@ -281,9 +289,22 @@ public class GuiBuild {
         Image helpImage = helpIcon.getImage(); // transform it
         Image helpImg = helpImage.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH); // scale it smoothly
         ImageIcon newHelpIcon = new ImageIcon(helpImg);  // assign to a new ImageIcon instance
-        helpButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(null, null, "Help Scroll", JOptionPane.PLAIN_MESSAGE, newHelpIcon)
-        );
+        helpButton.addActionListener(e -> {
+            final JOptionPane optionPane = new JOptionPane(null, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, newHelpIcon);
+            final JDialog dialog = optionPane.createDialog("Help Scroll");
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    frame.requestFocusInWindow();
+                }
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+                    frame.requestFocusInWindow();
+                }
+            });
+            dialog.setVisible(true);
+        });
+
         // Add inventoryTextField to the center and add helpButton to the south of the new panel
         addChildren(inventoryHelpPanel,List.of(inventoryLabel,helpButton), List.of(BorderLayout.CENTER,BorderLayout.SOUTH));
 
@@ -304,9 +325,12 @@ public class GuiBuild {
         hideButton(upButton);
 
         upButton.setIcon(newUpDirectionIcon);
+        String[] goUp = {"go", "up"};
+        int upKey = KeyEvent.VK_UP;
+        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, goUp, upKey);
         upButton.addActionListener(e -> {
-            String[] upCommand = {"go", "up"};
-            updateGUI(gameTextArea, displayText, displayInput, upCommand);
+            updateGUI(gameTextArea, displayText, displayInput, goUp);
+            frame.requestFocusInWindow();
         });
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -329,9 +353,12 @@ public class GuiBuild {
         hideButton(downButton);
 
         downButton.setIcon(newDownDirectionIcon);
+        String[] goDown = {"go", "down"};
+        int downKey = KeyEvent.VK_DOWN;
+        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, goDown, downKey);
         downButton.addActionListener(e -> {
-            String[] downCommand = {"go", "down"};
-            updateGUI(gameTextArea, displayText, displayInput, downCommand);
+            updateGUI(gameTextArea, displayText, displayInput, goDown);
+            frame.requestFocusInWindow();
         });
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -354,9 +381,12 @@ public class GuiBuild {
         hideButton(rightButton);
 
         rightButton.setIcon(newRightDirectionIcon);
+        String[] goRight = {"go", "right"};
+        int rightKey = KeyEvent.VK_RIGHT;
+        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, goRight, rightKey);
         rightButton.addActionListener(e -> {
-            String[] rightCommand = {"go", "right"};
-            updateGUI(gameTextArea, displayText, displayInput, rightCommand);
+            updateGUI(gameTextArea, displayText, displayInput, goRight);
+            frame.requestFocusInWindow();
         });
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -379,9 +409,12 @@ public class GuiBuild {
         hideButton(leftButton);
 
         leftButton.setIcon(newLeftDirectionIcon);
+        String[] goLeft = {"go", "left"};
+        int leftKey = KeyEvent.VK_LEFT;
+        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, goLeft, leftKey);
         leftButton.addActionListener(e -> {
-            String[] leftCommand = {"go", "left"};
-            updateGUI(gameTextArea, displayText, displayInput, leftCommand);
+            updateGUI(gameTextArea, displayText, displayInput, goLeft);
+            frame.requestFocusInWindow();
         });
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -425,9 +458,11 @@ public class GuiBuild {
             if (musicPlayer.isPlaying()) {
                 speakerButton.setIcon(newMuteIcon);
                 musicPlayer.stop();
+                frame.requestFocusInWindow();
             } else {
                 speakerButton.setIcon(newSpeakerIcon);
                 musicPlayer.play();
+                frame.requestFocusInWindow();
             }
         });
         music.setForeground(Color.WHITE);
@@ -450,6 +485,17 @@ public class GuiBuild {
 
         //Call the ActionListener for the userInputTextField
         actionListenerInput(gameTextArea, displayText, displayInput);
+    }
+
+    private void ArrowKeyMovementListener(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput, String[] command, int keyEvent) {
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == keyEvent) {
+                    updateGUI(gameTextArea, displayText, displayInput, command);
+                }
+            }
+        });
     }
 
     private void actionListenerInput(JTextArea gameTextArea, DisplayText displayText, DisplayInput displayInput) {
@@ -497,6 +543,7 @@ public class GuiBuild {
         slider.addChangeListener(e -> {
             Volume[0] = (float) (((JSlider) e.getSource()).getValue() / 100.00);
             musicPlayer.setVolume(Volume[0]);
+            frame.requestFocusInWindow();
         });
         return slider;
     }
