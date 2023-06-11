@@ -168,7 +168,7 @@ public class GuiBuild {
         gameTextArea.setBackground(new Color(247, 255, 247));
         gameTextArea.setForeground(Color.BLACK);
         gameTextArea.setFont(normalFont);
-        gameTextArea.setMargin(new Insets(0, 40, 0, 0));
+        gameTextArea.setMargin(new Insets(0, 40, 0, 40));
         // Set the text of the gameTextArea to the display text
         DisplayText displayText = new DisplayText();
         gameTextArea.setText(displayText.getDisplay());
@@ -484,10 +484,6 @@ public class GuiBuild {
         // Add panels to the container using BorderLayout
         addChildren(con,List.of(locationPanel,graphicPanel,userInputPanel,navPanel),
                 List.of(BorderLayout.NORTH, BorderLayout.CENTER, BorderLayout.SOUTH, BorderLayout.EAST));
-
-//        String[] command = {"left", "right", "up", "down"};
-//        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, command, KeyEvent.VK_LEFT);
-//        ArrowKeyMovementListener(gameTextArea, displayText, displayInput, command, KeyEvent.VK_RIGHT);
 
 
         //Call the ActionListener for the userInputTextField
