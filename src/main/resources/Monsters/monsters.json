@@ -60,7 +60,6 @@
     "description" : [
       "You pick up the key.  It's a key.  You can use it to open doors.  But your hand can't quite fit through the keyhole to the door at the top of the stairs.",
       "You use the goblin to open the door at the top of the stairs.  You can now go up."
-
     ],
     "sceneFailed" : "You can't go up the stairs until the door is unlocked.",
     "art" : "\n\n\n                                                                      ,▄▄▄▄▄\n                                                                   ▄███████████▄\n                                                                 ▄██████▀▀▀██████▄\n                                                                ▄█████'     ██████▄\n                                                               ▄██████      ███████▌\n     ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄███████████████████████████████▄▄▄████████▀         ▀█████\n    ▄██████████████████████████████████████████████████████████████⌐           █████\n    ╙███████████████████████████████████████████████████████████████          ▄█████\n          █████   █████   ▀  ▀▀▀'---`                          ▀██████K     ███████▌\n          █████   █████                                         ▐█████▌     ▐██████\n          █████   █████                                          ╙█████▄▄,▄▄█████▀\n          █████   █████                                            ▀███████████▀\n          █████   █████                                               `▀▀▀▀▀`\n          ████▀    ▀▀▀▀\n\n\n\n\n\n\n\n",
@@ -304,11 +303,9 @@
       "sword"
     ],
     "dialogue": [
-      "Prince Timore dialogue1",
-      "Prince Timore dialogue2",
-      "Prince Timore dialogue3",
-      "Prince Timore dialogue4",
-      "Prince Timore dialogue5"
+      "I...I don't want to grow up! It's so scary...like venturing alone into a dark, unknown forest. Do you remember any sort of...comfort during your journey? Anything, a thing or memory, that made it less intimidating?",
+      "Do you see this room? So many toys and yet...I'm supposed to become a king. I just wish I had something...something comforting and familiar to remind me of simpler times. Did you have anything like that?",
+      "Do you remember what it was like, growing up? The uncertainty, the fear...sometimes I wish I had a comforting friend, like a beloved toy, to make the journey less frightening. Did you have something like that?"
     ],
     "description": [
       "You give Prince Timore the teddy bear. He feels safe and understands life is a lesson one must go through to realize who they are themselves."

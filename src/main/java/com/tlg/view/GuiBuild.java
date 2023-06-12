@@ -91,7 +91,7 @@ public class GuiBuild {
         Image backgroundImage = ImageIO.read(getClass().getResource(imgResourcePath));
         Image scaledImage = backgroundImage.getScaledInstance(frame.getWidth(), frame.getHeight(), Image.SCALE_DEFAULT);
 
-        JLabel titleNameLabel = new JLabel("<html><center>HEARTSORE TOWER</center></html>", new ImageIcon(scaledImage), JLabel.CENTER);
+        JLabel titleNameLabel = new JLabel("<html><center>HEARTSORE TOWER<br><br><br><br>Press Enter to Continue</center></html>", new ImageIcon(scaledImage), JLabel.CENTER);
         titleNameLabel.setVerticalTextPosition(JLabel.CENTER);
         titleNameLabel.setHorizontalTextPosition(JLabel.CENTER);
         titleNameLabel.setForeground(Color.WHITE); // Text color

@@ -118,6 +118,9 @@ public class Room {
             case "den":
                 imagePath += "map_den.png";
                 break;
+            case "parlor":
+                imagePath += "map_parlor.png";
+                break;
             case "ballroom":
                 imagePath += "map_ballroom.png";
                 break;

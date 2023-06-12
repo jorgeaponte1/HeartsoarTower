@@ -14,8 +14,10 @@ public class Scene {
     private List<Item> sceneItems = new ArrayList<>();
     private List<Monster> sceneMonsters = new ArrayList<>();
     private DisplayArt displayArt = new DisplayArt();
+    private boolean hasFirstSuccess;
+    private boolean hasSecondSuccess;
 
-    public Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters) {
+    public Scene(SceneBuilder sceneBuilder, List<Room> rooms, List<Item> items, List<Monster> monsters, boolean hasFirstSuccess, boolean hasSecondSuccess) {
 //        Associate the room with the correct room:
         for (Room r : rooms){
             if (r.getName().equalsIgnoreCase(sceneBuilder.getRoom())) {
@@ -37,6 +39,8 @@ public class Scene {
             }
         }
         this.description = sceneBuilder.getDescription();
+        this.hasFirstSuccess = hasFirstSuccess;
+        this.hasSecondSuccess = hasSecondSuccess;
     }
 
     public Room getRoom(){
@@ -64,6 +68,23 @@ public class Scene {
     public  void addMonster(Monster e){
         sceneMonsters.add(e);
     }
+
+    public boolean isHasFirstSuccess() {
+        return hasFirstSuccess;
+    }
+
+    public void setHasFirstSuccess(boolean hasFirstSuccess) {
+        this.hasFirstSuccess = hasFirstSuccess;
+    }
+
+    public boolean isHasSecondSuccess() {
+        return hasSecondSuccess;
+    }
+
+    public void setHasSecondSuccess(boolean hasSecondSuccess) {
+        this.hasSecondSuccess = hasSecondSuccess;
+    }
+
     public void defeatMonster(Monster e, DisplayText text, DisplayInput inputter, List<Room> rooms, Player player){
         displayArt.defeatMonster(e, text, inputter, rooms);
         if(e.getName().equalsIgnoreCase("Prince")) {

@@ -23,7 +23,7 @@
   {
     "name": "Foyer",
     "desc": [
-      "A beautiful staircase leads up to two doors.  One that has been nailed shut so strongly it appears that not even the best magic in the world could pry open this door.  The other is a dark metal door with a keyhole drilled deep inside\nthe recess.  The keyhole is so deeply drilled into the door that your hand cannot fit inside.\n\n To the left you have the castle entrance, and to the right you have what might possibly be the kitchen.\n"
+      "A beautiful staircase leads up to two doors.  One that has been nailed shut so strongly it appears that not even the best magic in the world could pry open this door.  The other is a dark metal door with a keyhole drilled deep inside the recess.  The keyhole is so deeply drilled into the door that your hand cannot fit inside.\n\n To the left you have the castle entrance, and to the right you have what might possibly be the kitchen."
     ],
     "nouns": [
       "staircase",
@@ -69,7 +69,7 @@
     ],
     "monster": "Succubus",
     "graphicMonster" : "Images/succubus.png",
-    "graphicRoom" : "Images/castle.png",
+    "graphicRoom" : "Images/Castle.png",
     "neighborRooms": {
       "down" : "Foyer",
       "up"   : "Den"
@@ -135,7 +135,7 @@
     ],
     "monster": "Zombie",
     "graphicMonster" : "Images/zombie.png",
-    "graphicRoom" : "Images/castle.png",
+    "graphicRoom" : "Images/Castle.png",
     "neighborRooms": {
       "down" : "Parlor",
       "up"   : "Conservatory"
@@ -152,7 +152,7 @@
     ],
     "monster": "Alien",
     "graphicMonster" : "Images/unhappyAlien.png",
-    "graphicRoom" : "Images/castle.png",
+    "graphicRoom" : "Images/Castle.png",
     "neighborRooms": {
       "down" : "Ballroom",
       "up"   : "Bedroom"
@@ -169,7 +169,7 @@
     ],
     "monster": "Prince",
     "graphicMonster" : "Images/prince.png",
-    "graphicRoom" : "Images/castle.png",
+    "graphicRoom" : "Images/Castle.png",
     "neighborRooms": {
       "down" : "Conservatory"
     },

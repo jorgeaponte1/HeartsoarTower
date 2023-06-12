@@ -21,7 +21,12 @@ class CombatEngine {
     public boolean combatCommands(String[] instruct, Player player, Scene scene, DisplayArt art, DisplayText text, DisplayInput inputter, DisplayEngine displayEngine, List<Room> rooms, List<Item> items) {
         boolean actionTaken = false;
         if (instruct[0] == null && instruct[1] == null) {
-            text.setDisplay("Invalid Command.");
+            if (scene.isHasFirstSuccess()) {
+                text.setDisplay("Invalid Command.\n" + scene.getDescription(1));
+            }
+            if (scene.isHasSecondSuccess()) {
+                text.setDisplay("Invalid Command.\n" + scene.getDescription(2));
+            }
             DisplayEngine.printScreen(art, text, inputter, rooms);
             return true;
         }
@@ -53,20 +58,26 @@ class CombatEngine {
                 }
             }
             successes.remove(0);
-            actionTaken = true;
-            if (successes.size() == 0) {
+            scene.setHasFirstSuccess(true);
+            if (successes.size() == 1) {
+                text.setDisplay(scene.getDescription(1));
+            }
+            else if (successes.size() == 0) {
+                scene.setHasSecondSuccess(true);
                 String addItem = monster.deleteItem();
                 if (addItem != null) {
                     for (Item item : items) {
                         if (item.getName().equalsIgnoreCase(addItem)) {
                             scene.addItem(item);
-                            player.getLocation().setMonsterDefeated(true);
                         }
                     }
                 }
+                text.setDisplay(scene.getDescription(2));
                 scene.defeatMonster(scene.getSceneMonsters(0), text, inputter, rooms, player);
+                player.getLocation().setMonsterDefeated(true);
 //                Kill the monster by adding an extra white line 30 times until the monster has dissapeared:
             }
+            actionTaken = true;
             if (instruct[0].equalsIgnoreCase("get") && instruct[1].equalsIgnoreCase("key")) {
                 for (Item item : scene.getSceneItems()) {
                     if (item.getName().equalsIgnoreCase(instruct[1])) {
@@ -76,7 +87,6 @@ class CombatEngine {
                     }
                 }
             }
-            text.setDisplay(monster.progressDescription());
         }
         else if (instruct[0].equalsIgnoreCase("use") && instruct[1].equalsIgnoreCase("amulet")) {
             return false;
@@ -100,7 +110,6 @@ class CombatEngine {
                         gameOver();
                         player.setGameOver(true);
                     }
-                    //heartsoarTower.grabScene();
                 }
                 else {
                     for (Room room : rooms) {
@@ -138,7 +147,6 @@ class CombatEngine {
                 }
             }
         }
-
         if (actionTaken) {
             DisplayEngine.printScreen(art, text, inputter, rooms);
         }
