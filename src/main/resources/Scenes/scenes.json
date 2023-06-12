@@ -3,8 +3,10 @@
     "room"     : "entrance",
     "description"     : [
       "As you enter the castle, a shiver wracks your body as the temperature plummets  despite the harvest sun.  A ghost's screams seem to come from everywhere.  He lunges towards you baring white ethereal teeth.  What do you do?",
-      "You are at the entrance of the castle.  The floating candles have settled on the ground, and the ghostly figure (named Casper) has shrunken to a size you can put in your pocket.  The door to leave the castle is shut, but it seems like the door on the right is ajar.",
-      "You are at the entrance of the castle.  The floating candles have settled on the ground, and the room remains empty.  The door to leave the castle is shut, but it seems like the door on the right is ajar."
+      "You talk to the ghost.  He just wants to be seen.  His crying is getting the floor wet.  If only you had something to give him to dry his tears...",
+      "You use the handkerchief to dry the ghost's tears.  He says his name is Casper.  He thanks you and grows so small that he shrinks to the size of a pocket watch and Casper asks to come with you.  You can now go through the door to the right.",
+      "You are at the entrance of the castle.  The floating candles have settled on tr wracks your body as the temperature plummets  despite the harvest he ground, and the ghostly figure (named Casper) has shrunken to a size you can put in your pocket.  The door to leave the castle is shut, but it seems like the door on the right is ajar.",
+      "You are at the entrance of the castle.  The floating candles have settled on the ground, and the room remains empty.  The door to leave the castle is shut, but it seems like the door on the right is ajar. Entrance Complete"
     ],
     "items"    : [],
     "monsters" : ["ghost"]
@@ -13,8 +15,10 @@
     "room"     : "foyer",
     "description"     : [
       "A beautiful staircase leads up to two doors.  One that has been nailed shut so strongly it appears that not even the best magic in the world could pry open this door.  The other is a dark metal door with a keyhole drilled deep inside the recess.  As if the tower is mocking us, a key lays next to the door.",
-      "A beautiful staircase leads up to two doors.  One that has been nailed shut so strongly it appears that not even the best magic in the world could pry open this door.  The other is a dark metal door with a keyhole drilled deep inside the recess.  The keyhole is so deeply drilled into the door that your hand cannot fit inside. To the left you have the castle entrance, and to the right you have what might possibly be the kitchen.\n",
-      "You enter the foyer of the castle.  To the left you have the entrance of the castle.  To the right you have the kitchen.  Up the stairs you have the Plaisure room."
+      "You pick up the key.  It's a key.  You can use it to open doors.  But your hand can't quite fit through the keyhole to the door at the top of the stairs.",
+      "You use the goblin to open the door at the top of the stairs.  You can now go up.",
+      "You enter the foyer of the castle.  To the left you have the entrance of the castle.  To the right you have the kitchen.  Up the stairs you have the Plaisure room.",
+      "You enter the foyer of the castle.  To the left you have the entrance of the castle.  To the right you have the kitchen.  Up the stairs you have the Plaisure room. Foyer Complete"
     ],
     "items"    : ["key"],
     "monsters" : ["key"]
@@ -23,8 +27,10 @@
     "room"     : "kitchen",
     "description"     : [
       "You enter a once beautiful kitchen, full of what seems to be magical cooking appliances unbeknownst to you.  Wires connect a metal box spitting out blackened bread, and a type of wood stove expels heat from its open furnace at a remarkable heat despite there being no wood.  The top of the stove has four discs burning as bright and red and angry as an armorsmith's furnace.  Fire leaps from a pot on top of one those burning disc just as a horrific repeating squeal comes a tiny circle on the wall.  Seemingly unphased by the obvious chaos around and possible inevitable conflagration, a goblin leaps from chair to table to wall and spots you but seems to not care.  In between several leaps it belches and throws its shoulders against the kitchen island that has been upturned and sits squarely against the pantry door.  What do you do?",
+      "You move the kitchen island blocking the door.  He's elated and promises to help you out if you let him come with you.  But right now the kitchen looks like its about to burn down.  Is that stove still on???",
+      "You turn off the stove.  The goblin promises to help you in the future if you'll let him. You can now exit the kitchen.",
       "The goblin asks to come with you.  The kitchen looks like its been trashed.  The only way out is to the left.",
-      "Ugh.  The kitchen again.  Really starting to smell in here.  Glad I was sent to slay and not to clean.  The only way out is to the left."
+      "Ugh.  The kitchen again.  Really starting to smell in here.  Glad I was sent to slay and not to clean.  The only way out is to the left. Kitchen Complete"
     ],
     "items"    : [],
     "monsters" : ["Goblin"]
@@ -33,8 +39,10 @@
     "room"     : "plaisure",
     "description"     : [
       "A succubus is hiding behind the door.  She whispers in your ear --- \"I can give you great pleasure.  Do you dare reject me?\"",
-      "Should never see this",
-      "The succubus just sits in the room.  Oblivious to everyone.  Above you have the parlor, and below you have the foyer."
+      "She recoils in disbelief that she has been shot down.  She asks how dare you?  She looks so lonely though.  Maybe she needs a hug.",
+      "One single bloody tear rolls down her cheek as you both embrace.  I guess she had trouble telling the difference between intimacy and lust. She let's you pass. You can now go up.",
+      "The succubus just sits in the room.  Oblivious to everyone.  Above you have the parlor, and below you have the foyer.",
+      "The succubus just sits in the room.  Oblivious to everyone.  Above you have the parlor, and below you have the foyer. Plaisure Complete"
     ],
     "items"    : [],
     "monsters" : ["succubus"]
@@ -43,8 +51,10 @@
     "room"     : "den",
     "description"     : [
       "A direbear is shaking off the winter snow.  He looks very hungry, but may still talk to you.",
+      "As you talk to the bear, he describes that he hasn't eaten since last fall.  Perhaps you can try to feed the direbear?",
+      "The warmth of the den invites you to take a nap, but time is of the essence. Above the stairs lies the parlor, while descending the stairs leads you back to the Chambre de Plaisir.",
       "A tiny teddybear lies contentedly on the floor.  Perhaps you should pick it up?  Below you have the Plaisure, above you have the parlor",
-      "Den complete"
+      "The Direbear is laying down by the fireplace and seems to be taking a nap. Den complete"
     ],
     "items"    : [],
     "monsters" : ["direbear"]
@@ -53,8 +63,10 @@
     "room"     : "Parlor",
     "description"     : [
       "A werewolf is growling at you from the center of the parlor.  In a cracking voice he says: \"I don't want to hurt you. I'm ugly and I can't stop from changing.  I've never had hair in all these places before.  I need someone to TEACH me what's going on with me\" ",
-      "Should never see this",
-      "The werewolf is scratching his fleas but pays no mind to you.  Above you have the ballroom, below you have the den, and to the right you have the bed chambers."
+      "You taught the werewolf that it's okay to be different.  It's ok to be growing up.  It just wishes someone would [SHOW UNDERSTANDING]",
+      "You showed the werewolf that you understand it.  You understand that it's okay to be different.  It's okay to be a werewolf.  It's okay to be yourself. The werewolf has decided to let you move forward.",
+      "The werewolf is scratching his fleas but pays no mind to you.  Above you have the ballroom, below you have the den, and to the right you have the bed chambers. Parlor Complete",
+      "The werewolf is scratching his fleas but pays no mind to you.  Above you have the ballroom, below you have the den, and to the right you have the bed chambers. Parlor Complete"
     ],
     "items"    : [],
     "monsters" : ["werewolf"]
@@ -63,8 +75,10 @@
     "room"     : "Bed Chambers",
     "description"     : [
       "An impossibly handsome vampire sits on an ottoman in the center of a gigantic bedchambers.  A beautiful chandelier catches the light and throws it around the room.  The pale man hangs his head in his hands and doesn't even bother looking up when you enter.  The weirdest thing is the vanity mirror being covered by a blanket.",
-      "Should never see this",
-      "You enter the bedchambers to find the vampire just staring at himself in the mirror.  Like... ok we get it, you're beautiful.  To the left you have the den."
+      "As you expose the mirror to the vampire he looks away and cries even louder.  He screams that he's too ugly to look at.  He's been cursed to live forever as a vampire and he can't stand to look at himself.  He needs some affirmation.",
+      "You tell the vampire that he's beautiful.  He looks in the mirror and smiles.",
+      "You enter the bedchambers to find the vampire just staring at himself in the mirror.  Like... ok we get it, you're beautiful.  To the left you have the den. Bed Chambers Complete",
+      "You enter the bedchambers to find the vampire just staring at himself in the mirror.  Like... ok we get it, you're beautiful.  To the left you have the den. Bed Chambers Complete"
     ],
     "items"    : [],
     "monsters" : ["vampire"]
@@ -73,8 +87,10 @@
     "room"     : "Ballroom",
     "description"     : [
       "A zombie is slow dancing in the center of the large ballroom.  His arms are up in the air like he's trying to dance with someone.  He keeps saying \"Fren, fren, fren\" over and over.  Ugh... maybe he wants to dance with you?",
-      "Should never see this",
-      "A zombie is slow dancing in the center of the large ballroom with the ghost."
+      "You slow dance with the zombie.  Gross he's drooling.  You can't do this forever.  Maybe you can give him a friend.  (try to use Casper) ",
+      "You give the zombie the ghost.  He looks at it and starts slow dancing with it.  He's happy now.  He's got a friend. The path forward has been shown.",
+      "A zombie is slow dancing in the center of the large ballroom with the ghost. Ballroom Complete",
+      "A zombie is slow dancing in the center of the large ballroom with the ghost. Ballroom Complete"
     ],
     "items"    : [],
     "monsters" : ["zombie"]
@@ -83,8 +99,10 @@
     "room"     : "Conservatory",
     "description"     : [
       "An Alien.  He's scared.  Won't look outside.  There's a window.  Try to comfort him.",
-      "Should never see this",
-      "As you enter the conservatory a warm breeze greets you from the open window.  The alien is still there, but he's looking out the window now.  Below you have the ballroom.  Up you have the bedroom."
+      "You comfort the alien.  Not everything is scary.  Perhaps if you open the window, he will see that the world is not so bad.  (try to open window)",
+      "You open the window, and the alien timidly approaches while holding his breath.  Eventually he breathes in the fresh air and realized there was nothing to be afraid of. The alien has removed the technology clouding the Prince's Bedroom. You may move ahead.",
+      "As you enter the conservatory a warm breeze greets you from the open window.  The alien is still there, but he's looking out the window now.  Below you have the ballroom.  Up you have the bedroom. Conservatory Complete",
+      "As you enter the conservatory a warm breeze greets you from the open window.  The alien is still there, but he's looking out the window now.  Below you have the ballroom.  Up you have the bedroom. Conservatory Complete"
     ],
     "items"    : [],
     "monsters" : ["alien"]
@@ -93,8 +111,10 @@
     "room"     : "Bedroom",
     "description"     : [
       "Prince Timore is there.  He's so scared.  You should try and give him something",
-      "Should never see this",
-      "You beat the game."
+      "You give Prince Timore the teddy bear. He feels safe and understands life is a lesson one must go through to realize who they are themselves.",
+      "Congratulations!!!! You beat the game.",
+      "Congratulations!!!! You beat the game.",
+      "Congratulations!!!! You beat the game."
     ],
     "items"    : [],
     "monsters" : ["prince"]
