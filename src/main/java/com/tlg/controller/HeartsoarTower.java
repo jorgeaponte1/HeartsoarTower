@@ -90,7 +90,7 @@ public class HeartsoarTower implements GameInputListener{
         justEntered = true;
     }
 
-    public boolean processNonMovementCommand(String[] instruct) {
+    private boolean processNonMovementCommand(String[] instruct) {
         boolean actionTaken = false;
         if (scene.getAllSceneMonsters().size() != 0) {
             actionTaken = combatEngine.combatCommands(instruct, player, scene, art, text, inputter, displayEngine, rooms, items);
@@ -104,7 +104,7 @@ public class HeartsoarTower implements GameInputListener{
         return actionTaken;
     }
 
-    public void grabScene() {
+    void grabScene() {
         for (Scene scene : scenes) {
             if (scene.getRoom().equals(player.getLocation())) {
                 this.previousScene = this.scene;
@@ -116,15 +116,26 @@ public class HeartsoarTower implements GameInputListener{
         if (scene.getAllSceneMonsters().size() != 0) {
             String monsterPicture = scene.getAllSceneMonsters().get(0).getArt();
             art.setDisplay(monsterPicture);
-            text.setDisplay(scene.getDescription(0));
+            if (scene.isHasFirstSuccess() && !scene.isHasSecondSuccess()) {
+                text.setDisplay(scene.getDescription(1));
+            }
+            else if (scene.isHasSecondSuccess()) {
+                text.setDisplay(scene.getDescription(2));
+            }
+            else {
+                text.setDisplay(scene.getDescription(0));
+            }
         }
         else if (scene.getSceneItems().size() != 0) {
             art.setDisplay(scene.getSceneItems().get(0).getArt());
             text.setDisplay(scene.getDescription(0));
+            if (player.getLocation().isMonsterDefeated()) {
+                text.setDisplay(scene.getDescription(3));
+            }
         }
         else {
             art.setDisplay("");
-            text.setDisplay(scene.getDescription(0));
+            text.setDisplay(scene.getDescription(4));
         }
         DisplayEngine.printScreen(art, text, inputter, rooms);
     }
@@ -157,11 +168,11 @@ public class HeartsoarTower implements GameInputListener{
         return rooms;
     }
 
-
     private void launchGUI() {
         EventQueue.invokeLater(() -> {
             try {
-                currentGui = new GuiBuild(HeartsoarTower.this, player, rooms, items, art, HeartsoarTower.this, scenes);
+                currentGui = new GuiBuild(HeartsoarTower.this, player, rooms, items, art,
+                        HeartsoarTower.this, scenes);
             } catch (IOException e) {
                 e.printStackTrace();
             }

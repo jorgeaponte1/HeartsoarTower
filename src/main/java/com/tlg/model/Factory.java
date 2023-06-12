@@ -19,6 +19,8 @@ public class Factory {
     private List<Monster> monsters = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
     private List<Scene> scenes = new ArrayList<>();
+    private boolean hasFirstSuccess = false;
+    private boolean hasSecondSuccess = false;
 
     GsonBuilder builder = new GsonBuilder();
     Gson gson = builder.create();
@@ -69,7 +71,7 @@ public class Factory {
         ) {
             List<SceneBuilder> sceneBuilder = gson.fromJson(rdr, new TypeToken<List<SceneBuilder>>(){}.getType());
             for (SceneBuilder e : sceneBuilder){
-                Scene scene = new Scene(e, rooms, items, monsters);
+                Scene scene = new Scene(e, rooms, items, monsters, hasFirstSuccess, hasSecondSuccess);
                 scenes.add(scene);
             }
         } catch (IOException e) {
